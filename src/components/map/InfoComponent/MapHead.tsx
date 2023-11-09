@@ -25,8 +25,6 @@ const MapHead = () => {
                     height={20}
                     alt='map Info'/>
             </button>
-            
-            <input type='text' className='bg-transparent h-10 w-40 p-3 text-lg font-bold text-emerald-950 focus:bg-white focus:border-emerald-950 focus:border-2 ' onChange={()=>console.log("Hi")} placeholder='map name'/>
             <button className='h-10 w-10' onClick={mapInfoToggle}>
                 <Image
                     className='m-auto'
@@ -36,6 +34,8 @@ const MapHead = () => {
                     alt='map Info'
                 />
             </button>
+            <input type='text' className='bg-transparent h-10 w-40 p-3 text-lg font-bold text-emerald-950 focus:bg-white focus:border-emerald-950 focus:border-2 ' onChange={()=>console.log("Hi")} placeholder='map name'/>
+            
             {isNavOpen?
             <div className='w-[187px] h-[200px] rounded-md bg-white absolute top-12 left-0 p-5' >
                 <Link className='block mb-3' href="/home">Home</Link>

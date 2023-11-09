@@ -11,6 +11,7 @@ import { createGeometryStyle } from '@/utils/map/feature';
 import { removeDrawAndSnapInteractions, addDrawAndSnapInteractions, deleteSelectedFeature } from '@/utils/map/Interaction';
 import Setting from './InfoComponent/Setting';
 import MapHead from './InfoComponent/MapHead';
+import BottomToolBox from './toolComponent/BottomToolBox';
 
 
 const MapContainer = () => {
@@ -82,6 +83,7 @@ const MapContainer = () => {
             <Setting colorChangeHandler={colorChangeHandler} strokeChangeHandler={strokeChangeHandler} defaultColor={colorRef.current} defaultStroke={strokeRef.current.toString()}/>
             {/* <div id="scale_bar" className='absolute left-10 bottom-10 w-fit text-xs bg-white'></div> */}
             {/* <div ref={zoomControlRef} className='w-10 h-5 absolute right-10 bottom-10'></div> */}
+            <BottomToolBox />
         </div>
     </MapContext.Provider>
   )

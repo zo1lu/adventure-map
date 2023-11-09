@@ -1,19 +1,19 @@
 const travelTypes = [
-    "Local Food",
-    "Cuisine",
-    "Shopping",
-    "Culture & History",
-    "Architecture & Artistic",
-    "Cruise",
-    "Nature",
-    "Mountains",
-    "Road Trip",
-    "Island Hopping",
-    "Rural",
-    "Long Stay",
-    "Backpacking",
-    "Rail",
-    "Wellness"
+    "🥡Local Food",
+    "🍽️Cuisine",
+    "🛍️Shopping",
+    "🧿Culture & 🏺History",
+    "🏛️Architecture & 🖼️Artistic",
+    "🚢Cruise",
+    "🌳Nature",
+    "⛰️Mountains",
+    "🚘Road Trip",
+    "🏝️Island Hopping",
+    "🍂Rural",
+    "🏠Long Stay",
+    "🎒Backpacking",
+    "🛤️Rail",
+    "🧠Wellness"
 ];
 
 const memberTypes = [

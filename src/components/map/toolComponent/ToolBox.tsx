@@ -47,7 +47,7 @@ const ToolBox = ({color, stroke, drawMode, setDrawMode}) => {
   },[ drawMode ])
 
   return (
-    <div className="w-[400px] h-[80px] absolute bottom-0 left-[calc(50%-200px)] bg-white gap-3 flex items-center justify-center p-5">
+    <div className="w-[400px] h-[75px] absolute bottom-3 left-[calc(50%-200px)] rounded-md bg-white gap-3 flex items-center justify-center p-5">
       <button className="w-10 h-10" style={
           drawMode == "mark"
             ? { transform: "translateY(-10px)", scale: "1.1" }
