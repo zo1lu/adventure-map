@@ -15,6 +15,15 @@ const markLayer = new VectorLayer({
   source: markSource,
 });
 
+const routeSource = new VectorSource();
+const routeLayer = new VectorLayer({
+  source: routeSource,
+});
+
+const selectedSource = new VectorSource();
+const selectedLayer = new VectorLayer({
+  source: selectedSource,
+});
 // const tileLayer
 
-export { tileLayer, vectorLayer, vectorSource, markLayer, markSource}
+export { tileLayer, vectorLayer, vectorSource, markLayer, markSource , routeLayer, routeSource, selectedLayer, selectedSource}

@@ -1,41 +1,70 @@
 import React, { useState, useContext, useEffect } from 'react'
 import Image from 'next/image'
 import { addSpotFeature } from '@/utils/map/feature';
-import { addDrawAndSnapInteractions, addSelectAndTranslateInteractions, removeDrawAndSnapInteractions, removeSelectAndTranslateInteractions} from '@/utils/map/Interaction';
+import { addDrawAndSnapInteractions, removeDrawAndSnapInteractions, toggleHandMapInteraction, addDrawRouteAndSnapInteractions} from '@/utils/map/Interaction';
 import MapContext from '@/context/MapContext';
+import { selectedSource } from '@/utils/map/layer';
 
-const ToolBox = ({color, stroke, drawMode, setDrawMode}) => {
+interface ToolBoxProps {
+  color:string,
+  stroke:number,
+  drawMode:drawModeType,
+  changeDrawMode:(drawMode:drawModeType) => void,
+  changeCurrentItem:(newItem:currentItemObject) => void,
+}
+
+const ToolBox = ({color, stroke, drawMode, changeDrawMode, changeCurrentItem}:ToolBoxProps) => {
   const map = useContext(MapContext);
-
-  const drawModeController = (drawType:string) => {
-    let activeMode
+  //>>delete event
+  const deleteFeature = (e) => {
+    if(e.code == "46"){
+      console.log("delete feature")
+    }
+  }
+  //set draw mode
+  const drawModeController = (drawType:drawModeType) => {
+    let activeMode: drawModeType
+    let activeGeometry: geometryMode
     //setDrawMode
       if(drawType == drawMode){
-        setDrawMode("cursor")
+        changeDrawMode("cursor")
         activeMode = "cursor"
       }else{
-        setDrawMode(drawType)
+        changeDrawMode(drawType)
         activeMode = drawType
       }
     //organize interaction
     //delete pre interaction
     if(drawMode == "mark"){
       map.un("click",addSpotFeature)
-    }else if(drawMode == "cursor"){
-      removeSelectAndTranslateInteractions(map)
-      removeSelectAndTranslateInteractions(map)
+    }else if(drawMode == "hand"){
+      // removeSelectAndTranslateInteractions(map)
+      // removeSelectAndTranslateInteractions(map)
+      toggleHandMapInteraction(map, false)
+      changeCurrentItem({status:"none", id:"", type:"none"})
+      selectedSource.clear()
     }else{
       removeDrawAndSnapInteractions(map)
     }
     //add new interaction
     if(activeMode == "mark"){
       map.on("click",addSpotFeature)
+      changeCurrentItem({status:"queue", id:"", type:"spot"})
+    }else if(activeMode == "hand"){
+      // addSelectAndTranslateInteractions(map)
+      toggleHandMapInteraction(map, true)
+    }else if(activeMode == "route"){
+      //>> what is the initial route type?
+      addDrawRouteAndSnapInteractions(map, "walk")
+      changeCurrentItem({status:"queue", id:"", type:"route"})
+    }else if(activeMode == "brush"){
+      console.log("Brush Feature coming soon")
     }else if(activeMode == "cursor"){
-      addSelectAndTranslateInteractions(map)
-    }else if(activeMode == "route" || activeMode == "brush"){
-      console.log("Feature coming soon")
+        console.log("Cursor")
     }else{
-      addDrawAndSnapInteractions(map, activeMode, color,stroke)
+      activeGeometry = activeMode
+      addDrawAndSnapInteractions(map, activeGeometry, color, stroke)
+      changeCurrentItem({status:"queue", id:"", type:activeGeometry.toLowerCase()})
     }
   }
 
@@ -48,6 +77,13 @@ const ToolBox = ({color, stroke, drawMode, setDrawMode}) => {
 
   return (
     <div className="w-[400px] h-[75px] absolute bottom-3 left-[calc(50%-200px)] rounded-md bg-white gap-3 flex items-center justify-center p-5">
+      <button className="w-10 h-10" style={
+          drawMode == "hand"
+            ? { transform: "translateY(-10px)", scale: "1.1" }
+            : {}
+        } onClick={()=>drawModeController("hand")}>
+        <Image src="/icons/hand-50.png" width={40} height={40} alt="handBtn"  />
+      </button>
       <button className="w-10 h-10" style={
           drawMode == "mark"
             ? { transform: "translateY(-10px)", scale: "1.1" }

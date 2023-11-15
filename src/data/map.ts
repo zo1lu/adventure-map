@@ -63,28 +63,24 @@ const travelTypes = [
 
 const memberTypes = [
     {
-        name:"Solo Traveler",
+        name:"Solo Traveler🧍",
         value:"solo",
     },
     {
-        name:"Couples",
+        name:"Couples👫",
         value:"couples",
     },
     {
-        name:"Friends Group",
+        name:"Friends Group🧍🧍‍♂️🧍‍♀️🧍‍♂️",
         value:"friends-group",
     },
     {
-        name:"Small Family (3-4 members)",
+        name:"Small Family (3-4 members)👨‍👩‍👧‍👦",
         value:"small-family",
     },
     {
-        name:"Large Family (5+ members)",
+        name:"Large Family (5+ members)👨‍👩‍👧‍👦👩‍👨‍👦‍👦",
         value:"large-family",
-    },
-    {
-        name:"Backpacker",
-        value:"backpacker",
     },
 ];
 

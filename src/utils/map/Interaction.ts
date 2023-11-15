@@ -1,11 +1,22 @@
+////type module
 import { Map } from 'openlayers';
+import { Extent } from 'openlayers';
+////ol module
+import { Feature } from 'ol';
 import { Draw, Select, Snap, Translate } from 'ol/interaction.js';
-import { vectorSource, vectorLayer, markLayer, markSource } from './layer';
 import { Type } from 'ol/geom/Geometry';
 import { Style, Fill, Stroke, Icon } from "ol/style.js";
+import { Point } from 'ol/geom';
+import { fromExtent } from 'ol/geom/Polygon';
+import { Source } from 'ol/source';
+import VectorSource from 'ol/source/Vector';
+////my module
+import { createRouteStyle } from './feature';
+import { vectorSource, vectorLayer, markLayer, markSource, routeLayer, routeSource, selectedLayer, selectedSource } from './layer';
 
-let vectorSelect: Select
-let markSelect: Select
+
+// let vectorSelect: Select
+// let markSelect: Select
 
 const addDrawAndSnapInteractions = (map: Map,shapeType:Type, color:string, stroke:number) => {
     const draw = new Draw({
@@ -24,43 +35,74 @@ const addDrawAndSnapInteractions = (map: Map,shapeType:Type, color:string, strok
     map.addInteraction(draw)
 }
 
-const addSelectAndTranslateInteractions = (map: Map) => {
-    vectorSelect = new Select({
-            layers: [vectorLayer],
-            style: new Style({
-            fill: new Fill({
-                color: "rgba(255, 255, 255, 0.7)",
-            }),
-            stroke: new Stroke({
-                color: "#BD7FAC",
-                width: 2,
-            }),
-        }),
-    });
-
-    markSelect = new Select({
-            layers: [markLayer],
-            style: new Style({
-            image: new Icon({
-                anchor: [0.5, 0.9],
-                anchorXUnits: "fraction",
-                anchorYUnits: "fraction",
-                scale: 0.7,
-                src: "/icons/location-56-selected.png",
-            }),
-        }),
-    });
-    const vectorTranslate = new Translate({
-        features: vectorSelect.getFeatures()
-    });
-    const markTranslate = new Translate({
-        features: markSelect.getFeatures()
-    });
-    map.addInteraction(vectorSelect)
-    map.addInteraction(markSelect)
-    map.addInteraction(vectorTranslate)
-    map.addInteraction(markTranslate)
+const addDrawRouteAndSnapInteractions = (map: Map, route_type:routeType) => {
+    const routeStyle = createRouteStyle(route_type)
+    const draw = new Draw({
+        source: routeSource,
+        type: "LineString",
+        style: routeStyle
+    })
+    const snap = new Snap({source:routeSource})
+    map.addInteraction(snap)
+    map.addInteraction(draw)
 }
+
+const setFeatureSelectedById = (map:Map, type:sourceType, id:string) => {
+
+    
+    // const feature = source.getFeatureById(id)
+    map.getInteractions().forEach((interaction)=>{
+        if (interaction instanceof Select){
+            const feature = type=="mark"?markSource.getFeatureById(id):
+                    type=="vector"?vectorSource.getFeatureById(id):
+                    routeSource.getFeatureById(id);
+            interaction.getFeatures().push(feature)
+        }
+    })
+}
+// const addSelectAndTranslateInteractions = (map: Map) => {
+//     vectorSelect = new Select({
+//             layers: [vectorLayer],
+//             style: new Style({
+//             fill: new Fill({
+//                 color: "rgba(255, 255, 255, 0.7)",
+//             }),
+//             stroke: new Stroke({
+//                 color: "#BD7FAC",
+//                 width: 2,
+//             }),
+//         }),
+//     });
+
+//     markSelect = new Select({
+//             layers: [markLayer],
+//             style: new Style({
+//             image: new Icon({
+//                 anchor: [0.5, 0.9],
+//                 anchorXUnits: "fraction",
+//                 anchorYUnits: "fraction",
+//                 scale: 0.7,
+//                 src: "/icons/location-56-selected.png",
+//             }),
+//         }),
+//     });
+//     const vectorTranslate = new Translate({
+//         features: vectorSelect.getFeatures()
+//     });
+//     const markTranslate = new Translate({
+//         features: markSelect.getFeatures()
+//     });
+//     map.addInteraction(vectorSelect)
+//     map.addInteraction(markSelect)
+//     map.addInteraction(vectorTranslate)
+//     map.addInteraction(markTranslate)
+//     // markSelect.on('select',(e)=>{
+//     //     console.log(e)
+//     //     console.log(e.selected[0])
+//     //     console.log(e.selected[0].getId())
+//     //     console.log(e.selected[0].getStyle())
+//     // })
+// }
 
 const removeDrawAndSnapInteractions = (map: Map) => {
     map.getInteractions().forEach((interaction)=>{
@@ -74,10 +116,17 @@ const removeDrawAndSnapInteractions = (map: Map) => {
         }
     })
 }
-
+const removeSelectedFeature = (map:Map) =>{
+    map.getInteractions().forEach((interaction)=>{
+        if (interaction instanceof Select){
+            interaction.getFeatures().clear()
+        }
+    })
+}
 const removeSelectAndTranslateInteractions = (map: Map) => {
     map.getInteractions().forEach((interaction)=>{
         if (interaction instanceof Select){
+            interaction.getFeatures().clear()
             map.removeInteraction(interaction)
         }
     })
@@ -88,16 +137,93 @@ const removeSelectAndTranslateInteractions = (map: Map) => {
     })
 }
 
-const deleteSelectedFeature = (e, map:Map) => {
+const deleteSelectedFeature = (e:KeyboardEvent, map:Map) => {
     if(e.code == "Backspace" || e.code == "Delete" ){
-        if(markSelect.getFeatures().getLength()>0){
-            markSource.removeFeature(markSelect.getFeatures().item(0))
-        }
-        if(vectorSelect.getFeatures().getLength()>0){
-            vectorSource.removeFeature(vectorSelect.getFeatures().item(0))
-        }
+        map.getInteractions().forEach((interaction)=>{
+            if (interaction instanceof Select){
+                interaction.getFeatures().item(0).getGeometry() instanceof Point?
+                markSource.removeFeature(interaction.getFeatures().item(0)):
+                vectorSource.removeFeature(interaction.getFeatures().item(0))
+                routeSource.removeFeature(interaction.getFeatures().item(0))
+            }
+        })
+        // if(markSelect.getFeatures().getLength()>0){
+        //     markSource.removeFeature(markSelect.getFeatures().item(0))
+        // }
+        // if(vectorSelect.getFeatures().getLength()>0){
+        //     vectorSource.removeFeature(vectorSelect.getFeatures().item(0))
+        // }
     }
 }
 
-export {addDrawAndSnapInteractions, addSelectAndTranslateInteractions, removeDrawAndSnapInteractions, removeSelectAndTranslateInteractions,
-deleteSelectedFeature}
+// const vectorSelect = new Select({
+//     layers: [vectorLayer],
+//     style: new Style({
+//     fill: new Fill({
+//         color: "rgba(255, 255, 255, 0.7)",
+//     }),
+//     stroke: new Stroke({
+//         color: "#BD7FAC",
+//         width: 2,
+//     }),
+// }),
+// });
+
+// const markSelect = new Select({
+//     layers: [markLayer],
+//     style: new Style({
+//     image: new Icon({
+//         anchor: [0.5, 0.9],
+//         anchorXUnits: "fraction",
+//         anchorYUnits: "fraction",
+//         scale: 0.7,
+//         src: "/icons/location-56-selected.png",
+//     }),
+// }),
+// });
+// const vectorTranslate = new Translate({
+// features: vectorSelect.getFeatures()
+// });
+// const markTranslate = new Translate({
+// features: markSelect.getFeatures()
+// });
+
+const toggleHandMapInteraction = (map:Map, isActive:boolean) => {
+        map.getInteractions().forEach((interaction)=>{
+            if (interaction instanceof Select){
+                interaction.getFeatures().clear()
+                interaction.setActive(isActive)
+            }else if(interaction instanceof Translate){
+                interaction.setActive(isActive)
+            }
+        })
+}
+
+const getOffsetExtend = (extend:Extent) => {
+    let offsetExtend:Extent = [0,0,0,0]
+    let xOffset = (extend[2]- extend[0])*0.03>2500?(extend[2]- extend[0])*0.03:2500
+    let yOffset = (extend[3]- extend[1])*0.03>2500?(extend[3]- extend[1])*0.03:2500
+    offsetExtend[0] = extend[0]-xOffset
+    offsetExtend[1] = extend[1]-yOffset
+    offsetExtend[2] = extend[2]+xOffset
+    offsetExtend[3] = extend[3]+yOffset
+    return offsetExtend
+  }
+  const setSelectedFeatureBoundary = (extent:Extent) => {
+    const selectedStyle = new Style({
+      stroke: new Stroke({
+        color: "#b27c9d",
+        width: 1,
+      })
+    })
+    const squareGeometry = fromExtent(getOffsetExtend(extent))
+    const newFeature = new Feature({
+      geometry: squareGeometry,
+    })
+    newFeature.setStyle(selectedStyle)
+    selectedSource.clear()
+    selectedSource.addFeature(newFeature)
+  }
+
+export {addDrawAndSnapInteractions, removeDrawAndSnapInteractions, removeSelectAndTranslateInteractions,
+deleteSelectedFeature, toggleHandMapInteraction, addDrawRouteAndSnapInteractions, removeSelectedFeature, setFeatureSelectedById, setSelectedFeatureBoundary}
