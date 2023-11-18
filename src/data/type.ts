@@ -6,11 +6,17 @@ type currentItemObject = {
     type:"spot"|"route"|"linestring"|"polygon"|"circle"|"none"
   }
 
-  type drawModeType = "cursor"|"hand"|"mark"|"route"|"LineString"|"Polygon"|"Circle"|"brush"
+type drawModeType = "cursor"|"hand"|"mark"|"route"|"LineString"|"Polygon"|"Circle"|"brush"
 
-  type geometryMode = "LineString"|"Polygon"|"Circle";
+type geometryMode = "LineString"|"Polygon"|"Circle";
 
-  type sourceType = "vector"|"mark"|"route"
+type sourceType = "vector"|"mark"|"route"
 
-  type edgeLocationType = number[][]
-  type spotLocationType = number[]
+type edgeLocationType = number[][]
+type spotLocationType = number[]
+
+type selectionTypes = {
+    id:string, 
+    value:string, 
+    name:string
+  }

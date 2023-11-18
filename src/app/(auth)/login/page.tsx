@@ -5,8 +5,8 @@ import { useRouter } from 'next/navigation';
 
 const LoginPage = () => {
   const router = useRouter()
-  const emailRef = useRef(null)
-  const passwordRef = useRef(null)
+  const emailRef = useRef<HTMLInputElement>(null)
+  const passwordRef = useRef<HTMLInputElement>(null)
   const [message, setMessage] = useState({"error":true,"content":""})
   let messageColor = message.error?"red":"rgb(85, 230, 63)"
   async function loginHandler(e:React.FormEvent){

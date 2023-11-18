@@ -1,6 +1,8 @@
 "use client"
 import React, { useRef, useState, useEffect} from 'react';
 import MapContext from '@/context/MapContext';
+//module
+import { v4 as uuid } from 'uuid';
 //Component
 import MapHead from './InfoComponent/MapHead';
 import SpotInfo from './InfoComponent/SpotInfo';
@@ -22,7 +24,7 @@ import { toLonLat } from 'ol/proj';
 ////my module
 import view from '@/utils/map/view';
 import { tileLayer, vectorSource, vectorLayer, markLayer, markSource, routeLayer, routeSource, selectedLayer, selectedSource } from '@/utils/map/layer';
-import { createGeometryStyle, createRouteStyle, generateUid, addSpotFeature, spotStyle } from '@/utils/map/feature';
+import { createGeometryStyle, createRouteStyle, addSpotFeature, spotStyle } from '@/utils/map/feature';
 import { removeDrawAndSnapInteractions, addDrawAndSnapInteractions, toggleHandMapInteraction, setFeatureSelectedById, setSelectedFeatureBoundary } from '@/utils/map/Interaction';
 ////Not in use
 import GeoJSON from 'ol/format/GeoJSON.js';
@@ -179,7 +181,7 @@ const MapContainer = () => {
       });
       map.setTarget(mapBoxRef.current || "")
       setMap(map)
-      //set feature style and id
+      //set feature style and id when add feature into source
       vectorSource.on("addfeature",(e)=>{
         const style = createGeometryStyle(colorRef.current, strokeRef.current)
         const color = colorRef.current
@@ -189,7 +191,7 @@ const MapContainer = () => {
         e.feature?.setProperties({"type":"circle","color":color,"stroke":stroke})
         
         e.feature?.setStyle(style)
-        const id = generateUid()
+        const id = uuid()
         e.feature?.setId(id)
         // e.feature?.changed()
         setCurrentItem((current)=>{
@@ -212,7 +214,7 @@ const MapContainer = () => {
           "depart":departCoor,
           "destination":destinationCoor})
         e.feature?.setStyle(routeStyle)
-        const id = generateUid()
+        const id = uuid()
         e.feature?.setId(id)
         // e.feature?.changed()
         setCurrentItem((current)=>{
@@ -225,29 +227,9 @@ const MapContainer = () => {
         console.log(e.feature?.getProperties())
         console.log(e.feature?.getRevision())
       })
-      // routeSource.on("addfeature",(e)=>{
-      //   const style = createRouteStyle(routeRef.current)
-      //   e.feature?.setProperties({"type":"route","route_type":routeRef.current})
-      //   e.feature?.setStyle(style)
-      //   const id = generateUid()
-      //   e.feature?.setId(id)
-      //   // e.feature?.changed()
-      //   setCurrentItem((current)=>{
-      //     return {...current,id:id}
-      //   })
-      //   removeDrawAndSnapInteractions(map)
-      //   setDrawMode("cursor")
-      //   const coordinates = e.feature?.getGeometry().flatCoordinates
-      //   const coorLength = coordinates.length
-      //   const departCoor = toLonLat([coordinates[0],coordinates[1]])
-      //   const destinationCoor = toLonLat([coordinates[coorLength-2],coordinates[coorLength-1]])
-      //   console.log(coordinates)
-      //   console.log(departCoor)
-      //   console.log(destinationCoor)
-      // });
       markSource.on("addfeature",(e)=>{
         const feature = e.feature
-        const id = generateUid()
+        const id = uuid()
         feature.setId(id)
         feature.setStyle(spotStyle)
         setCurrentItem((current)=>{
@@ -257,6 +239,7 @@ const MapContainer = () => {
         setDrawMode("cursor")
         console.log("add mark")
       });
+      //Select Interaction
       select.on('select',(e)=>{
         if(e.selected.length>0){
           const id = e.selected[0].getId()
