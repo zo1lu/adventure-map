@@ -5,9 +5,9 @@ import { redirect } from "next/navigation";
 export default async function MapPage({ params }: { params: { mapId: string } }) {
   const mapGeoInfoResult = await getMapGeoInfoById(params.mapId)
   
-  if(!mapGeoInfoResult.data){
-    redirect("/home")
-  }
+  // if(!mapGeoInfoResult.data){
+  //   redirect("/home")
+  // }
   //mapGeoInfo={mapGeoInfoResult.data}
   return (
     <>
