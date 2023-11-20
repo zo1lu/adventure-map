@@ -8,9 +8,9 @@ export async function POST(req:NextRequest){
         const result = await createMap(authorId)
         const orignUrl = req.url.split("api")[0]
         // res.json({url: new URL(`/map/${result.data.id}`, orignUrl)})
-        // 
+        // res.redirect(new URL(`/map/${result.data.id}`, orignUrl), {status: 300})
         return result.data? 
-        res.redirect(new URL(`/map/${result.data.id}`, orignUrl), {status: 300})
+        res.json(result.data, {status: 200})
         :res.json(result, {status: 400})
     }catch(e){
         console.log(e)

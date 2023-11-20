@@ -2,7 +2,10 @@
 import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { redirect } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 const HomePage = () => {
+    const router = useRouter()
     const mapList = [
       {
         id:"gr001",
@@ -128,7 +131,7 @@ const HomePage = () => {
     const createNewMap = async() => {
       //create map in database and redirect to map page
       console.log("Creating new map...")
-      const resultJson = await fetch('/api/map',{
+      fetch('/api/map',{
         method:"POST",
         headers:{
           "Content-Type":"application/json"
@@ -136,6 +139,11 @@ const HomePage = () => {
         body:JSON.stringify({
           "authorId": userId
         })
+      })
+      .then(res=>res.json())
+      .then(data=>{
+        console.log(data)
+        router.push(`../map/${data.id}`)
       })
       //Redirect
       console.log("Redirecting")
@@ -230,7 +238,7 @@ const HomePage = () => {
         </div>
       </div>
       <button className='col-span-1 absolute right-10 top-5 p-3 w-fit h-fit text-xs bg-emerald-950 text-white rounded-md'
-      onClick={()=>createNewMap}>Create New</button>
+      onClick={()=>createNewMap()}>Create New</button>
       
     </div>
     
