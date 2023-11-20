@@ -18,8 +18,8 @@ model User {
   profileImage ProfileImage?
   about String?
   ownedMaps Map[] @relation("ownedMaps")
-  likedMapIDs String[] @db.ObjectId
-  likedMaps Map[] @relation(fields: [likedMapIDs], references: [id])
+  likedMapIds String[] @db.ObjectId
+  likedMaps Map[] @relation(fields: [likedMapIds], references: [id])
 }
 
 model Map {
@@ -28,80 +28,80 @@ model Map {
   country String?
   regionOrDistrict String?
   mapImage MapImage?
-  start_time String
-  start_time_zone String
-  end_time String
-  end_time_zone String
-  duration Int
+  startTime String?
+  startTimeZone String?
+  endTime String?
+  endTimeZone String?
+  duration Int?
   description String?
-  travelType TravelType? @relation(fields: [travelTypeID], references: [id])
-  travelTypeID String?
-  memberType MemberType? @relation(fields: [memberTypeID], references: [id])
-  memberTypeID String?
+  travelType TravelType? @relation(fields: [travelTypeId], references: [id])
+  travelTypeId String?
+  memberType MemberType? @relation(fields: [memberTypeId], references: [id])
+  memberTypeId String?
   author User @relation("ownedMaps", fields: [authorId], references: [id])
   authorId String @db.ObjectId
-  likedUserIDs String[] @db.ObjectId
-  likedUser User[] @relation(fields: [likedUserIDs], references: [id])
+  likedUserIds String[] @db.ObjectId
+  likedUser User[] @relation(fields: [likedUserIds], references: [id])
   spots Spot[]
   routes Route[]
   geometrys Geometry[]
   zoom Int @default(8)
-  center String[] @default(["120.00","24.00"])
+  center Float[] @default([120.00,24.00])
   public Boolean @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  geoData Json
+  geoData Json?
 }
 
 model Spot {
   id String @id @map("_id") 
   title String?
-  location String[]
-  spotType SpotType? @relation(fields: [spotTypeID], references: [id])
-  spotTypeID String? 
+  location Float[]
+  spotType SpotType? @relation(fields: [spotTypeId], references: [id])
+  spotTypeId String? 
   spotImage SpotImage?
-  start_time String
-  start_time_zone String
-  end_time String
-  end_time_zone String
-  duration Int
+  startTime String?
+  startTimeZone String?
+  endTime String?
+  endTimeZone String?
+  duration Int?
   description String?
   map Map @relation(fields: [mapId], references: [id])
   mapId String @db.ObjectId
-  geoData Json
+  geoData Json?
 }
 
 model Route {
   id String @id @map("_id") 
   title String?
-  depart String[]
-  destination String[]
-  routeType RouteType? @relation(fields: [routeTypeID], references: [id])
-  routeTypeID String?
+  depart Float[]
+  destination Float[]
+  routeType RouteType? @relation(fields: [routeTypeId], references: [id])
+  routeTypeId String?
   routeImage RouteImage?
-  start_time String
-  start_time_zone String
-  end_time String
-  end_time_zone String
-  duration Int
+  startTime String?
+  startTimeZone String?
+  endTime String?
+  endTimeZone String?
+  duration Int?
   description String?
   map Map @relation(fields: [mapId], references: [id])
   mapId String @db.ObjectId
-  geoData Json
+  geoData Json?
 }
 
 model Geometry {
   id String @id @map("_id") 
   title String?
   location String[]
-  geometryType GeometryType? @relation(fields: [geometryTypeID], references: [id])
-  geometryTypeID String? 
+  geometryType GeometryType? @relation(fields: [geometryTypeId], references: [id])
+  geometryTypeId String? 
   color String
   stroke Int
   description String?
   map Map @relation(fields: [mapId], references: [id])
   mapId String @db.ObjectId
-  geoData Json
+  geoData Json?
 }
 //Type collection
 model TravelType {
