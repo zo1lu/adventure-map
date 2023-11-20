@@ -123,10 +123,20 @@ const HomePage = () => {
       }
     ] 
     //get user data
+    const userId = '6559a34bf95550bc42c82261';
     //else redirect to login page
-    const createNewMap = () => {
+    const createNewMap = async() => {
       //create map in database and redirect to map page
-      console.log("Creating new map")
+      console.log("Creating new map...")
+      const resultJson = await fetch('/api/map',{
+        method:"POST",
+        headers:{
+          "Content-Type":"application/json"
+        },
+        body:JSON.stringify({
+          "authorId": userId
+        })
+      })
       //Redirect
       console.log("Redirecting")
     }

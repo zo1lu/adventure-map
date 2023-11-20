@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import Image from 'next/image'
-
-const TopToolBox = () => {
+import MapContext from '@/context/MapContext';
+const TopToolBox = ({save}) => {
+  const map = useContext(MapContext);
   const [isSearchOpen, setIsSearchOpen] = useState(false)
   const [mapStatus, setMapStatus] = useState(false)
   return (
@@ -25,7 +26,7 @@ const TopToolBox = () => {
         :<></>}
       
         
-        <button className="w-fit h-10 bg-emerald-950 text-white px-5 rounded-md hover:bg-emerald-900">
+        <button className="w-fit h-10 bg-emerald-950 text-white px-5 rounded-md hover:bg-emerald-900" onClick={()=>save(map)}>
         Save
         </button>
         <div className="h-10 w-28 relative flex flex-col items-start justify-center min-h-10 overflow-hidden">

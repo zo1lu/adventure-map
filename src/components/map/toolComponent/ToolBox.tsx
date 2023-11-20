@@ -37,6 +37,7 @@ const ToolBox = ({color, stroke, drawMode, changeDrawMode, changeCurrentItem}:To
     //delete pre interaction
     if(drawMode == "mark"){
       map.un("click",addSpotFeature)
+      // changeCurrentItem({status:"none", id:"", type:"none"})
     }else if(drawMode == "hand"){
       // removeSelectAndTranslateInteractions(map)
       // removeSelectAndTranslateInteractions(map)
@@ -44,6 +45,7 @@ const ToolBox = ({color, stroke, drawMode, changeDrawMode, changeCurrentItem}:To
       changeCurrentItem({status:"none", id:"", type:"none"})
       selectedSource.clear()
     }else{
+      // changeCurrentItem({status:"none", id:"", type:"none"})
       removeDrawAndSnapInteractions(map)
     }
     //add new interaction

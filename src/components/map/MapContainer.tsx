@@ -1,4 +1,5 @@
 "use client"
+import { usePathname } from 'next/navigation'
 import React, { useRef, useState, useEffect} from 'react';
 import MapContext from '@/context/MapContext';
 //module
@@ -20,18 +21,33 @@ import { DragPan, MouseWheelZoom, defaults as defaultInteraction } from "ol/inte
 import { Select, Translate, Link } from 'ol/interaction.js';
 import { Style, Fill, Stroke, Icon } from "ol/style.js";
 import {Point, LineString, Polygon, Circle} from "ol/geom";
-import { toLonLat } from 'ol/proj';
+import { toLonLat, fromLonLat } from 'ol/proj';
 ////my module
 import view from '@/utils/map/view';
 import { tileLayer, vectorSource, vectorLayer, markLayer, markSource, routeLayer, routeSource, selectedLayer, selectedSource } from '@/utils/map/layer';
 import { createGeometryStyle, createRouteStyle, addSpotFeature, spotStyle } from '@/utils/map/feature';
 import { removeDrawAndSnapInteractions, addDrawAndSnapInteractions, toggleHandMapInteraction, setFeatureSelectedById, setSelectedFeatureBoundary } from '@/utils/map/Interaction';
+import { getMapGeoData, renderGeoData } from '@/utils/geoData';
+import { geoDataType } from '@/data/infoType';
 ////Not in use
 import GeoJSON from 'ol/format/GeoJSON.js';
+import { JsonValue } from '@prisma/client/runtime/library';
+// const data = require('../../../fake_data/test_geo_data.json');
 
-
-const MapContainer = () => {
+type mapGeoInfoOutputType = {
+  center: number[],
+  zoom: number,
+  geoData: geoDataType
+}
+interface MapProps {
+  mapGeoInfo: mapGeoInfoOutputType 
+}
+//{mapGeoInfo}:MapProps
+const MapContainer = ({mapGeoInfo}:MapProps) => {
+  const {center, zoom, geoData} = mapGeoInfo
+  const mapId = usePathname().split("/")[2]
   const mapBoxRef = useRef<HTMLDivElement>(null)
+  const mapRef = useRef(null)
   // const scaleBarRef = useRef<HTMLDivElement>(null)
   // const zoomControlRef = useRef<HTMLDivElement>(null)
   const [map, setMap] = useState<Map | undefined>()
@@ -40,11 +56,7 @@ const MapContainer = () => {
   const routeRef = useRef<routeType>("walk")
   const [routeEdgeLocation, setRouteEdgeLocation] = useState<edgeLocationType>([[0,0],[0,0]]) 
   const [spotLocation, setSpotLocation] = useState<spotLocationType>([0,0])
-  
   const [drawMode, setDrawMode] = useState<drawModeType>("cursor")
-  // type sideInfoStatusType = "palette"|"spot"|"route"|"geometry"
-  // const [sideInfoStatus, setSideInfoStatus] = useState<sideInfoStatusType>("palette")
-  
   const [currentItem, setCurrentItem] = useState<currentItemObject>({
     status:"none",
     id:"",
@@ -86,7 +98,31 @@ const MapContainer = () => {
   const changeSpotLocation = (newSpotLocation:spotLocationType) => {
     setSpotLocation(()=>newSpotLocation)
   }
-
+  const saveMapData = (map:Map) => {
+    const centerCoor = map.getView().getCenter()
+    const center = centerCoor? toLonLat(centerCoor):[120,24]
+    const zoom = map.getView().getZoom()
+    const geoData = getMapGeoData()
+    const body = {
+      mapId: mapId,
+      mapData: {
+        zoom: zoom,
+        center: center,
+        geo_data:geoData
+      }
+    }
+    console.log(body)
+    fetch("/api/map?type=geo",{
+      method:"PATCH",
+      headers:{
+        "Content-Type":"application/json"
+      },
+      body:JSON.stringify(body)
+    })
+    .then(res=>res.json())
+    .then(res=>console.log(res))
+    .catch((e)=>console.log(e))
+  }
   useEffect(() => {
       // const zoom = new Zoom({
       //   className:'w-10 h-5 flex m-5 p-3'
@@ -99,22 +135,7 @@ const MapContainer = () => {
           maxWidth:300,
           className:'text-xs absolute bottom-0 left-10'
       })
-      // const selectedStyle = new Style({
-      //   fill: new Fill({
-      //     color: "rgba(255, 255, 255, 0.7)",
-      //     }),
-      //     stroke: new Stroke({
-      //         color: "#BD7FAC",
-      //         width: 5,
-      //     }),
-      //     image: new Icon({
-      //       anchor: [0.5, 0.9],
-      //       anchorXUnits: "fraction",
-      //       anchorYUnits: "fraction",
-      //       scale: 0.7,
-      //       src: "/icons/location-56-selected.png",
-      //     }),
-      //   });
+      
       const select = new Select({
         layers: [vectorLayer, markLayer, routeLayer],
         hitTolerance:20,
@@ -140,34 +161,14 @@ const MapContainer = () => {
       const translate = new Translate({
         features: select.getFeatures()
       })
-      // const getOffsetExtend = (extend:Extent) => {
-      //   let offsetExtend:Extent = [0,0,0,0]
-      //   let xOffset = (extend[2]- extend[0])*0.03
-      //   let yOffset = (extend[3]- extend[1])*0.03
-      //   offsetExtend[0] = extend[0]-xOffset
-      //   offsetExtend[1] = extend[1]-yOffset
-      //   offsetExtend[2] = extend[2]+xOffset
-      //   offsetExtend[3] = extend[3]+yOffset
-      //   return offsetExtend
-      // }
-      // const setSelectedFeatureBoundary = (extent:Extent) => {
-      //   const selectedStyle = new Style({
-      //     stroke: new Stroke({
-      //       color: "#b27c9d",
-      //       width: 1,
-      //     })
-      //   })
-      //   const squareGeometry = fromExtent(getOffsetExtend(extent))
-      //   const newFeature = new Feature({
-      //     geometry: squareGeometry,
-      //   })
-      //   newFeature.setStyle(selectedStyle)
-      //   selectedSource.clear()
-      //   selectedSource.addFeature(newFeature)
-      // }
-      // const link = new Link()
+      
+      
+      
+
       select.setActive(false)
       translate.setActive(false)
+      view.setCenter(fromLonLat(center))
+      view.setZoom(zoom)
       const map = new Map({
           layers: [
               tileLayer, 
@@ -181,19 +182,43 @@ const MapContainer = () => {
       });
       map.setTarget(mapBoxRef.current || "")
       setMap(map)
+      if(geoData){
+        console.log(geoData)
+        renderGeoData(geoData)
+      }
       //set feature style and id when add feature into source
       vectorSource.on("addfeature",(e)=>{
         const style = createGeometryStyle(colorRef.current, strokeRef.current)
         const color = colorRef.current
         const stroke = strokeRef.current
-        e.feature?.getGeometry() instanceof LineString?e.feature?.setProperties({"type":"linestring","color":color,"stroke":stroke}):
-        e.feature?.getGeometry() instanceof Polygon?e.feature?.setProperties({"type":"polygon","color":color,"stroke":stroke}):
-        e.feature?.setProperties({"type":"circle","color":color,"stroke":stroke})
+        const feature = e.feature
+        if(feature?.getGeometry() instanceof LineString){
+          feature.setProperties({
+            "type":"linestring",
+            "color":color,
+            "stroke":stroke
+          })
+        }else if(feature?.getGeometry() instanceof Polygon){
+          feature.setProperties({
+            "type":"polygon",
+            "color":color,
+            "stroke":stroke
+          })
+        }else if(feature?.getGeometry() instanceof Circle){
+          const center = feature?.getGeometry().getCenter()
+          const radius = feature?.getGeometry().getRadius()
+          feature.setProperties({
+            "type":"circle",
+            "color":color,
+            "stroke":stroke,
+            "center":center,
+            "radius":radius
+          })
+        }
         
         e.feature?.setStyle(style)
         const id = uuid()
         e.feature?.setId(id)
-        // e.feature?.changed()
         setCurrentItem((current)=>{
           return {...current, status:"new", id:id}
         })
@@ -216,7 +241,6 @@ const MapContainer = () => {
         e.feature?.setStyle(routeStyle)
         const id = uuid()
         e.feature?.setId(id)
-        // e.feature?.changed()
         setCurrentItem((current)=>{
           return {...current, status:"new", id:id}
         })
@@ -283,19 +307,12 @@ const MapContainer = () => {
             return [departCoor, destinationCoor]})
         }else if (type == "spot"){
           const currentCoordinates = feature.getGeometry().flatCoordinates
-          console.log(currentCoordinates)
           feature.setProperties({...currentProperties,location:currentCoordinates})
           setSpotLocation(()=>{
             return toLonLat(currentCoordinates)
           })
-          console.log("location Change")
         }
-        
-        console.log(feature.getProperties())
       });
-      // translate.on("change",(e)=>{
-      //   console.log(e)
-      // })
       // const deleteSelectedFeature = (e) =>{
       //   if(e.code == "Delete" || e.code == "Backspace"){
       //     console.log("delete feature")
@@ -305,10 +322,36 @@ const MapContainer = () => {
       //   }
       // }
       // document.addEventListener("keydown",deleteSelectedFeature)
+      
       return ()=>{
+        
+        //update map geo data
+        // const centerCoor = map.getView().getCenter()
+        // const center = centerCoor? toLonLat(centerCoor):[120,24]
+        // const zoom = map.getView().getZoom()
+        // const geoData = getMapGeoData(map)
+        // const body = {
+        //   mapId: mapId,
+        //   mapData: {
+        //     zoom: zoom,
+        //     center: center,
+        //     geo_data:geoData
+        //   }
+        // }
+        // console.log(body)
+        // fetch("/api/map?type=geo",{
+        //   method:"PATCH",
+        //   headers:{
+        //     "Content-Type":"application/json"
+        //   },
+        //   body:JSON.stringify(body)
+        // })
+        // .then(res=>res.json())
+        // .then(res=>console.log(res))
+        // .catch((e)=>console.log(e))
         map.setTarget("")
-        // document.removeEventListener("keydown",deleteSelectedFeature)
         console.log("Map Unload")
+        // document.removeEventListener("keydown",deleteSelectedFeature)
       }
   },[])
 
@@ -319,16 +362,16 @@ const MapContainer = () => {
             <div ref={mapBoxRef} className='h-screen w-full relative'></div>
             <MapHead />
             <ToolBox drawMode={drawMode} changeDrawMode={changeDrawMode} changeCurrentItem={changeCurrentItem} color={colorRef.current} stroke={strokeRef.current}/>
-            <TopToolBox />
+            <TopToolBox save={saveMapData}/>
             {currentItem.status!="none" && (
               currentItem?.type=="spot"?<SpotInfo item={currentItem} spotLocation={spotLocation} changeSpotLocation={changeSpotLocation}/>:
               currentItem?.type=="route"?<RouteInfo item={currentItem} changeRouteRefHandler={changeRouteRef} edgeLocation={routeEdgeLocation} changeRouteEdgeLocation={changeEdgeLocation}/>:
               currentItem?.type=="linestring" || currentItem?.type=="polygon" || currentItem?.type=="circle"?<GeometryInfo item={currentItem} color={colorRef.current} stroke={strokeRef.current} changeColorRefHandler={changeColorRef} changeStrokeRefHandler={changeStrokeRef}/>:
               <></>
             )
-              
             }
-    
+            {/* <button className='w-fit h-10 bg-white absolute bottom-3 left-3' onClick={()=>{getMapGeoData()}}>show geo data</button> */}
+
             {/* {sideInfoStatus=="palette"?
             <DrawSetting colorChangeHandler={colorChangeHandler} strokeChangeHandler={strokeChangeHandler} defaultColor={colorRef.current} defaultStroke={strokeRef.current.toString()}/>:
             sideInfoStatus=="spot"?<SpotInfo />:
