@@ -77,7 +77,7 @@ model Route {
   depart Float[]
   destination Float[]
   routeType RouteType? @relation(fields: [routeTypeId], references: [id])
-  routeTypeId String?
+  routeTypeId String
   routeImage RouteImage?
   startTime String?
   startTimeZone String?
@@ -93,7 +93,6 @@ model Route {
 model Geometry {
   id String @id @map("_id") 
   title String?
-  location String[]
   geometryType GeometryType? @relation(fields: [geometryTypeId], references: [id])
   geometryTypeId String? 
   color String

@@ -102,6 +102,38 @@ const getMapGeoInfoById = async(mapId:string) => {
         return {"error":true, "message":"Something wrong when getting map geo"}
     }
 }
+const getMapGeoDataById = async(mapId:string) => {
+    try{
+        const mapGeoDataCollections = await prisma.map.findUnique({
+            where:{
+                id: mapId,
+            },
+            select:{
+                zoom:true,
+                center:true,
+                spots:{
+                    select:{
+                        geoData:true
+                    }
+                },
+                routes:{
+                    select:{
+                        geoData:true
+                    }
+                },
+                geometrys:{
+                    select:{
+                        geoData:true
+                    }
+                },
+            },
+        })
+        return {"data": mapGeoDataCollections}
+    }catch(e){
+        console.log("gettting map geo > ",e)
+        return {"error":true, "message":"Something wrong when getting map geo"}
+    }
+}
 
 //updata map geoinfo with ID
 const updateMapGeoInfoById = async (mapId:string, mapGeoInfo:mapGeoInfoType) => {
@@ -245,6 +277,27 @@ const getMapImageById = async(imageId:string) => {
     }
 }
 
+//update map image
+const updateMapImageById = async(imageId:string, newImageUrl:string) => {
+    try{
+        const newMapImageUrl = await prisma.mapImage.update({
+            where:{
+                id: imageId
+            },
+            data:{
+                url: newImageUrl
+            },
+            select:{
+                url: true
+            }
+        })
+        return {"data":newMapImageUrl,"success":true, "message":"Successfully update map information"}
+    }catch(e){
+        console.log("updating map image > ",e)
+        return {"error":true, "message":"Something wrong when updating map image"}
+    }
+}
+
 //deleting map image
 const deleteMapImageById = async(imageId:string) => {
     try{
@@ -259,4 +312,4 @@ const deleteMapImageById = async(imageId:string) => {
     }
 }
 
-export{createMap, getMapGeoInfoById, updateMapGeoInfoById, getMapInfoById, updateMapInfoById, deleteMapById, createMapImageById, getMapImageById, deleteMapImageById}
+export{createMap, getMapGeoInfoById, updateMapGeoInfoById, getMapInfoById, getMapGeoDataById, updateMapInfoById, deleteMapById, createMapImageById, getMapImageById, updateMapImageById, deleteMapImageById}

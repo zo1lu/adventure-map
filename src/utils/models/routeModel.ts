@@ -100,7 +100,7 @@ const updateRoute = async (routeInfo: routeInfoType) => {
                 endTime: end_time,
                 endTimeZone: end_time_zone,
                 duration: duration,
-                description: description != null ? title : undefined,
+                description: description != null ? description : undefined,
                 geoData: geo_data,
             }
         })
@@ -113,7 +113,7 @@ const updateRoute = async (routeInfo: routeInfoType) => {
 //delete route info by id
 const deleteRouteById = async(routeId:string) => {
     try{
-        await prisma.map.delete({
+        await prisma.route.delete({
             where:{
                 id: routeId,
             }
@@ -158,6 +158,27 @@ const getRouteImageById = async(imageId:string) => {
     }
 }
 
+//update route image
+const updateRouteImageById = async(imageId:string, newImageUrl:string) => {
+    try{
+        const newRouteImageUrl = await prisma.routeImage.update({
+            where:{
+                id: imageId
+            },
+            data:{
+                url: newImageUrl
+            },
+            select:{
+                url: true
+            }
+        })
+        return {"data":newRouteImageUrl,"success":true, "message":"Successfully update route information"}
+    }catch(e){
+        console.log("updating route image > ",e)
+        return {"error":true, "message":"Something wrong when updating route image"}
+    }
+}
+
 //deleting route image
 const deleteRouteImageById = async(imageId:string) => {
     try{
@@ -172,4 +193,4 @@ const deleteRouteImageById = async(imageId:string) => {
     }
 }
 
-export{ createRoute, getRouteById, updateRoute, deleteRouteById, createRouteImageById, getRouteImageById, deleteRouteImageById}
+export{ createRoute, getRouteById, updateRoute, deleteRouteById, createRouteImageById, getRouteImageById, updateRouteImageById, deleteRouteImageById}
