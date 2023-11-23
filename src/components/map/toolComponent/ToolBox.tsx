@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react'
 import Image from 'next/image'
-import { addSpotFeature } from '@/utils/map/feature';
-import { addDrawAndSnapInteractions, removeDrawAndSnapInteractions, toggleHandMapInteraction, addDrawRouteAndSnapInteractions} from '@/utils/map/Interaction';
+import { addSpotFeature, addStyleToPreSelectedFeature } from '@/utils/map/feature';
+import { addDrawAndSnapInteractions, removeDrawAndSnapInteractions, toggleHandMapInteraction, addDrawRouteAndSnapInteractions, } from '@/utils/map/Interaction';
 import MapContext from '@/context/MapContext';
 import { selectedSource } from '@/utils/map/layer';
 
@@ -10,10 +10,14 @@ interface ToolBoxProps {
   stroke:number,
   drawMode:drawModeType,
   changeDrawMode:(drawMode:drawModeType) => void,
-  changeCurrentItem:(newItem:currentItemObject) => void,
+  changeCurrentItemType:(newItem:currentItemType) => void,
+  changeCurrentStatus:(newStatus:currentStatusType) => void,
+  changeCurrentId:(newId:string) => void,
+  preSelectedFeature: selectedFeature
+  resetCurrentSelectedFeature: () => void
 }
 
-const ToolBox = ({color, stroke, drawMode, changeDrawMode, changeCurrentItem}:ToolBoxProps) => {
+const ToolBox = ({color, stroke, drawMode, changeDrawMode, changeCurrentItemType, changeCurrentStatus, changeCurrentId, preSelectedFeature, resetCurrentSelectedFeature}:ToolBoxProps) => {
   const map = useContext(MapContext);
   //>>delete event
   const deleteFeature = (e) => {
@@ -35,6 +39,7 @@ const ToolBox = ({color, stroke, drawMode, changeDrawMode, changeCurrentItem}:To
       }
     //organize interaction
     //delete pre interaction
+    changeCurrentId("")
     if(drawMode == "mark"){
       map.un("click",addSpotFeature)
       // changeCurrentItem({status:"none", id:"", type:"none"})
@@ -42,8 +47,11 @@ const ToolBox = ({color, stroke, drawMode, changeDrawMode, changeCurrentItem}:To
       // removeSelectAndTranslateInteractions(map)
       // removeSelectAndTranslateInteractions(map)
       toggleHandMapInteraction(map, false)
-      changeCurrentItem({status:"none", id:"", type:"none"})
+      changeCurrentItemType("none")
+      addStyleToPreSelectedFeature(preSelectedFeature)
+      resetCurrentSelectedFeature()
       selectedSource.clear()
+      //remove delete action
     }else{
       // changeCurrentItem({status:"none", id:"", type:"none"})
       removeDrawAndSnapInteractions(map)
@@ -51,22 +59,27 @@ const ToolBox = ({color, stroke, drawMode, changeDrawMode, changeCurrentItem}:To
     //add new interaction
     if(activeMode == "mark"){
       map.on("click",addSpotFeature)
-      changeCurrentItem({status:"queue", id:"", type:"spot"})
+      changeCurrentItemType("spot")
+      changeCurrentStatus("queue")
     }else if(activeMode == "hand"){
       // addSelectAndTranslateInteractions(map)
       toggleHandMapInteraction(map, true)
+      changeCurrentStatus("none")
     }else if(activeMode == "route"){
       //>> what is the initial route type?
       addDrawRouteAndSnapInteractions(map, "walk")
-      changeCurrentItem({status:"queue", id:"", type:"route"})
+      changeCurrentItemType("route")
+      changeCurrentStatus("queue")
     }else if(activeMode == "brush"){
       console.log("Brush Feature coming soon")
     }else if(activeMode == "cursor"){
         console.log("Cursor")
+        changeCurrentStatus("none")
     }else{
       activeGeometry = activeMode
       addDrawAndSnapInteractions(map, activeGeometry, color, stroke)
-      changeCurrentItem({status:"queue", id:"", type:activeGeometry.toLowerCase()})
+      changeCurrentItemType(activeGeometry.toLowerCase())
+      changeCurrentStatus("queue")
     }
   }
 
@@ -78,7 +91,7 @@ const ToolBox = ({color, stroke, drawMode, changeDrawMode, changeCurrentItem}:To
   },[ drawMode ])
 
   return (
-    <div className="w-[400px] h-[75px] absolute bottom-3 left-[calc(50%-200px)] rounded-md bg-white gap-3 flex items-center justify-center p-5">
+    <div className="w-[400px] h-[75px] rounded-md bg-white gap-3 flex items-center justify-center p-5">
       <button className="w-10 h-10" style={
           drawMode == "hand"
             ? { transform: "translateY(-10px)", scale: "1.1" }

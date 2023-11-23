@@ -137,25 +137,32 @@ const removeSelectAndTranslateInteractions = (map: Map) => {
     })
 }
 
-const deleteSelectedFeature = (e:KeyboardEvent, map:Map) => {
-    if(e.code == "Backspace" || e.code == "Delete" ){
-        map.getInteractions().forEach((interaction)=>{
-            if (interaction instanceof Select){
-                interaction.getFeatures().item(0).getGeometry() instanceof Point?
-                markSource.removeFeature(interaction.getFeatures().item(0)):
-                vectorSource.removeFeature(interaction.getFeatures().item(0))
-                routeSource.removeFeature(interaction.getFeatures().item(0))
-            }
-        })
-        // if(markSelect.getFeatures().getLength()>0){
-        //     markSource.removeFeature(markSelect.getFeatures().item(0))
-        // }
-        // if(vectorSelect.getFeatures().getLength()>0){
-        //     vectorSource.removeFeature(vectorSelect.getFeatures().item(0))
-        // }
+const deleteSelectedFeature = (id:string, type:selectedFeatureType) => {
+    //fetch to delete feature
+    //if success remove from map
+    console.log(id)
+    console.log(type)
+    if(type=="spot"){
+        const markFeature = markSource.getFeatureById(id)
+        markSource.removeFeature(markFeature)
+    }else if(type=="route"){
+        const routeFeature = routeSource.getFeatureById(id)
+        routeSource.removeFeature(routeFeature)
+    }else if(type=="linestring"||type=="polygon"||type=="circle"){
+        const vectorFeature = vectorSource.getFeatureById(id)
+        vectorSource.removeFeature(vectorFeature)
     }
+    selectedSource.clear()
 }
-
+// delete selectedFeature
+// map.getInteractions().forEach((interaction)=>{
+//     if (interaction instanceof Select){
+//         interaction.getFeatures().item(0).getGeometry() instanceof Point?
+//         markSource.removeFeature(interaction.getFeatures().item(0)):
+//         vectorSource.removeFeature(interaction.getFeatures().item(0))
+//         routeSource.removeFeature(interaction.getFeatures().item(0))
+//     }
+// })
 // const vectorSelect = new Select({
 //     layers: [vectorLayer],
 //     style: new Style({

@@ -1,5 +1,5 @@
 
-import { markSource } from "@/utils/map/layer";
+import { markSource, vectorSource, routeSource } from "@/utils/map/layer";
 import { Feature } from "ol";
 import { Point } from "ol/geom";
 import { Style, Fill, Stroke, Circle, Icon } from "ol/style.js";
@@ -160,4 +160,19 @@ const createRouteStyle = (route_type:routeType) => {
         
 }
 
-export {addSpotFeature, createGeometryStyle, createRouteStyle ,generateUid, spotStyle}
+const addStyleToPreSelectedFeature = (preSelectedFeature:preSelectedFeatureType) => {
+    const type = preSelectedFeature.type
+    const id = preSelectedFeature.id
+    if(type=="route"){
+      const routeFeature = routeSource.getFeatureById(id)
+      const routeType = routeFeature?.get("route_type")
+      routeFeature?.setStyle(createRouteStyle(routeType))
+    }else if(type=="linestring" || type=="polygon" || type=="circle" ){
+      const geometryFeature = vectorSource.getFeatureById(id)
+      const color = geometryFeature?.get("color")
+      const stroke = geometryFeature?.get("stroke")
+      geometryFeature?.setStyle(createGeometryStyle(color, stroke))
+    }
+  }
+
+export {addSpotFeature, createGeometryStyle, createRouteStyle ,generateUid, spotStyle, addStyleToPreSelectedFeature}

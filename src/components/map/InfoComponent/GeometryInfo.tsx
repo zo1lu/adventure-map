@@ -1,64 +1,193 @@
 import { createGeometryStyle } from '@/utils/map/feature'
 import { vectorSource } from '@/utils/map/layer'
-import React, { useEffect, useRef } from 'react'
+import { usePathname } from 'next/navigation'
+import React, { useEffect, useState, useContext, useMemo } from 'react'
+import MapContext from '@/context/MapContext';
+import { geometryTypes as geometryTypeData } from '@/data/geometry';
+import { setFeatureSelectedById, setSelectedFeatureBoundary, toggleHandMapInteraction } from '@/utils/map/Interaction';
+import { getFeatureGeoData } from '@/utils/geoData';
 interface GeometryInfoProps {
-  item:currentItemObject,
-  color:string,
-  stroke:number,
+  id: string,
+  status: currentStatusType,
+  type: currentItemType,
+  color: string,
+  stroke: number,
   changeColorRefHandler:(newColor:string)=>void,
-  changeStrokeRefHandler:(newStroke:number)=>void
+  changeStrokeRefHandler:(newStroke:number)=>void,
+  setCurrentSelectedFeature:(type:selectedFeatureType, id:string)=>void,
+  isMoved: Boolean, 
+  resetIsMoved: ()=>void
 }
-const GeometryInfo = ({item, color, stroke, changeColorRefHandler, changeStrokeRefHandler}:GeometryInfoProps) => {
-  const id = item.id
-  const type = item.type
-  const status = item.status
-  const geometryTitleRef = useRef<HTMLInputElement>(null)
-  const geometryDescriptionRef = useRef<HTMLTextAreaElement>(null)
-  const geometryColorRef = useRef(null)
-  const geometryStrokeRef = useRef(null)
+const GeometryInfo = ({id, status, type, color, stroke, changeColorRefHandler, changeStrokeRefHandler, setCurrentSelectedFeature, isMoved, resetIsMoved}:GeometryInfoProps) => {
+  const map = useContext(MapContext);
+  const mapId = usePathname().split("/")[2]
+  const [message, setMessage] = useState({type:"normal",content:""})
+  const [isChanged, setIsChanged] = useState(false)
+  const [isInitialLoad, setIsInitialLoad] = useState(true)
+  // const geometryTitleRef = useRef<HTMLInputElement>(null)
+  // const geometryDescriptionRef = useRef<HTMLTextAreaElement>(null)
+  // const geometryColorRef = useRef(null)
+  // const geometryStrokeRef = useRef(null)
   // const feature = vectorSource.getFeatureById(id)
+  const [geometryInfo, setGeometryInfo] = useState({
+      id:"",
+      title:"",
+      geometry_type_id:"",
+      color:"#ffcc33",
+      stroke:5,
+      description:"",
+  })
   const colorChangeHandler = (e: React.ChangeEvent<HTMLInputElement>):void =>{
-    if(status=="queue"){
-      //the feature not been drawn
-      changeColorRefHandler(e.target.value)
+    changeColorRefHandler(e.target.value)
+    handleGeometryInfo("color",e.target.value)
+    // if(status=="queue"){
+    //   //the feature not been drawn
+      
 
-    }else{
-      //the feature was created in database
-      //get feature info from database
-      changeColorRefHandler(e.target.value)
-      const feature = vectorSource.getFeatureById(id)
-      feature?.set("color", e.target.value)
-      const newStyle = createGeometryStyle(e.target.value, feature?.get("stroke"))
-      feature?.setStyle(newStyle)
-      console.log(feature?.getProperties())
-    }
+    // }else{
+    //   //the feature was created in database
+    //   //get feature info from database
+    //   changeColorRefHandler(e.target.value)
+    //   const feature = vectorSource.getFeatureById(id)
+    //   feature?.set("color", e.target.value)
+    //   const newStyle = createGeometryStyle(e.target.value, feature?.get("stroke"))
+    //   feature?.setStyle(newStyle)
+    //   console.log(feature?.getProperties())
+    // }
     
   }
   const strokeChangeHandler = (e: React.ChangeEvent<HTMLInputElement>):void =>{
-    if(status=="queue"){
-      //the feature not been drawn
-      changeStrokeRefHandler(parseInt(e.target.value))
-
-    }else{
-      //the feature was created in database
-      //get feature info from database
-      changeStrokeRefHandler(parseInt(e.target.value))
-      const feature = vectorSource.getFeatureById(id)
+    changeStrokeRefHandler(parseInt(e.target.value))
+    handleGeometryInfo("stroke",e.target.value)
+    // if(status=="queue"){
+    //   //the feature not been drawn
       
-      feature?.set("stroke", parseInt(e.target.value))
-      const newStyle = createGeometryStyle(feature?.get("color"), parseInt(e.target.value))
-      feature?.setStyle(newStyle)
-      console.log(feature?.getProperties())
+
+    // }else{
+    //   //the feature was created in database
+    //   //get feature info from database
+    //   changeStrokeRefHandler(parseInt(e.target.value))
+    //   const feature = vectorSource.getFeatureById(id)
+      
+    //   feature?.set("stroke", parseInt(e.target.value))
+    //   const newStyle = createGeometryStyle(feature?.get("color"), parseInt(e.target.value))
+    //   feature?.setStyle(newStyle)
+    //   console.log(feature?.getProperties())
+    // }
+  }
+  const dataUpdateHandler = () => {
+    console.log("update current data")
+    // if(status!="queue" && status!="none"){
+    //   console.log("update route Info to Database...")
+      const geometryTypeId = geometryTypeData.filter((geo)=>geo.value==type)[0].id
+      const geometryLatestInfo = {
+        id: id,
+        title: geometryInfo.title,
+        geometry_type_id: geometryTypeId,
+        color: geometryInfo.color,
+        stroke: geometryInfo.stroke,
+        description: geometryInfo.description,
+        geo_data: getFeatureGeoData(id, "vector")
+      }
+      setMessage(()=>{return {type:"normal",content:"updating..."}})
+      fetch("/api/geometry",{
+        method:"PATCH",
+        headers:{
+          "Content-Type":"application/json"
+        },
+        body:JSON.stringify(geometryLatestInfo)
+      })
+      .then(res=>res.json())
+      .then(res=>{
+        console.log(res)
+        setMessage(()=>{return {type:"success",content:"successfully updated!"}})
+      })
+      .catch((e)=>{
+        console.log(e)
+        setMessage(()=>{return {type:"error",content:"updated failed!"}})
+      })
+      .finally(()=>{
+        setTimeout(()=>{
+          setMessage(()=>{return {type:"",content:""}})
+        },3000)
+        setIsChanged(()=>false)
+        resetIsMoved()
+      }
+      )
+    // }
+  }
+  const handleGeometryInfo = (type:string, newValue:any) => {
+    switch (type){
+      case "title":
+        setGeometryInfo((current)=>{
+          return {
+            ...current,
+            title: newValue
+          }
+        })
+        break
+      case "color":
+        setGeometryInfo((current)=>{
+          return {
+            ...current,
+            color: newValue
+          }
+        })
+        break
+      case "stroke":
+        setGeometryInfo((current)=>{
+          return {
+            ...current,
+            stroke: parseInt(newValue)
+          }
+        })
+        break
+      case "description":
+        setGeometryInfo((current)=>{
+          return {
+            ...current,
+            description: newValue
+          }
+        })
+        break
     }
   }
+  
+  useEffect(()=>{
+    if(!isInitialLoad){
+      setIsChanged(()=>true)}
+    else{
+      setIsChanged(()=>false)
+      setIsInitialLoad(()=>false)
+    }
+  },[geometryInfo]) 
 
   useEffect(()=>{
+    if(isMoved){
+      setIsChanged(()=>true)
+    }else{
+      setIsChanged(()=>false)
+    }
+  },[isMoved])
+
+  useEffect(()=>{
+    const geometryTypeId = geometryTypeData.filter((geo)=>geo.value==type)[0].id
     if(status=="queue"){
       //clear local data
-      geometryTitleRef.current.value = ""
-      geometryDescriptionRef.current.value = ""
-      geometryColorRef.current.value = "#ffcc33"
-      geometryStrokeRef.current.value = "5"
+      // geometryTitleRef.current.value = ""
+      // geometryDescriptionRef.current.value = ""
+      // geometryColorRef.current.value = "#ffcc33"
+      // geometryStrokeRef.current.value = "5"
+      setGeometryInfo((current)=>{
+        return {
+          ...current,
+          title:"",
+          geometry_type_id:"",
+          color:"#ffcc33",
+          stroke:5,
+          description:"",
+        }
+      })
       changeColorRefHandler("#ffcc33")
       changeStrokeRefHandler(5)
       
@@ -66,59 +195,137 @@ const GeometryInfo = ({item, color, stroke, changeColorRefHandler, changeStrokeR
       //add geometry into database
       //get geometry from database
       //set data to the geometry page
-      const feature = vectorSource.getFeatureById(id)
-      const currentColor = feature?.get("color")
-      const currentStroke = feature?.get("stroke")
-      geometryColorRef.current.value = currentColor
-      geometryStrokeRef.current.value = currentStroke.toString()
-      changeColorRefHandler(currentColor)
-      changeStrokeRefHandler(currentStroke)
+      // const feature = vectorSource.getFeatureById(id)
+      // const currentColor = feature?.get("color")
+      // const currentStroke = feature?.get("stroke")
+      // geometryColorRef.current.value = currentColor
+      // geometryStrokeRef.current.value = currentStroke.toString()
+      // changeColorRefHandler(currentColor)
+      // changeStrokeRefHandler(currentStroke)
+      console.log(id)
+      const aboutToCreateData = {
+        id: id,
+        title: geometryInfo.title,
+        geometry_type_id: geometryTypeId,
+        color: geometryInfo.color,
+        stroke: geometryInfo.stroke,
+        description: geometryInfo.description,
+        geo_data: getFeatureGeoData(id, "vector")
+      }
+      console.log(aboutToCreateData)
+      //if create data successfully make feature selected else remove it
+      setMessage(()=>{return {type:"normal",content:"creating..."}})
+      fetch("/api/geometry",{
+        method:"POST",
+        headers:{
+          "Content-Type":"application/json"
+        },
+        body:JSON.stringify({
+          mapId: mapId,
+          geometryInfo: aboutToCreateData
+        })
+      })
+      .then((res)=>{
+        return res.json()})
+      .then((data)=>{
+        console.log(data)
+        //do we need to reassign data? no!
+        console.log("Add data into route collection")
+        toggleHandMapInteraction(map, true)
+        setFeatureSelectedById(map, "vector", id)
+        const currentGeometryExtent = vectorSource.getFeatureById(id)?.getGeometry()?.getExtent()
+        setSelectedFeatureBoundary(currentGeometryExtent)
+        setCurrentSelectedFeature(type, id)
+        setMessage(()=>{return {type:"success",content:"create successfully"}})
+      })
+      .catch((e)=>{
+        console.log(e)
+        // console.log("On no, something wrong when creating route")
+        setMessage(()=>{return {type:"error",content:"create fail, removing..."}})
+      })
+      .finally(()=>{
+        setTimeout(()=>{
+          setMessage(()=>{return {type:"",content:""}})
+        },2000)
+        setIsChanged(()=>false)
+      })
     }else if(status == "old"){
       //get geometry from database
       //set data to the geometry page
-      const feature = vectorSource.getFeatureById(id)
-      const currentColor = feature?.get("color")
-      const currentStroke = feature?.get("stroke")
-      geometryColorRef.current.value = currentColor
-      geometryStrokeRef.current.value = currentStroke.toString()
-      changeColorRefHandler(currentColor)
-      changeStrokeRefHandler(currentStroke)
+      // const feature = vectorSource.getFeatureById(id)
+      // const currentColor = feature?.get("color")
+      // const currentStroke = feature?.get("stroke")
+      // geometryColorRef.current.value = currentColor
+      // geometryStrokeRef.current.value = currentStroke.toString()
+      // changeColorRefHandler(currentColor)
+      // changeStrokeRefHandler(currentStroke)
+      fetch(`/api/geometry/${id}`)
+        .then((res)=>{
+          return res.json()
+        })
+        .then((data)=>{
+          console.log(data)
+          const newInfo = data
+          // routeTypeIdRef.current = newInfo.routeTypeId
+          setGeometryInfo((current)=>{
+            return {
+              ...current,
+              title: newInfo.title || "",
+              geometry_type_id: newInfo.geometryTypeId,
+              color: newInfo.color,
+              stroke: newInfo.stroke,
+              description: newInfo.description || "",
+            }
+          })
+          changeColorRefHandler(newInfo.color)
+          changeStrokeRefHandler(newInfo.stroke)
+          setIsInitialLoad(()=>true)
+        })
+        .catch((e)=>{
+          console.log(e)
+          setMessage(()=>{return {type:"error",content:"no data in database, removing..."}})
+        })
+        .finally(()=>{
+          setMessage(()=>{return {type:"normal",content:""}})
+          setIsChanged(()=>false)
+        })
     }
     return ()=>{
-      if(status!="queue"){
-        console.log("update geometry data into database")
-      }
     }
-  },[id, type, status])
+  },[id, type])
 
   return (
-    <div className="w-[220px] h-[320px] absolute flex flex-col p-5 top-24 right-8 bg-white rounded-md">
-        <p className='text-xs mb-1'>{type} info {id}</p>
+    <div className="w-[220px] h-fit absolute flex flex-col p-5 top-24 right-8 bg-white rounded-md">
+        <p className='text-xs mb-1'>{type} info</p>
         <hr className='border-1 mb-2'/>
-        <input ref={geometryTitleRef} className="h-12 py-3 outline-none focus:border-b-[1px] focus:border-black text-xl font-bold uppercase" placeholder='Title'/>
+        <input value={geometryInfo.title} className="h-12 py-3 outline-none focus:border-b-[1px] focus:border-black text-xl font-bold uppercase" placeholder='Title' onChange={(e)=>{handleGeometryInfo("title",e.target.value)}}/>
         <div className='w-[calc(100%-20px)] flex h-10 items-center'>
           <label className='text-xs min-w-20 w-20'>Brush Width: </label>
           <input
-              ref={geometryStrokeRef}
+              value={geometryInfo.stroke.toString()}
               className='w-1/2'
               type="range"
               min="1"
               max="8"
-              defaultValue="5"
+              // defaultValue="5"
               onChange={(e)=>strokeChangeHandler(e)}
           />
         </div>
         <div className='w-[calc(100%-20px)] flex h-10 items-center'>
           <label className='text-xs min-w-20 w-20'>Brush Color: </label>
           <input
-              ref={geometryColorRef}
+              value={geometryInfo.color}
               type="color"
-              defaultValue="#ffcc33"
+              // defaultValue="#ffcc33"
               onChange={(e)=>colorChangeHandler(e)}
           />
         </div>
         
-        <textarea ref={geometryDescriptionRef} className="py-3 outline-none min-h-[120px] text-xs" placeholder="description"></textarea>
+        <textarea value={geometryInfo.description} className="py-3 outline-none min-h-[120px] text-xs" placeholder="description" onChange={(e)=>{handleGeometryInfo("description",e.target.value)}}></textarea>
+        {message.content!=""?<div className='w-full h-10 flex justify-center text-xs' style={message.type=="success"?{color:'green'}:message.type=="error"?{color:'red'}:{color:'black'}}>{message.content}</div>:<></>}
+        {status!="queue"&&isChanged&&message.content==""?
+        <button className='w-full h-fit border-black border-2 rounded-md disabled:border-gray-200 disabled:text-gray-200' onClick={()=>{dataUpdateHandler()}}>Save Change</button>
+      :<></>}
     </div>
   )
 }
