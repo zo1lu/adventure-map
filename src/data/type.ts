@@ -20,3 +20,13 @@ type selectionTypes = {
     value:string, 
     name:string
   }
+type currentItemType = "none"|"spot"|"route"|"linestring"|"polygon"|"circle"
+
+type currentStatusType = "none"|"queue"|"new"|"old"
+
+type selectedFeatureType = "none"|"spot"|"route"|"linestring"|"polygon"|"circle"
+
+type selectedFeature = {
+  type: selectedFeatureType,
+  id:string,
+}
