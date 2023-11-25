@@ -13,6 +13,7 @@ import BottomToolBox from './toolComponent/BottomToolBox';
 import ToolBox from './toolComponent/ToolBox';
 import TopToolBox from './toolComponent/TopToolBox';
 import OptionToolBox from './toolComponent/optionToolBox';
+import ImagePreview from '../image/ImagePreview';
 ////type
 import { Coordinate} from 'openlayers';
 ////ol
@@ -21,7 +22,7 @@ import { Zoom, ScaleLine }  from "ol/control";
 import { DragPan, MouseWheelZoom, defaults as defaultInteraction } from "ol/interaction";
 import { Select, Translate, Link } from 'ol/interaction.js';
 import { Style, Fill, Stroke, Icon } from "ol/style.js";
-import {Point, LineString, Polygon, Circle} from "ol/geom";
+import { Point, LineString, Polygon, Circle} from "ol/geom";
 import { toLonLat, fromLonLat } from 'ol/proj';
 ////my module
 import view from '@/utils/map/view';
@@ -31,21 +32,19 @@ import { removeDrawAndSnapInteractions, addDrawAndSnapInteractions, toggleHandMa
 import { getMapGeoData, renderGeoData, renderGeoDataCollections } from '@/utils/geoData';
 import { geoDataType } from '@/data/infoType';
 ////Not in use
-import GeoJSON from 'ol/format/GeoJSON.js';
-import { JsonValue } from '@prisma/client/runtime/library';
-import { UUID } from 'crypto';
+
+
+
 // const data = require('../../../fake_data/test_geo_data.json');
 
-type mapGeoInfoOutputType = {
-  center: number[],
-  zoom: number,
-  geoData: geoDataType
-}
-
-
-interface MapProps {
-  mapGeoInfo: mapGeoInfoOutputType 
-}
+// type mapGeoInfoOutputType = {
+//   center: number[],
+//   zoom: number,
+//   geoData: geoDataType
+// }
+// interface MapProps {
+//   mapGeoInfo: mapGeoInfoOutputType 
+// }
 //{mapGeoInfo}:MapProps
 const MapContainer = () => {
   // const {center, zoom, geoData} = mapGeoInfo
@@ -65,6 +64,8 @@ const MapContainer = () => {
   const currentSelectedFeatureRef = useRef<selectedFeature>({type:"none", id:""})
   const [isGeometryMoved, setIsGeometryMoved] = useState(false)
   const isRenderingDataFromDBRef = useRef(true)
+  const [isimagePreviewOpen, setIsImagePreviewOpen] = useState<Boolean>(false)
+  const currentImageTargetRef = useRef<curretnImageTargetType>({type:"", id:""})
   // const [currentItem, setCurrentItem] = useState<currentItemObject>({
   //   status:"none",
   //   id:"",
@@ -75,7 +76,6 @@ const MapContainer = () => {
   const [currentStatus, setCurrentStatus] = useState<currentStatusType>("none")
   const [currentItemType, setCurrentItemType] = useState<currentItemType>("none")
   const [isSeleted, setIsSelected] = useState(false)
-
   const changeColorRef = (newColor:string) =>{
     colorRef.current = newColor
     if(drawMode=="LineString" || drawMode=="Polygon"  || drawMode=="Circle" ){
@@ -143,6 +143,14 @@ const MapContainer = () => {
   }
   const changeSpotLocation = (newSpotLocation:spotLocationType) => {
     setSpotLocation(()=>newSpotLocation)
+  }
+  const openImagePreview = (type:ImageTargetType, id:string) => {
+    setIsImagePreviewOpen(()=>true)
+    currentImageTargetRef.current = {type:type, id:id} 
+  } 
+  const closeImagePreview = () => {
+    setIsImagePreviewOpen(()=>false)
+    currentImageTargetRef.current = {type:"", id:""}
   }
   const resetIsGeometryMoved =() => {
     setIsGeometryMoved(()=>false)
@@ -397,14 +405,18 @@ const MapContainer = () => {
         console.log("Map Unload")
         // document.removeEventListener("keydown",deleteSelectedFeature)
       }
-  },[])
+  },[mapId])
 
 
   return (
     <MapContext.Provider value={map}>
         <div className='h-screen w-screen relative'>
+              <ImagePreview target={currentImageTargetRef.current} isShow={isimagePreviewOpen} closeImagePreview={closeImagePreview} />
+
+            
+
             <div ref={mapBoxRef} className='h-screen w-full relative'></div>
-            <MapHead />
+            <MapHead openImagePreview={openImagePreview}/>
             <div className='w-[400px] h-[75px] absolute bottom-3 left-[calc(50%-250px)] flex items-center justify-end gap-3'>
               {currentSelectedFeatureRef.current.type!="none"?<OptionToolBox currentSelected={currentSelectedFeatureRef.current} resetCurrentSelectedFeature={resetCurrentSelectedFeature} changeCurrentItemType={changeCurrentItemType}/>:<></>}
               <ToolBox drawMode={drawMode} changeDrawMode={changeDrawMode} changeCurrentItemType={changeCurrentItemType} changeCurrentStatus={changeCurrentStatus} changeCurrentId={changeCurrentId} color={colorRef.current} stroke={strokeRef.current} preSelectedFeature={preSelectedFeatureRef.current}

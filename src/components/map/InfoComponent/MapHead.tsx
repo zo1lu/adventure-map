@@ -2,9 +2,11 @@ import React, { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import MapInfo from './MapInfo'
+interface MapHeadProps {
+    openImagePreview:(type:ImageTargetType, id:string)=>void
+}
 
-
-const MapHead = () => {
+const MapHead = ({openImagePreview}: MapHeadProps) => {
     const [isNavOpen, setIsNavOpen] = useState(false)
     const [isMapInfoOpen, setIsMapInfoOpen] = useState(false)
     const [mapName, setMapName] = useState("")
@@ -41,7 +43,7 @@ const MapHead = () => {
                 <Link className='block mb-3' href="/home">Home</Link>
                 <Link className='block' href="/explore">Explore</Link>
             </div>:<></>}
-            {isMapInfoOpen?<MapInfo/>:<></>}
+            {isMapInfoOpen?<MapInfo openImagePreview={openImagePreview}/>:<></>}
         </div>
   )
 }

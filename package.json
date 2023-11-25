@@ -23,6 +23,7 @@
     "ol": "^8.1.0",
     "react": "^18",
     "react-dom": "^18",
+    "react-easy-crop": "^5.0.2",
     "uuid": "^9.0.1"
   },
   "devDependencies": {

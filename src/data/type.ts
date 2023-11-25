@@ -30,3 +30,26 @@ type selectedFeature = {
   type: selectedFeatureType,
   id:string,
 }
+type ImageTargetType = "map"|"spot"|"route"|"geometry"|""
+type curretnImageTargetType = {
+  type: ImageTargetType
+  id: string,
+}
+
+type cropAreaPercentageType = {
+  x: number,
+  y: number,
+  width: number,
+  height: number
+}
+
+type cropAreaPixelType = {
+  width: number,
+  height: number
+  x: number,
+  y: number,
+}
+
+type filterStyleType = {
+  filter:string
+}

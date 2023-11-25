@@ -7,8 +7,10 @@ import { getDurationInHour, getLocalDateTime, getLocalTimeZone } from '@/utils/c
 //data for test
 import { mapInfo_fake } from '../../../../fake_data/fake_data';
 import { mapInfoType } from '@/data/infoType';
-
-const MapInfo = () => {
+interface MapInfoProps {
+    openImagePreview:(type:ImageTargetType, id:string)=>void
+}
+const MapInfo = ({openImagePreview}:MapInfoProps) => {
     const mapId = usePathname().split("/")[2]
     const mapTitleRef = useRef("")
     const mapCountryRef = useRef("")
@@ -40,6 +42,7 @@ const MapInfo = () => {
         minHeight:"300px",
     })
     const [isDeleteBoxOpen, setIsDeleteBoxOpen] = useState(false)
+    
     const handleMapState = (type:string, newValue:any) => {
         console.log(newValue)
         switch (type){
@@ -173,17 +176,15 @@ const MapInfo = () => {
     //             return setMapDuration(()=> durationFromEndTimeZoneChange);
     //     }
     // }
-    const addMapImage = () => {
-        //upload image to storage
-        //get link
-        const uploadImageUrl = "/images/mapImages/japan_kyoto_02.jpg"
-        setMapImg(()=>uploadImageUrl)
-    }
-
+    
     const deleteMapImage = () => {
         //remove from storage
         setMapImg(()=>"")
         setIsDeleteBoxOpen(false)
+    }
+
+    const updateMapImage = () => {
+
     }
     // const changeMapTitle = (e:React.ChangeEvent<HTMLInputElement>) =>{
     //     const newValue = e.target.value
@@ -307,6 +308,7 @@ const MapInfo = () => {
                     {isDeleteBoxOpen?
                     <div className='absolute top-3 right-10 w-20 h-20 py-3 bg-white z-10'>
                         <p className="hover:font-bold text-center" onClick={()=>{deleteMapImage()}}>Delete</p>
+                        <p className="hover:font-bold text-center" onClick={()=>{updateMapImage()}}>Update</p>
                     </div>:
                     <></>}
                     <button className='w-6 h-6 absolute top-3 right-2 rounded-md z-10' onClick={()=>{setIsDeleteBoxOpen(!isDeleteBoxOpen)}}>
@@ -327,7 +329,11 @@ const MapInfo = () => {
                     />
                 </div>
                 :<div className='w-full h-[360px] min-h-[360px] overflow-hidden flex bg-gray-50'>
-                    <button className="m-auto rounded-md text-white bg-gray-400 hover:bg-gray-300 px-3 py-1" onClick={()=>{addMapImage()}}>Select photo</button>
+                    
+                    <button className="m-auto rounded-md text-white bg-gray-400 hover:bg-gray-300 px-3 py-1" onClick={()=>{openImagePreview("map", mapId)}}>
+                        Select photo
+                        
+                    </button>
                 </div>
             }
             <div className='h-10 w-[calc(100%-40px)] mx-5 flex gap-3'>
