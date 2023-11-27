@@ -5,31 +5,24 @@ import { getCroppedImage } from '@/utils/image'
 import AlertBox from '../message/AlertBox'
 import { ConfirmBox } from '../message/ConfirmBox'
 import { imageFilters, originFilter } from '@/data/image'
-import { height } from '@fortawesome/free-solid-svg-icons/faLocationDot'
-import { remove } from 'ol/array'
+import ProcessBox from '../message/ProcessBox'
+import SuccessBox from '../message/SuccessBox'
+import FailBox from '../message/FailBox'
 
 interface ImagePreviewProps {
     target:{
         type: ImageTargetType,
-        id: string
+        id: string,
+        isNew: Boolean
     },
     isShow:Boolean,
     closeImagePreview:()=>void
 }
 
-// const origin = {
-//     filter:""
-// }
-// const classic = {
-//     filter:"grayscale(2) contrast(1)",
-// }
-// const vivid = {
-//     filter:"saturate(1.2) contrast(1.5)"
-// }
-
 const ImagePreview = ({target, isShow, closeImagePreview}:ImagePreviewProps) => {
     const type = target.type
     const id = target.id
+    const isNew = target.isNew
     const [isHidden, setIsHidden] = useState(false)
     const imageInputRef = useRef<HTMLInputElement>(null)
     const [pageNum, setPageNum] = useState<number>(1)
@@ -38,7 +31,7 @@ const ImagePreview = ({target, isShow, closeImagePreview}:ImagePreviewProps) => 
     const imageOriginalSize = useRef({width:0, height:0})
     const [isInEditPage, setIsInEditPage] = useState(false)
     const [currentImage, setCurrentImage] = useState<any>("")
-    const [imageFilter, setImageFilter] = useState<filterStyleType>()
+    const [imageFilter, setImageFilter] = useState<filterStyleType>(originFilter)
     const [croppedArea, setCroppedArea] = useState<cropAreaPixelType>({width:0, height:0, x:0, y:0})
     const [crop, setCrop] = useState({x:0, y:0})
     const [zoom, setZoom] = useState(1)
@@ -127,9 +120,68 @@ const ImagePreview = ({target, isShow, closeImagePreview}:ImagePreviewProps) => 
         })
         setImageFilter(()=>filterObjectArray[0].style)
     }
-    const uploadImage = () => {
-        resetPage()
+    const uploadImage = (image:Blob) => {
+        return new Promise<{data:{id:string,url:string}}>((resolve, reject)=>{
+            const formData = new FormData()
+            formData.append('image', image)
+            formData.append('id', id)
+            formData.append('type', type)
+            fetch("/api/image",{
+                method:isNew?"POST":"PUT",
+                body:formData
+            })
+            .then((res)=>res.json())
+            .then((result)=>{
+                return result.data? resolve(result):reject()
+            })
+            .catch((e)=>{
+                return reject(e)
+            })
+        })
     }
+    const uploadImageHandler = async() => {
+        //open generating animation
+        //generate final image
+        setMessage(()=>{
+            return {
+                type:"process",
+                content:"Your Image is uploading...",
+            }
+        })
+        try{
+            let finalImage = await getCroppedImage(newestImage, croppedArea, imageFilter)  
+            console.log(finalImage)
+            let result = await uploadImage(finalImage)
+            setMessage(()=>{
+                return {
+                    type:"success",
+                    content:"Successfully upload image!",
+                }
+            })
+            //close image preview page
+            closeImagePreviewPage()
+            //show image with return data          
+            console.log(result)  
+        }catch(e){
+            setMessage(()=>{
+                return {
+                    type:"fail",
+                    content:"Upload image failed, please try again!",
+                }
+            })
+            //reset image preview page
+            resetPage()
+        }
+        setTimeout(()=>{
+            setMessage(()=>{
+                return {
+                    type:"",
+                    content:"",
+                }
+            })
+        },3000)
+    }
+
     const closeMessageBox = () => {
         setMessage(()=>{
             return {
@@ -199,7 +251,6 @@ const ImagePreview = ({target, isShow, closeImagePreview}:ImagePreviewProps) => 
     const closeImagePreviewPage = () => {
         closeImagePreview()
         resetPage()
-        
     }
     const generateProperImage = (imageDataUrl:any) => {
         let originalHeight
@@ -212,11 +263,8 @@ const ImagePreview = ({target, isShow, closeImagePreview}:ImagePreviewProps) => 
             originalHeight=this.height
             ratio = this.width/this.height
             const newImageUrl = getNewImage(imageDataUrl, originalWidth, originalHeight, ratio)
-
-            
             setCurrentImage(()=>newImageUrl)
         }
-        
     }
     const getNewImage = (imageDataUrl:string, width:number, height:number, ratio:number) => {
         const newCanvas = document.createElement("canvas")
@@ -250,7 +298,6 @@ const ImagePreview = ({target, isShow, closeImagePreview}:ImagePreviewProps) => 
         }else{
             return imageDataUrl
         }
-        
     }
 
     useEffect(()=>{
@@ -270,6 +317,9 @@ const ImagePreview = ({target, isShow, closeImagePreview}:ImagePreviewProps) => 
     <>
     {message.type=="alert"?<AlertBox message={message.content} closeMessageBox={closeMessageBox}/>
     :message.type=="confirm"?<ConfirmBox message={message.content} closeMessageBox={closeMessageBox} confirmAction={confirmAction} />
+    :message.type=="process"?<ProcessBox title={"Uploading..."} message={message.content}/>
+    :message.type=="success"?<SuccessBox message={message.content} />
+    :message.type=="fail"?<FailBox message={message.content} />
     :null}
     
     <div className='w-screen h-screen bg-gray-900 bg-opacity-30 overflow-hidden absolute top-0 z-20' style={isShow?{display:"block"}:{display:"none"}}>
@@ -409,7 +459,7 @@ const ImagePreview = ({target, isShow, closeImagePreview}:ImagePreviewProps) => 
                     <canvas ref={uploadPreviewRef} style={imageFilter} width={400} height={320}></canvas>
                 </div>
                 <div>
-                    <button className='border-black border-2 rounded-md py-2 px-5 mx-2' onClick={()=>uploadImage()}>Upload</button>
+                    <button className='border-black border-2 rounded-md py-2 px-5 mx-2' onClick={()=>uploadImageHandler()}>{isNew?"Upload":"Update"}</button>
                 </div>
             </div>
         </div>}
