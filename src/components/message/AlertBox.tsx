@@ -1,9 +1,9 @@
 import React from 'react'
-interface ImageAlertProps {
+interface AlertBoxProps {
     message: string
     closeMessageBox: ()=> void
 }
-const AlertBox = ({message, closeMessageBox}:ImageAlertProps) => {
+const AlertBox = ({message, closeMessageBox}:AlertBoxProps) => {
   const closeAlertPage = () => {
     closeMessageBox()
   }
@@ -16,7 +16,6 @@ const AlertBox = ({message, closeMessageBox}:ImageAlertProps) => {
         onClick={()=>closeAlertPage()}>OK</button>
       </div>
     </div>
-  
   )
 }
 

@@ -1,10 +1,10 @@
 import React from 'react'
-interface ImageConfirmProps {
+interface ConfirmBoxProps {
     message: string
     closeMessageBox: ()=> void
     confirmAction:()=> void
 }
-export const ConfirmBox = ({message, closeMessageBox, confirmAction}:ImageConfirmProps) => {
+export const ConfirmBox = ({message, closeMessageBox, confirmAction}:ConfirmBoxProps) => {
     const closeConfirmPage = () => {
         closeMessageBox()
       }
@@ -24,7 +24,6 @@ export const ConfirmBox = ({message, closeMessageBox, confirmAction}:ImageConfir
             </div>
             
         </div>
-        
     </div>
     
   )
