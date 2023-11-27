@@ -1,5 +1,9 @@
 import prisma from '@/service/mongodb'
 import { mapGeoInfoType, mapInfoType } from '@/data/infoType'
+import { GetObjectCommand, DeleteObjectCommand } from '@aws-sdk/client-s3'
+import { getGetParams, getDeleteParams } from './image/shareModel'
+import {s3} from '@/service/s3'
+import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
 //create map
 const createMap = async(userId:string) => {
     try{
@@ -179,14 +183,23 @@ const getMapInfoById = async(mapId:string) => {
                 mapImage:{
                     select: {
                         id: true,
-                        url: true
                     }
                 }
-                
             },
-            
         })
-        return {"data": mapInfo}
+        if(mapInfo!=null && mapInfo.mapImage!=null){
+            const name = mapInfo.mapImage.id
+            const params = getGetParams("map", name)
+            const command = new GetObjectCommand(params)
+            const presignedUrl = await getSignedUrl(s3, command, {expiresIn:600})
+            const newMapInfo = {...mapInfo, mapImage:{
+                ...mapInfo.mapImage,
+                url:presignedUrl
+            }}
+            return {"data": newMapInfo}
+        }else{
+            return {"data": mapInfo}
+        }
     }catch(e){
         console.log("gettting map > ",e)
         return {"error":true, "message":"Something wrong when getting map"}
@@ -227,6 +240,26 @@ const updateMapInfoById = async (mapId:string, mapInfo:mapInfoType) => {
 //delete map with ID
 const deleteMapById = async (mapId:string) => {
     try{
+        const image = await prisma.mapImage.findUnique({
+            where:{
+                mapId:mapId
+            },
+            select:{
+                id:true
+            }
+        })
+        if(!image){
+            return {"error":true, "message":"Image not found"}
+        }
+        const imageId = image.id
+        const params = getDeleteParams("map",imageId)
+        const command = new DeleteObjectCommand(params)
+        await s3.send(command)
+        await prisma.mapImage.delete({
+            where:{
+                id:imageId
+            }
+        })
         await prisma.map.delete({
             where:{
                 id: mapId,
@@ -238,78 +271,4 @@ const deleteMapById = async (mapId:string) => {
         return {"error":true, "message":"Something wrong when deleting map"}
     }
 }
-
-//create map image
-const createMapImageById = async(mapId:string, imageUrl:string) => {
-    try{
-        const newlyCreatedMapImage = await prisma.mapImage.create({
-            data:{
-                url: imageUrl,
-                mapId: mapId,
-            },
-            select:{
-                id: true,
-                url: true,
-            }
-        })
-        return {"data": newlyCreatedMapImage}
-    }catch(e){
-        console.log("creating map image > ",e)
-        return {"error":true, "message":"Something wrong when creating map image"}
-    }
-}
-
-const getMapImageById = async(imageId:string) => {
-    try{
-        const mapImage = await prisma.mapImage.findUnique({
-            where:{
-                id: imageId
-            },
-            select:{
-                id: true,
-                url: true,
-            }
-        })
-        return {"data": mapImage}
-    }catch(e){
-        console.log("getting map image > ",e)
-        return {"error":true, "message":"Something wrong when getting map image"}
-    }
-}
-
-//update map image
-const updateMapImageById = async(imageId:string, newImageUrl:string) => {
-    try{
-        const newMapImageUrl = await prisma.mapImage.update({
-            where:{
-                id: imageId
-            },
-            data:{
-                url: newImageUrl
-            },
-            select:{
-                url: true
-            }
-        })
-        return {"data":newMapImageUrl,"success":true, "message":"Successfully update map information"}
-    }catch(e){
-        console.log("updating map image > ",e)
-        return {"error":true, "message":"Something wrong when updating map image"}
-    }
-}
-
-//deleting map image
-const deleteMapImageById = async(imageId:string) => {
-    try{
-        await prisma.mapImage.delete({
-            where:{
-                id: imageId
-            }
-        })
-    }catch(e){
-        console.log("deleting map image > ",e)
-        return {"error":true, "message":"Something wrong when deleting map image"}
-    }
-}
-
-export{createMap, getMapGeoInfoById, updateMapGeoInfoById, getMapInfoById, getMapGeoDataById, updateMapInfoById, deleteMapById, createMapImageById, getMapImageById, updateMapImageById, deleteMapImageById}
+export{createMap, getMapGeoInfoById, updateMapGeoInfoById, getMapInfoById, getMapGeoDataById, updateMapInfoById, deleteMapById}

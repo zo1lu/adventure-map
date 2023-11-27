@@ -1,5 +1,9 @@
 import prisma from '@/service/mongodb'
 import { routeInfoType } from '@/data/infoType'
+import { GetObjectCommand, DeleteObjectCommand } from '@aws-sdk/client-s3'
+import { getGetParams, getDeleteParams } from './image/shareModel'
+import {s3} from '@/service/s3'
+import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
 //create route
 const createRoute = async(mapId:string, routeInfo:routeInfoType) => {
     try{
@@ -33,12 +37,6 @@ const createRoute = async(mapId:string, routeInfo:routeInfoType) => {
                 duration: true,
                 description: true,
                 geoData: true,
-                routeImage:{
-                    select:{
-                        id:true,
-                        url:true,
-                    }
-                }
             },
         })
         return {"data": newlyCreatedRoute}
@@ -70,13 +68,25 @@ const getRouteById = async (routeId:string) => {
                 routeImage:{
                     select:{
                         id: true,
-                        url: true,
                     }
                 }
             },
             
         })
-        return {"data": routeInfo}
+        if(routeInfo!=null && routeInfo.routeImage!=null){
+            const name = routeInfo.routeImage.id
+            const params = getGetParams("route", name)
+            const command = new GetObjectCommand(params)
+            const presignedUrl = await getSignedUrl(s3, command, {expiresIn:600})
+            const newRouteInfo = {...routeInfo, routeImage:{
+                ...routeInfo.routeImage,
+                url:presignedUrl
+            }}
+            return {"data": newRouteInfo}
+        }
+        else{
+            return {"data": routeInfo}
+        }
     }catch(e){
         console.log("gettting route > ",e)
         return {"error":true, "message":"Something wrong when getting route"}
@@ -113,6 +123,26 @@ const updateRoute = async (routeInfo: routeInfoType) => {
 //delete route info by id
 const deleteRouteById = async(routeId:string) => {
     try{
+        const image = await prisma.routeImage.findUnique({
+            where:{
+                routeId: routeId
+            },
+            select:{
+                id:true
+            }
+        })
+        if(!image){
+            return {"error":true, "message":"Image not found"}
+        }
+        const imageId = image.id
+        const params = getDeleteParams("route",imageId)
+        const command = new DeleteObjectCommand(params)
+        await s3.send(command)
+        await prisma.routeImage.delete({
+            where:{
+                id:imageId
+            }
+        })
         await prisma.route.delete({
             where:{
                 id: routeId,
@@ -125,72 +155,6 @@ const deleteRouteById = async(routeId:string) => {
     }
 }
 
-//create route image
-const createRouteImageById = async(routeId:string, imageUrl:string) => {
-    try{
-        await prisma.routeImage.create({
-            data:{
-                url: imageUrl,
-                routeId: routeId,
-            }
-        })
-    }catch(e){
-        console.log("creating route image > ",e)
-        return {"error":true, "message":"Something wrong when creating route image"}
-    }
-}
 
-const getRouteImageById = async(imageId:string) => {
-    try{
-        const routeImage = await prisma.routeImage.findUnique({
-            where:{
-                id: imageId
-            },
-            select:{
-                id: true,
-                url: true,
-            }
-        })
-        return {"data": routeImage}
-    }catch(e){
-        console.log("getting route image > ",e)
-        return {"error":true, "message":"Something wrong when getting route image"}
-    }
-}
 
-//update route image
-const updateRouteImageById = async(imageId:string, newImageUrl:string) => {
-    try{
-        const newRouteImageUrl = await prisma.routeImage.update({
-            where:{
-                id: imageId
-            },
-            data:{
-                url: newImageUrl
-            },
-            select:{
-                url: true
-            }
-        })
-        return {"data":newRouteImageUrl,"success":true, "message":"Successfully update route information"}
-    }catch(e){
-        console.log("updating route image > ",e)
-        return {"error":true, "message":"Something wrong when updating route image"}
-    }
-}
-
-//deleting route image
-const deleteRouteImageById = async(imageId:string) => {
-    try{
-        await prisma.routeImage.delete({
-            where:{
-                id: imageId
-            }
-        })
-    }catch(e){
-        console.log("deleting route image > ",e)
-        return {"error":true, "message":"Something wrong when deleting route image"}
-    }
-}
-
-export{ createRoute, getRouteById, updateRoute, deleteRouteById, createRouteImageById, getRouteImageById, updateRouteImageById, deleteRouteImageById}
+export{ createRoute, getRouteById, updateRoute, deleteRouteById}

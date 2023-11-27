@@ -1,5 +1,9 @@
 import prisma from '@/service/mongodb'
 import { spotInfoType } from '@/data/infoType'
+import { GetObjectCommand, DeleteObjectCommand } from '@aws-sdk/client-s3'
+import { getGetParams, getDeleteParams } from './image/shareModel'
+import {s3} from '@/service/s3'
+import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
 //create spot
 const createSpot = async(mapId:string, spotInfo:spotInfoType) => {
     try{
@@ -31,12 +35,6 @@ const createSpot = async(mapId:string, spotInfo:spotInfoType) => {
                 duration: true,
                 description: true,
                 geoData: true,
-                spotImage:{
-                    select:{
-                        id:true,
-                        url:true,
-                    }
-                }
             }
         })
         return {"data": newlyCreatedSpot}
@@ -67,12 +65,25 @@ const getSpotById = async (spotId:string) => {
                 spotImage:{
                     select:{
                         id:true,
-                        url:true,
                     }
                 }
             }
         })
-        return {"data": spotInfo}
+        if(spotInfo!=null && spotInfo.spotImage!=null){
+            const name = spotInfo.spotImage.id
+            const params = getGetParams("spot", name)
+            const command = new GetObjectCommand(params)
+            const presignedUrl = await getSignedUrl(s3, command, {expiresIn:600})
+            const newSpotInfo = {...spotInfo, spotImage:{
+                ...spotInfo.spotImage,
+                url:presignedUrl
+            }}
+            return {"data": newSpotInfo}
+        }
+        else{
+            return {"data": spotInfo}
+        }
+        
     }catch(e){
         console.log("gettting spot > ",e)
         return {"error":true, "message":"Something wrong when getting spot"}
@@ -108,9 +119,29 @@ const updateSpot = async (spotInfo: spotInfoType) => {
 //delete spot info by id
 const deleteSpotById = async(spotId:string) => {
     try{
+        const image = await prisma.spotImage.findUnique({
+            where:{
+                spotId: spotId
+            },
+            select:{
+                id:true
+            }
+        })
+        if(!image){
+            return {"error":true, "message":"Image not found"}
+        }
+        const imageId = image.id
+        const params = getDeleteParams("spot",imageId)
+        const command = new DeleteObjectCommand(params)
+        await s3.send(command)
+        await prisma.spotImage.delete({
+            where:{
+                id:imageId
+            }
+        })
         await prisma.spot.delete({
             where:{
-                id: spotId
+                id: spotId,
             }
         })
         return {"success":true, "message":"Successfully delete spot"}
@@ -120,73 +151,7 @@ const deleteSpotById = async(spotId:string) => {
     }
 }
 
-//create spot image
-const createSpotImageById = async(spotId:string, imageUrl:string) => {
-    try{
-        await prisma.spotImage.create({
-            data:{
-                url:imageUrl,
-                spotId: spotId,
-            }
-        })
-    }catch(e){
-        console.log("creating spot image > ",e)
-        return {"error":true, "message":"Something wrong when creating spot image"}
-    }
-}
-//get spot image
-const getSpotImageById = async(imageId: string) => {
-    try{
-        const spotImage = await prisma.spotImage.findUnique({
-            where:{
-                id:imageId
-            },
-            select:{
-                id: true,
-                url: true,
-            }
-        })
-        return {"data": spotImage}
-    }catch(e){
-        console.log("getting spot image > ",e)
-        return {"error":true, "message":"Something wrong when getting spot image"}
-    }
 
-}
 
-//update spot image
-const updateSpotImageById = async(imageId:string, newImageUrl:string) => {
-    try{
-        const newSpotImageUrl = await prisma.spotImage.update({
-            where:{
-                id: imageId
-            },
-            data:{
-                url: newImageUrl
-            },
-            select:{
-                url: true
-            }
-        })
-        return {"data":newSpotImageUrl,"success":true, "message":"Successfully update route information"}
-    }catch(e){
-        console.log("updating spot image > ",e)
-        return {"error":true, "message":"Something wrong when updating spot image"}
-    }
-}
 
-//delete spot image
-const deleteSpotImageById = async(imageId:string) => {
-    try{
-        await prisma.spotImage.delete({
-            where:{
-                id: imageId
-            }
-        })
-    }catch(e){
-        console.log("deleting spot image > ",e)
-        return {"error":true, "message":"Something wrong when deleting spot image"}
-    }
-}
-
-export {createSpot, getSpotById, updateSpot, deleteSpotById, createSpotImageById, getSpotImageById, updateSpotImageById, deleteSpotImageById}
+export {createSpot, getSpotById, updateSpot, deleteSpotById}

@@ -10,6 +10,16 @@ const nextConfig = {
         // !! WARN !!
         ignoreBuildErrors: true,
     },
+    images: {
+        remotePatterns: [
+            {
+                protocol: 'https',
+                hostname: 'adventure-map-storage.s3.ap-southeast-2.amazonaws.com',
+                port: '',
+                pathname: '/images/**',
+            },
+        ],
+    },
 };
 
 module.exports = nextConfig;

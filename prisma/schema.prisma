@@ -130,26 +130,22 @@ model GeometryType {
 }
 //Image collection
 model ProfileImage {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  url String @unique
+  id String @id @map("_id")
   user User @relation(fields: [userId], references: [id])
   userId String @unique @db.ObjectId
 }
 model MapImage {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  url String @unique
+  id String @id @map("_id")
   map Map @relation(fields: [mapId], references: [id])
   mapId String @unique @db.ObjectId
 }
 model SpotImage {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  url String @unique
+  id String @id @map("_id")
   spot Spot @relation(fields: [spotId], references: [id])
   spotId String @unique
 }
 model RouteImage {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  url String @unique
+  id String @id @map("_id")
   route Route @relation(fields: [routeId], references: [id])
   routeId String @unique
 }
