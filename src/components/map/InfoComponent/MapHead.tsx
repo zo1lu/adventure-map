@@ -3,7 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import MapInfo from './MapInfo'
 interface MapHeadProps {
-    openImagePreview:(type:ImageTargetType, id:string)=>void
+    openImagePreview:(type:ImageTargetType, id:string, isNew:Boolean)=>void
 }
 
 const MapHead = ({openImagePreview}: MapHeadProps) => {

@@ -34,6 +34,7 @@ type ImageTargetType = "map"|"spot"|"route"|"geometry"|""
 type curretnImageTargetType = {
   type: ImageTargetType
   id: string,
+  isNew:Boolean
 }
 
 type cropAreaPercentageType = {

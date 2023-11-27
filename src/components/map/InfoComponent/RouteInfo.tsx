@@ -1,4 +1,5 @@
 import { usePathname } from 'next/navigation'
+import Image from 'next/image'
 import React, {useEffect, useState, useContext, useRef, useMemo} from 'react'
 import { routeTypes } from '@/data/route'
 import { timeZoneArray } from '@/data/dateAndTime'
@@ -12,14 +13,14 @@ import { getFeatureGeoData } from '@/utils/geoData';
 interface RouteInfoProps {
   id: string,
   status: currentStatusType,
-  currentMode: drawModeType,
   changeRouteRefHandler: (routeType: routeType)=> void,
   edgeLocation: number[][],
   changeRouteEdgeLocation: (edgeLocation:edgeLocationType)=>void
   setCurrentSelectedFeature:(type:selectedFeatureType, id:string)=>void
+  openImagePreview:(type:ImageTargetType, id:string, isNew:Boolean)=>void
 }
 
-const RouteInfo = ({id, status, currentMode, changeRouteRefHandler, edgeLocation, changeRouteEdgeLocation, setCurrentSelectedFeature}:RouteInfoProps) => {
+const RouteInfo = ({id, status, changeRouteRefHandler, edgeLocation, changeRouteEdgeLocation, setCurrentSelectedFeature, openImagePreview}:RouteInfoProps) => {
     const map = useContext(MapContext);
     const mapId = usePathname().split("/")[2]
     const [message, setMessage] = useState({type:"normal",content:""})
@@ -46,9 +47,14 @@ const RouteInfo = ({id, status, currentMode, changeRouteRefHandler, edgeLocation
         end_time_zone:"",
         duration:0,
     })
-    const [routeImg, setRouteImg] = useState("")
+    const [routeImg, setRouteImg] = useState({
+      id:"",
+      url:""
+    })
     const [routeDuration, setRouteDuration] = useState(0)
     const [routeTypeId, setRouteTypeId] = useState("RT01")
+    const [isDeleteBoxOpen, setIsDeleteBoxOpen] = useState(false)
+
     const routeTypeChangeHandler = (e:React.ChangeEvent<HTMLInputElement>) => {
 
         let type = e.target.value
@@ -179,28 +185,48 @@ const RouteInfo = ({id, status, currentMode, changeRouteRefHandler, edgeLocation
           break
       }
     }
-    //setup Date
-    // useEffect(()=>{
-    //   routeEdgeLocationRef.current = edgeLocation
-    // },[edgeLocation])
+    const deleteImage = () => {
+      return new Promise((resolve, reject)=>{
+          fetch(`/api/image/${routeImg.id}?type=route`,{
+              method:"DELETE"
+          })
+          .then((res)=>res.json())
+          .then((result)=>{
+              return result.success?resolve(result):reject(result)
+          })
+          .catch((e)=>reject({"error":true, "message":e}))
+      })
+    }
+    const updateRouteImage = () => {
+      setIsDeleteBoxOpen(false)
+      openImagePreview("route", routeImg.id, false)
+    }
+    const deleteRouteImage = async() => {
+      setIsDeleteBoxOpen(false)
+      try{
+            //process message
+            await deleteImage()
+            setRouteImg(()=>{
+                return {
+                    id:"",
+                    url:""
+                }
+            })
+        }catch(e){
+            //error message
+        }
+    }
 
-    // useEffect(()=>{
-    //   routeDurationRef.current = routeDuration
-    // },[routeDuration])
-    
-    useMemo(()=>{
+    useEffect(()=>{
       if(!isInitialLoad){
         setIsChanged(()=>true)}
       else{
         setIsChanged(()=>false)
         setIsInitialLoad(()=>false)
       }
-    },[routeInfo, routeDuration, routeTypeId, routeImg, edgeLocation]) 
+    },[routeInfo, routeDuration, routeTypeId, edgeLocation]) 
 
-    useEffect(()=>{
-      document.getElementById(routeTypeId).checked = true
-      // routeTypeIdRef.current = routeTypeId
-    },[routeTypeId])
+
 
     useEffect(()=>{
       //>>get data from database or create route data
@@ -222,7 +248,12 @@ const RouteInfo = ({id, status, currentMode, changeRouteRefHandler, edgeLocation
         //routeEdgeLocationRef.current = ([[0,0],[0,0]])
         changeRouteRefHandler("walk")
         changeRouteEdgeLocation([[0,0],[0,0]])
-        setRouteImg(()=>"")
+        setRouteImg(()=>{
+          return {
+            id:"",
+            url:""
+          }
+        })
         setRouteDuration(()=>0)
         setRouteTypeId(()=>"RT01")
         setRouteInfo(()=>{
@@ -307,7 +338,15 @@ const RouteInfo = ({id, status, currentMode, changeRouteRefHandler, edgeLocation
           const newInfo = data
           // routeTypeIdRef.current = newInfo.routeTypeId
           changeRouteEdgeLocation([newInfo.depart || [0,0],newInfo.destination || [0,0]])
-          setRouteImg(()=>(newInfo.image || ""))
+          setRouteImg(()=>{
+            return newInfo.routeImage?{
+              id:newInfo.routeImage.id,
+              url:newInfo.routeImage.url
+            }:{
+              id:"",
+              url:""
+          }
+          })
           setRouteDuration(()=>(newInfo.duration || 0))
           setRouteTypeId(()=>(newInfo.routeTypeId))
           setRouteInfo((current)=>{
@@ -346,79 +385,138 @@ const RouteInfo = ({id, status, currentMode, changeRouteRefHandler, edgeLocation
 
     
   return (
-    <div className="w-[360px] min-h-[500px] absolute flex flex-col p-5 top-24 right-8 bg-white rounded-md">
-      <p className='text-xs mb-1'>Route Info</p>
-      <hr className='border-1 mb-2'/>
+    <div className="w-[360px] h-[500px] absolute flex flex-col p-5 top-24 right-8 bg-white rounded-md">
+      <div className='flex items-center justify-between'>
+        <p className='w-20 text-xs'>Route Info</p>
+        <div className='w-[calc(100%-80px)] flex justify-end items-center'>
+          {message.content!=""?<div className='w-full text-xs text-end' style={message.type=="success"?{color:'green'}:message.type=="error"?{color:'red'}:{color:'black'}}>{message.content}</div>:null}
+
+          {status!="queue"&&isChanged&&message.content==""?
+          <div className='flex gap-3'>
+            <button className='w-fit h-5 px-2 text-xs' onClick={()=>{}}>
+              <Image 
+                  src={'/icons/return-30.png'}
+                  width={20}
+                  height={20}
+                  alt="return_button"
+              />
+            </button>
+            <button className='w-fit h-5 px-2 text-xs' onClick={()=>{dataUpdateHandler()}}>
+              <Image 
+                  src={'/icons/save-30.png'}
+                  width={20}
+                  height={20}
+                  alt="save_button"
+              />
+            </button>
+          </div>:null
+          }
+          
+        </div>
+      </div>
       
-      <input className="h-12 py-1 mb-3 outline-none focus:border-b-[1px] focus:border-black text-xl font-bold uppercase" placeholder='Title' value={routeInfo.title} onChange={e=>handleRouteState("title",e.target.value)}/>
-      <div className='flex items-center gap-3 mb-3'>
-        <p className='w-[32px] text-xs '>Dpt:<span className='pl-3'>LONG_{edgeLocation[0][0].toFixed(3)},LAT_{edgeLocation[0][1].toFixed(3)}</span></p>
-        {/* <input className='w-[calc(50%-30px)]  text-xs outline-none focus:border-b-[1px] focus:border-black' type='text' name='route_depart' /> */}
+      <hr className='border-1 my-2'/>
+      <div className='overflow-y-scroll'>
+        <div className='w-full flex mb-2 justify-between'>
+          <input className="h-8 outline-none focus:border-b-[1px] focus:border-black text-xl font-bold uppercase" placeholder='Title' value={routeInfo.title} onChange={e=>handleRouteState("title",e.target.value)}/>
+          {id&&routeImg.id==""?
+              <button className='w-fit h-8 text-xs' onClick={()=>{openImagePreview("route", id, true)}}>
+                <Image 
+                    src={'/icons/camera-30.png'}
+                    width={25}
+                    height={25}
+                    alt="camera_button"
+                />
+              </button>:null
+            }
+        </div>
+        <div className='flex items-center gap-3 mb-2'>
+          <p className='w-[32px] text-xs '>Departure:<span className='pl-3'>long_{edgeLocation[0][0].toFixed(3)},&nbsp;&nbsp;lat_{edgeLocation[0][1].toFixed(3)}</span></p>
+        </div>
+        <div className='flex items-center gap-3'>
+          <span className='text-xs'>&harr;</span>
+          <p className='w-[32px] text-xs'>Destination:<span className='pl-3'>long_{edgeLocation[1][0].toFixed(3)},&nbsp;&nbsp;lat_{edgeLocation[1][1].toFixed(3)}</span></p>
+        </div>
+        {id&&routeImg.id?<div className='w-full h-[240px] min-h-[240px] overflow-hidden relative'>
+                      {isDeleteBoxOpen?
+                      <div className='absolute top-3 right-10 w-20 h-20 py-3 bg-white z-10'>
+                          <p className="hover:font-bold text-center" onClick={()=>{deleteRouteImage()}}>Delete</p>
+                          <p className="hover:font-bold text-center" onClick={()=>{updateRouteImage()}}>Update</p>
+                      </div>:
+                      <></>}
+                      <button className='w-6 h-6 absolute top-3 right-2 rounded-md z-10' onClick={()=>{setIsDeleteBoxOpen(!isDeleteBoxOpen)}}>
+                          <Image 
+                              src={'/icons/three-dots-vw-50.png'}
+                              width={20}
+                              height={20}
+                              alt="edit_button"
+                          />
+                      </button>
+                      <Image 
+                          src={routeImg.url}
+                          width={300}
+                          height={240}
+                          quality={100}
+                          alt="route_image"
+                          className='w-[500px] h-[360px] object-cover'
+                      />
+                  </div>
+        :null}
+        <div className='h-fit w-fit py-3 flex gap-1 flex-wrap'>
+          {routeTypes.map((routeType, i)=>{
+          return <div className='flex gap-3 items-center h-8 w-fit px-3 rounded-md' style={routeTypeId=== routeType.id?{border:'solid 2px #052e16'}:{border:'solid 1px #10b981'}} key={i}>
+                      <input id={routeType.id} value={routeType.value} type='radio' name='routeType' className='hidden' checked={routeTypeId=== routeType.id} onChange={(e)=>routeTypeChangeHandler(e)}/>
+                      <label className="text-xs cursor-pointer" htmlFor={routeType.id} >{routeType.name}</label>
+                  </div>
+          })}
+        </div>
+        {/* start time */}
+        <div className='h-8 w-full flex'>
+          <p className='h-full w-14 text-xs font-bold leading-8'>From: &#8614;</p>
+          <input
+              value={routeInfo.start_date}
+              className='h-full w-1/3 py-3 px-3 text-xs outline-1 outline-gray-100 flex-grow'
+              type="datetime-local"
+              name="start-date"
+              // defaultValue={getLocalDateTime()}
+              min="2020-06-30T00:00"
+              max="2050-06-30T00:00"
+              onChange={(e)=>{updateDurationFromDateTimeChange(e)}}
+          />
+          <select className='h-full w-[80px] px-1 text-xs outline-1 outline-gray-100' value={routeInfo.start_time_zone} name='start-time-zone' onChange={(e)=>{updateDurationFromTimeZoneChange(e)}}>
+              <option className='text-xs' defaultValue={"0"}>Time Zone</option>
+              {timeZoneArray.map(((timeZone,i)=>{
+                  return <option className='text-xs' key={i} value={timeZone.offset}>UTC{timeZone.offset}</option>
+              }))}
+          </select>
+        </div>
+        {/* end time */}
+        <div className='h-8 w-full flex'>
+          <p className='h-full w-14 text-xs font-bold leading-8'>&#8612; To:</p>
+          <input
+              value={routeInfo.end_date}
+              className='h-full w-1/3 py-3 px-3 text-xs outline-1 outline-gray-100 flex-grow'
+              type="datetime-local"
+              name="end-date"
+              // defaultValue={getLocalDateTime()}
+              min="2020-06-30T00:00"
+              max="2050-06-30T00:00"
+              onChange={(e)=>{updateDurationFromDateTimeChange(e)}}
+          />
+          <select className='h-full w-[80px] px-1 text-xs outline-1 outline-gray-100' value={routeInfo.end_time_zone} name='end-time-zone' onChange={(e)=>{updateDurationFromTimeZoneChange(e)}}>
+              <option className='text-xs' value={"0"}>Time Zone</option>
+              {timeZoneArray.map(((timeZone,i)=>{
+                  return <option className='text-xs' key={i} value={timeZone.offset}>UTC{timeZone.offset}</option>
+              }))}
+          </select>
+        </div>
+        <div className='h-8 w-full flex'>
+          <p className='h-full w-16 text-xs font-bold leading-8'>Duration:</p>
+          <p className='h-full w-10 leading-8 text-xs'><span>{routeDuration}             
+          </span>hour</p>
+        </div>
+        <textarea value={routeInfo.description} className="w-full py-3 outline-none min-h-[120px] text-xs" placeholder="How's the trip?"  onChange={(e)=>handleRouteState("description",e.target.value)}></textarea>
       </div>
-      <div className='flex items-center gap-3 mb-3'>
-        <span className='text-xs'>&harr;</span>
-        <p className='w-[32px] text-xs'>Dst:<span className='pl-3'>LONG_{edgeLocation[1][0].toFixed(3)},LAT_{edgeLocation[1][1].toFixed(3)}</span></p>
-        {/* <input className='w-[calc(50%-30px)] text-xs outline-none focus:border-b-[1px] focus:border-black' type='text' name='route_destination' /> */}
-      </div>
-      <input className="h-10 text-xs py-2" type='file'/>
-      <div className='h-fit w-fit py-3'>
-        {routeTypes.map((routeType, i)=>{
-        return <div className='flex gap-3 items-center h-6' key={i}>
-                    <input id={routeType.id} value={routeType.value} type='radio' name='routeType' defaultChecked={i==0} onChange={(e)=>routeTypeChangeHandler(e)}/>
-                    <label className="text-xs" htmlFor={routeType.id}>{routeType.name}</label>
-                </div>
-        })}
-      </div>
-      {/* start time */}
-      <div className='h-8 w-full flex'>
-        <p className='h-full w-14 text-xs font-bold leading-8'>From: &#8614;</p>
-        <input
-            value={routeInfo.start_date}
-            className='h-full w-1/3 py-3 text-xs outline-1 outline-gray-100 flex-grow'
-            type="datetime-local"
-            name="start-date"
-            // defaultValue={getLocalDateTime()}
-            min="2020-06-30T00:00"
-            max="2050-06-30T00:00"
-            onChange={(e)=>{updateDurationFromDateTimeChange(e)}}
-        />
-        <select className='h-full w-[100px] px-1 text-xs outline-1 outline-gray-100' value={routeInfo.start_time_zone} name='start-time-zone' onChange={(e)=>{updateDurationFromTimeZoneChange(e)}}>
-            <option className='text-xs' defaultValue={"0"}>Time Zone</option>
-            {timeZoneArray.map(((timeZone,i)=>{
-                return <option className='text-xs' key={i} value={timeZone.offset}>UTC{timeZone.offset}  {timeZone.abbr}</option>
-            }))}
-        </select>
-      </div>
-      {/* end time */}
-      <div className='h-8 w-full flex'>
-        <p className='h-full w-14 text-xs font-bold leading-8'>&#8612; To:</p>
-        <input
-            value={routeInfo.end_date}
-            className='h-full w-1/3 py-3 text-xs outline-1 outline-gray-100 flex-grow'
-            type="datetime-local"
-            name="end-date"
-            // defaultValue={getLocalDateTime()}
-            min="2020-06-30T00:00"
-            max="2050-06-30T00:00"
-            onChange={(e)=>{updateDurationFromDateTimeChange(e)}}
-        />
-        <select className='h-full w-[100px] px-1 text-xs outline-1 outline-gray-100' value={routeInfo.end_time_zone} name='end-time-zone' onChange={(e)=>{updateDurationFromTimeZoneChange(e)}}>
-            <option className='text-xs' value={"0"}>Time Zone</option>
-            {timeZoneArray.map(((timeZone,i)=>{
-                return <option className='text-xs' key={i} value={timeZone.offset}>UTC{timeZone.offset}  {timeZone.abbr}</option>
-            }))}
-        </select>
-      </div>
-      <div className='h-8 w-full flex'>
-        <p className='h-full w-16 text-xs font-bold leading-8'>Duration:</p>
-        <p className='h-full w-10 leading-8 text-xs'><span>{routeDuration}             
-        </span>hour</p>
-      </div>
-      <textarea value={routeInfo.description} className="py-3 outline-none min-h-[120px] text-xs" placeholder="How's the trip?"  onChange={(e)=>handleRouteState("description",e.target.value)}></textarea>
-      {message.content!=""?<div className='w-full h-10 flex justify-center text-xs' style={message.type=="success"?{color:'green'}:message.type=="error"?{color:'red'}:{color:'black'}}>{message.content}</div>:<></>}
-      {status!="queue"&&isChanged&&message.content==""?
-      <button className='w-full h-fit border-black border-2 rounded-md disabled:border-gray-200 disabled:text-gray-200' onClick={()=>{dataUpdateHandler()}}>Save Change</button>
-      :<></>}
     </div>
   )
 }

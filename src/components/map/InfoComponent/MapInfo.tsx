@@ -8,7 +8,7 @@ import { getDurationInHour, getLocalDateTime, getLocalTimeZone } from '@/utils/c
 import { mapInfo_fake } from '../../../../fake_data/fake_data';
 import { mapInfoType } from '@/data/infoType';
 interface MapInfoProps {
-    openImagePreview:(type:ImageTargetType, id:string)=>void
+    openImagePreview:(type:ImageTargetType, id:string, isNew:Boolean)=>void
 }
 const MapInfo = ({openImagePreview}:MapInfoProps) => {
     const mapId = usePathname().split("/")[2]
@@ -35,7 +35,10 @@ const MapInfo = ({openImagePreview}:MapInfoProps) => {
         end_date:"",
         end_time_zone:"",
     })
-    const [mapImg, setMapImg] = useState("")
+    const [mapImg, setMapImg] = useState({
+        id:"",
+        url:""
+    })
     const [mapDuration, setMapDuration] = useState(0)
 
     const [textAreaStyle, setTextAreaStyle] = useState({
@@ -44,7 +47,6 @@ const MapInfo = ({openImagePreview}:MapInfoProps) => {
     const [isDeleteBoxOpen, setIsDeleteBoxOpen] = useState(false)
     
     const handleMapState = (type:string, newValue:any) => {
-        console.log(newValue)
         switch (type){
             case "title":
                 setMapInfo((current)=>{
@@ -106,8 +108,7 @@ const MapInfo = ({openImagePreview}:MapInfoProps) => {
                 })
                 mapEndTimeZoneRef.current=newValue
                 return
-        }
-            
+        }   
     }
 
     const updateDurationFromDateTimeChange = (e:React.ChangeEvent<HTMLInputElement>) => {
@@ -151,62 +152,44 @@ const MapInfo = ({openImagePreview}:MapInfoProps) => {
                 return 
         }
     }
-    // const updateDurationFromDateTimeChange = (e:React.ChangeEvent<HTMLInputElement>) => {
-    //     const name = e.target.name
-    //     const dateTimeValue = e.target.value
-    //     switch(name){
-    //       case "start_time":
-    //         const durationFromStartTimeChange = getDurationInHour(dateTimeValue, mapEndDateRef.current.value, mapStartTimeZoneRef.current.value, mapEndTimeZoneRef.current.value)
-    //         return setMapDuration(()=>durationFromStartTimeChange);
-    //       case "end_time":
-    //         const durationFromEndTimeChange = getDurationInHour(mapStartDateRef.current.value, dateTimeValue, mapStartTimeZoneRef.current.value, mapEndTimeZoneRef.current.value)
-    //         return setMapDuration(()=>durationFromEndTimeChange);
-    //     };
-    //   };
     
-    // const updateDurationFromTimeZoneChange = (e:React.ChangeEvent<HTMLSelectElement>) => {
-    //     const name = e.target.name
-    //     const timeZoneValue = e.target.value
-    //     switch(name){
-    //         case "start_time_zone":
-    //             const durationFromStartTimeZoneChange = getDurationInHour(mapStartDateRef.current.value, mapEndDateRef.current.value, timeZoneValue, mapEndTimeZoneRef.current.value)
-    //             return setMapDuration(()=> durationFromStartTimeZoneChange);
-    //         case "end_time_zone":
-    //             const durationFromEndTimeZoneChange = getDurationInHour(mapStartDateRef.current.value, mapEndDateRef.current.value, mapStartTimeZoneRef.current.value, timeZoneValue)
-    //             return setMapDuration(()=> durationFromEndTimeZoneChange);
-    //     }
-    // }
-    
-    const deleteMapImage = () => {
-        //remove from storage
-        setMapImg(()=>"")
-        setIsDeleteBoxOpen(false)
-    }
-
     const updateMapImage = () => {
-
+        setIsDeleteBoxOpen(false)
+        openImagePreview("map", mapImg.id, false)
     }
-    // const changeMapTitle = (e:React.ChangeEvent<HTMLInputElement>) =>{
-    //     const newValue = e.target.value
-    //     setMapTitle(()=>{
-    //         return newValue
-    //     })
-    //     mapTitleRef.current = newValue
-    // }
-    // const changeMapCountry = (e:React.ChangeEvent<HTMLInputElement>) =>{
-    //     const newValue = e.target.value
-    //     setMapCountry(()=>{
-    //         return newValue
-    //     })
-    //     mapCountryRef.current = newValue
-    // }
-    // const changeMapRegion = (e:React.ChangeEvent<HTMLInputElement>) =>{
-    //     const newValue = e.target.value
-    //     setMapRegion(()=>{
-    //         return newValue
-    //     })
-    //     mapRegionRef.current = newValue
-    // }
+
+    const deleteImage = () => {
+        return new Promise((resolve, reject)=>{
+            fetch(`/api/image/${mapImg.id}?type=map`,{
+                method:"DELETE"
+            })
+            .then((res)=>res.json())
+            .then((result)=>{
+                return result.success?resolve(result):reject(result)
+            })
+            .catch((e)=>reject({"error":true, "message":e}))
+        })
+    }
+    const deleteMapImage = async() => {
+        //remove from storage
+        try{
+            //process message
+            await deleteImage()
+            setMapImg(()=>{
+                return {
+                    id:"",
+                    url:""
+                }
+            })
+            setIsDeleteBoxOpen(false)
+        }catch(e){
+            //error message
+        }
+        
+    }
+
+
+
     useEffect(()=>{
         mapDurationRef.current = mapDuration
       },[mapDuration])
@@ -226,13 +209,21 @@ const MapInfo = ({openImagePreview}:MapInfoProps) => {
             mapDescriptionRef.current = newInfo.description || ""
             mapTravelTypeRef.current = newInfo.travelTypeId || ""
             mapMemberTypeRef.current = newInfo.memberTypeId || ""
-            setMapImg(()=>(newInfo.mapImage?.url || ""))
-            mapStartDateRef.current = newInfo.startTime || getLocalDateTime()
-            mapEndDateRef.current = newInfo.endTime|| getLocalDateTime()
-            mapStartTimeZoneRef.current = newInfo.startTimeZone || getLocalTimeZone()
-            mapEndTimeZoneRef.current = newInfo.endTimeZone || getLocalTimeZone()
+            setMapImg(()=>{
+                return newInfo.mapImage?{
+                    id:newInfo.mapImage.id,
+                    url:newInfo.mapImage.url
+                }:{
+                    id:"",
+                    url:""
+                }
+            })
+            mapStartDateRef.current = newInfo.startTime!= ""? newInfo.startTime:getLocalDateTime()
+            mapEndDateRef.current = newInfo.endTime != ""? newInfo.endTime: getLocalDateTime()
+            mapStartTimeZoneRef.current = newInfo.startTimeZone != ""? newInfo.startTimeZone:getLocalTimeZone()
+            mapEndTimeZoneRef.current = newInfo.endTimeZone != ""? newInfo. endTimeZone:getLocalTimeZone()
             mapDurationRef.current = newInfo.duration
-            setMapDuration(()=>(newInfo.duration || 0))
+            setMapDuration(()=>(newInfo.duration != null ? newInfo.duration : 0))
             setMapInfo((current)=>{
                 return {
                     ...current,
@@ -241,10 +232,10 @@ const MapInfo = ({openImagePreview}:MapInfoProps) => {
                     region: newInfo.regionOrDistrict || "",
                     travel_type: newInfo.travelTypeId || "",
                     member_type: newInfo.memberTypeId || "",
-                    start_date: newInfo.startTime || getLocalDateTime(),
-                    start_time_zone: newInfo.startTimeZone || getLocalTimeZone(),
-                    end_date: newInfo.endTime || getLocalDateTime(),
-                    end_time_zone: newInfo.endTimeZone || getLocalTimeZone(),
+                    start_date: newInfo.startTime!=""? newInfo.startTime :getLocalDateTime(),
+                    start_time_zone: newInfo.startTimeZone!=""? newInfo.startTimeZone :getLocalTimeZone(),
+                    end_date: newInfo.endTime!=""? newInfo.endTime :getLocalDateTime(),
+                    end_time_zone: newInfo.endTimeZone!=""? newInfo.endTimeZone :getLocalTimeZone(),
                     description: newInfo.description || "",
                 }
             })
@@ -281,11 +272,8 @@ const MapInfo = ({openImagePreview}:MapInfoProps) => {
             .then(res=>console.log(res))
             .catch((e)=>console.log(e))
         }
-    },[])
+    },[mapId])
 
-    // useEffect(()=>{
-    //     console.log(mapTitle)
-    // },[mapTitle, mapCountry, mapRegion])
 
   return (
     <>
@@ -303,7 +291,7 @@ const MapInfo = ({openImagePreview}:MapInfoProps) => {
             <input value={mapInfo.region} className='h-5 w-1/2 outline-none pl-1 bg-transparent focus:border-0 focus:border-b-[1px] border-gray-600 text-xs' name="region_or_district" placeholder='Region or District' onChange={(e)=>handleMapState("region",e.target.value)}/>
             </div>
             {/* image */}
-            {mapImg?
+            {mapImg.id?
                 <div className='w-full h-[360px] min-h-[360px] overflow-hidden relative'>
                     {isDeleteBoxOpen?
                     <div className='absolute top-3 right-10 w-20 h-20 py-3 bg-white z-10'>
@@ -320,7 +308,7 @@ const MapInfo = ({openImagePreview}:MapInfoProps) => {
                         />
                     </button>
                     <Image 
-                        src={mapImg}
+                        src={mapImg.url}
                         width={500}
                         height={360}
                         quality={100}
@@ -330,9 +318,8 @@ const MapInfo = ({openImagePreview}:MapInfoProps) => {
                 </div>
                 :<div className='w-full h-[360px] min-h-[360px] overflow-hidden flex bg-gray-50'>
                     
-                    <button className="m-auto rounded-md text-white bg-gray-400 hover:bg-gray-300 px-3 py-1" onClick={()=>{openImagePreview("map", mapId)}}>
+                    <button className="m-auto rounded-md text-white bg-gray-400 hover:bg-gray-300 px-3 py-1" onClick={()=>{openImagePreview("map", mapId, true)}}>
                         Select photo
-                        
                     </button>
                 </div>
             }

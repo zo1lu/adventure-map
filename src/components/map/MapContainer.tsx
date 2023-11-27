@@ -65,7 +65,7 @@ const MapContainer = () => {
   const [isGeometryMoved, setIsGeometryMoved] = useState(false)
   const isRenderingDataFromDBRef = useRef(true)
   const [isimagePreviewOpen, setIsImagePreviewOpen] = useState<Boolean>(false)
-  const currentImageTargetRef = useRef<curretnImageTargetType>({type:"", id:""})
+  const currentImageTargetRef = useRef<curretnImageTargetType>({type:"", id:"", isNew:true})
   // const [currentItem, setCurrentItem] = useState<currentItemObject>({
   //   status:"none",
   //   id:"",
@@ -144,13 +144,13 @@ const MapContainer = () => {
   const changeSpotLocation = (newSpotLocation:spotLocationType) => {
     setSpotLocation(()=>newSpotLocation)
   }
-  const openImagePreview = (type:ImageTargetType, id:string) => {
+  const openImagePreview = (type:ImageTargetType, id:string, isNew:Boolean) => {
     setIsImagePreviewOpen(()=>true)
-    currentImageTargetRef.current = {type:type, id:id} 
+    currentImageTargetRef.current = {type:type, id:id, isNew:isNew} 
   } 
   const closeImagePreview = () => {
     setIsImagePreviewOpen(()=>false)
-    currentImageTargetRef.current = {type:"", id:""}
+    currentImageTargetRef.current = {type:"", id:"", isNew:true}
   }
   const resetIsGeometryMoved =() => {
     setIsGeometryMoved(()=>false)
@@ -425,8 +425,8 @@ const MapContainer = () => {
             
             <TopToolBox save={saveMapData}/>
             {currentItemType!="none" && (
-              currentItemType=="spot"?<SpotInfo id={currentId} status={currentStatus} spotLocation={spotLocation} changeSpotLocation={changeSpotLocation} setCurrentSelectedFeature={setCurrentSelectedFeature}/>:
-              currentItemType=="route"?<RouteInfo id={currentId} status={currentStatus} currentMode={drawMode} changeRouteRefHandler={changeRouteRef} edgeLocation={routeEdgeLocation} changeRouteEdgeLocation={changeEdgeLocation} setCurrentSelectedFeature={setCurrentSelectedFeature} />:
+              currentItemType=="spot"?<SpotInfo id={currentId} status={currentStatus} spotLocation={spotLocation} changeSpotLocation={changeSpotLocation} setCurrentSelectedFeature={setCurrentSelectedFeature} openImagePreview={openImagePreview} />:
+              currentItemType=="route"?<RouteInfo id={currentId} status={currentStatus} changeRouteRefHandler={changeRouteRef} edgeLocation={routeEdgeLocation} changeRouteEdgeLocation={changeEdgeLocation} setCurrentSelectedFeature={setCurrentSelectedFeature} openImagePreview={openImagePreview} />:
               currentItemType=="linestring" || currentItemType=="polygon" || currentItemType=="circle"?<GeometryInfo id={currentId} status={currentStatus} type={currentItemType} color={colorRef.current} stroke={strokeRef.current} changeColorRefHandler={changeColorRef} changeStrokeRefHandler={changeStrokeRef} setCurrentSelectedFeature={setCurrentSelectedFeature} isMoved={isGeometryMoved} resetIsMoved={resetIsGeometryMoved}/>:
               <></>
             )
