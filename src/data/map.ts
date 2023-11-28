@@ -104,4 +104,6 @@ const memberTypes:selectionTypes[] = [
     },
 ];
 
-export {travelTypes, memberTypes}
+const mapStyles = ["openstreetmap","outdoor","bright","light","dark","dataviz"]
+
+export {travelTypes, memberTypes, mapStyles}

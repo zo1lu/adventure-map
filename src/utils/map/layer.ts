@@ -2,7 +2,7 @@ import {OSM, Vector as VectorSource} from 'ol/source.js';
 import {Tile as TileLayer, Vector as VectorLayer} from 'ol/layer.js';
 
 const tileLayer = new TileLayer({
-    source: new OSM(),
+  source: new OSM()
 })
 
 const vectorSource = new VectorSource();
@@ -24,6 +24,11 @@ const selectedSource = new VectorSource();
 const selectedLayer = new VectorLayer({
   source: selectedSource,
 });
-// const tileLayer
 
-export { tileLayer, vectorLayer, vectorSource, markLayer, markSource , routeLayer, routeSource, selectedLayer, selectedSource}
+const userSource = new VectorSource();
+const userLayer = new VectorLayer({
+  source:userSource
+})
+
+
+export { tileLayer, vectorLayer, vectorSource, markLayer, markSource , routeLayer, routeSource, selectedLayer, selectedSource , userSource, userLayer}

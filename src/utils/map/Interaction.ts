@@ -205,7 +205,15 @@ const toggleHandMapInteraction = (map:Map, isActive:boolean) => {
             }
         })
 }
-
+const getExtendCenter = (extend:number[]) => {
+    if(extend.length==4){
+        const xCenter = (extend[2] + extend[0])/2
+        const yCenter = (extend[3] + extend[1])/2
+        return [xCenter, yCenter]
+    }else if(extend.length==2){
+        return extend
+    }
+}
 const getOffsetExtend = (extend:Extent) => {
     let offsetExtend:Extent = [0,0,0,0]
     let xOffset = (extend[2]- extend[0])*0.03>2500?(extend[2]- extend[0])*0.03:2500
@@ -233,4 +241,4 @@ const getOffsetExtend = (extend:Extent) => {
   }
 
 export {addDrawAndSnapInteractions, removeDrawAndSnapInteractions, removeSelectAndTranslateInteractions,
-deleteSelectedFeature, toggleHandMapInteraction, addDrawRouteAndSnapInteractions, removeSelectedFeature, setFeatureSelectedById, setSelectedFeatureBoundary}
+deleteSelectedFeature, toggleHandMapInteraction, addDrawRouteAndSnapInteractions, removeSelectedFeature, setFeatureSelectedById, setSelectedFeatureBoundary, getExtendCenter}

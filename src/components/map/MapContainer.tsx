@@ -18,6 +18,7 @@ import ImagePreview from '../image/ImagePreview';
 import { Coordinate} from 'openlayers';
 ////ol
 import Map from 'ol/Map.js';
+import XYZ from "ol/source/XYZ";
 import { Zoom, ScaleLine }  from "ol/control";
 import { DragPan, MouseWheelZoom, defaults as defaultInteraction } from "ol/interaction";
 import { Select, Translate, Link } from 'ol/interaction.js';
@@ -26,11 +27,13 @@ import { Point, LineString, Polygon, Circle} from "ol/geom";
 import { toLonLat, fromLonLat } from 'ol/proj';
 ////my module
 import view from '@/utils/map/view';
-import { tileLayer, vectorSource, vectorLayer, markLayer, markSource, routeLayer, routeSource, selectedLayer, selectedSource } from '@/utils/map/layer';
+import { tileLayer, vectorSource, vectorLayer, markLayer, markSource, routeLayer, routeSource, selectedLayer, selectedSource, userLayer} from '@/utils/map/layer';
 import { createGeometryStyle, createRouteStyle, addSpotFeature, spotStyle, addStyleToPreSelectedFeature } from '@/utils/map/feature';
 import { removeDrawAndSnapInteractions, addDrawAndSnapInteractions, toggleHandMapInteraction, setFeatureSelectedById, setSelectedFeatureBoundary, addDrawRouteAndSnapInteractions } from '@/utils/map/Interaction';
 import { getMapGeoData, renderGeoData, renderGeoDataCollections } from '@/utils/geoData';
 import { geoDataType } from '@/data/infoType';
+import { applyStyle } from 'ol-mapbox-style';
+import { userLayerStyle } from '@/utils/map/style';
 ////Not in use
 
 
@@ -48,6 +51,9 @@ import { geoDataType } from '@/data/infoType';
 //{mapGeoInfo}:MapProps
 const MapContainer = () => {
   // const {center, zoom, geoData} = mapGeoInfo
+  // const apiKey = "yVmiWxcsXKCQXXHSi9xb";
+  // const scale = devicePixelRatio > 1.5 ? "@2x" : "";
+  // const baseUrl = `https://api.maptiler.com/maps/basic-v2/{z}/{x}/{y}${scale}.png?key=${apiKey}`
   const mapId = usePathname().split("/")[2]
   const mapBoxRef = useRef<HTMLDivElement>(null)
   // const mapRef = useRef(null)
@@ -243,14 +249,16 @@ const MapContainer = () => {
     })
     select.setActive(false)
     translate.setActive(false)
-    
+    userLayer.setStyle(userLayerStyle)
     const map = new Map({
         layers: [
             tileLayer, 
             vectorLayer, 
             markLayer,
             routeLayer,
-            selectedLayer],
+            selectedLayer,
+            userLayer
+          ],
         controls:[scaleLine],
         interactions:[new DragPan, new MouseWheelZoom, select, translate],
         view: view,
@@ -442,7 +450,7 @@ const MapContainer = () => {
             <button className='w-fit h-10 bg-white absolute bottom-3 left-40' onClick={()=>{setSideInfoStatus("spot")}}>spot</button> */}
             {/* <div id="scale_bar" className='absolute left-10 bottom-10 w-fit text-xs bg-white'></div> */}
             {/* <div ref={zoomControlRef} className='w-10 h-5 absolute right-10 bottom-10'></div> */}
-            <BottomToolBox />
+            <BottomToolBox currentSelectedFeature={currentSelectedFeatureRef.current}/>
             
         </div>
     </MapContext.Provider>
