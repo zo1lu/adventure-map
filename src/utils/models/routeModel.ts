@@ -131,18 +131,17 @@ const deleteRouteById = async(routeId:string) => {
                 id:true
             }
         })
-        if(!image){
-            return {"error":true, "message":"Image not found"}
+        if(image){
+            const imageId = image.id
+            const params = getDeleteParams("route",imageId)
+            const command = new DeleteObjectCommand(params)
+            await s3.send(command)
+            await prisma.routeImage.delete({
+                where:{
+                    id:imageId
+                }
+            })
         }
-        const imageId = image.id
-        const params = getDeleteParams("route",imageId)
-        const command = new DeleteObjectCommand(params)
-        await s3.send(command)
-        await prisma.routeImage.delete({
-            where:{
-                id:imageId
-            }
-        })
         await prisma.route.delete({
             where:{
                 id: routeId,

@@ -11,6 +11,7 @@ const OptionToolBox = ({currentSelected, resetCurrentSelectedFeature, changeCurr
     const currentId = currentSelected.id
     let url: string
     // let data: object
+    console.log(currentType)
     if(currentType=="spot"){
       url=`/api/spot?id=${currentId}`
       // data = {spotId: currentId}
