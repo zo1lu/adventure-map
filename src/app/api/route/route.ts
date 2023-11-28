@@ -47,8 +47,8 @@ export async function DELETE(req:NextRequest){
         const { searchParams } = new URL(req.url);
         const routeId = searchParams.get("id");
         // const { routeId } = await req.json()
-        const result = await deleteRouteById(routeId)
-        result.success?
+        const result = routeId?await deleteRouteById(routeId):{"error":true, "message":"route is not exist"}
+        return result.success?
         res.json(result, {status:200})
         :res.json(result, {status:400})
     }catch(e){

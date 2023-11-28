@@ -34,8 +34,8 @@ export async function DELETE(req:NextRequest){
         const { searchParams } = new URL(req.url);
         const geometryId = searchParams.get("id");
         // const { geometryId } = await req.json()
-        const result = await deleteGeometryById(geometryId)
-        result.success?
+        const result = geometryId?await deleteGeometryById(geometryId):{"error":true, "message":"geometry not exist"}
+        return result.success?
         res.json(result, {status:200})
         :res.json(result, {status:400})
     }catch(e){

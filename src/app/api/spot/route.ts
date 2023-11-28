@@ -34,8 +34,8 @@ export async function DELETE(req:NextRequest){
         const { searchParams } = new URL(req.url);
         const spotId = searchParams.get("id");
         //const { spotId } = await req.json()
-        const result = await deleteSpotById(spotId)
-        result.success?
+        const result = spotId?await deleteSpotById(spotId):{"error":true, "message":"spot is not exist"}
+        return result.success?
         res.json(result, {status:200})
         :res.json(result, {status:400})
     }catch(e){
