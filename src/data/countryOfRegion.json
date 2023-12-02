@@ -1,0 +1,5588 @@
+[
+    {
+        "name": "Oceania",
+        "countries": [
+            {
+                "name": "Christmas Island",
+                "cca2": "CX",
+                "cca3": "CXR",
+                "capital": [
+                    "Flying Fish Cove"
+                ],
+                "region": "Oceania",
+                "subRegion": "Australia and New Zealand",
+                "flag": "🇨🇽",
+                "location": [
+                    -10.5,
+                    105.66666666
+                ],
+                "timeZone": [
+                    "UTC+07:00"
+                ],
+                "capitalLocation": [
+                    -10.42,
+                    105.68
+                ]
+            },
+            {
+                "name": "Samoa",
+                "cca2": "WS",
+                "cca3": "WSM",
+                "capital": [
+                    "Apia"
+                ],
+                "region": "Oceania",
+                "subRegion": "Polynesia",
+                "flag": "🇼🇸",
+                "location": [
+                    -13.58333333,
+                    -172.33333333
+                ],
+                "timeZone": [
+                    "UTC+13:00"
+                ],
+                "capitalLocation": [
+                    -13.82,
+                    -171.77
+                ]
+            },
+            {
+                "name": "French Polynesia",
+                "cca2": "PF",
+                "cca3": "PYF",
+                "capital": [
+                    "Papeetē"
+                ],
+                "region": "Oceania",
+                "subRegion": "Polynesia",
+                "flag": "🇵🇫",
+                "location": [
+                    17.6797,
+                    149.4068
+                ],
+                "timeZone": [
+                    "UTC-10:00",
+                    "UTC-09:30",
+                    "UTC-09:00"
+                ],
+                "capitalLocation": [
+                    -17.53,
+                    -149.56
+                ]
+            },
+            {
+                "name": "American Samoa",
+                "cca2": "AS",
+                "cca3": "ASM",
+                "capital": [
+                    "Pago Pago"
+                ],
+                "region": "Oceania",
+                "subRegion": "Polynesia",
+                "flag": "🇦🇸",
+                "location": [
+                    -14.33333333,
+                    -170
+                ],
+                "timeZone": [
+                    "UTC-11:00"
+                ],
+                "capitalLocation": [
+                    -14.27,
+                    -170.7
+                ]
+            },
+            {
+                "name": "New Caledonia",
+                "cca2": "NC",
+                "cca3": "NCL",
+                "capital": [
+                    "Nouméa"
+                ],
+                "region": "Oceania",
+                "subRegion": "Melanesia",
+                "flag": "🇳🇨",
+                "location": [
+                    -21.5,
+                    165.5
+                ],
+                "timeZone": [
+                    "UTC+11:00"
+                ],
+                "capitalLocation": [
+                    -22.27,
+                    166.45
+                ]
+            },
+            {
+                "name": "Tokelau",
+                "cca2": "TK",
+                "cca3": "TKL",
+                "capital": [
+                    "Fakaofo"
+                ],
+                "region": "Oceania",
+                "subRegion": "Polynesia",
+                "flag": "🇹🇰",
+                "location": [
+                    -9,
+                    -172
+                ],
+                "timeZone": [
+                    "UTC+13:00"
+                ],
+                "capitalLocation": [
+                    -9.38,
+                    -171.22
+                ]
+            },
+            {
+                "name": "Palau",
+                "cca2": "PW",
+                "cca3": "PLW",
+                "capital": [
+                    "Ngerulmud"
+                ],
+                "region": "Oceania",
+                "subRegion": "Micronesia",
+                "flag": "🇵🇼",
+                "location": [
+                    7.5,
+                    134.5
+                ],
+                "timeZone": [
+                    "UTC+09:00"
+                ],
+                "capitalLocation": [
+                    7.5,
+                    134.62
+                ]
+            },
+            {
+                "name": "Kiribati",
+                "cca2": "KI",
+                "cca3": "KIR",
+                "capital": [
+                    "South Tarawa"
+                ],
+                "region": "Oceania",
+                "subRegion": "Micronesia",
+                "flag": "🇰🇮",
+                "location": [
+                    1.41666666,
+                    173
+                ],
+                "timeZone": [
+                    "UTC+12:00",
+                    "UTC+13:00",
+                    "UTC+14:00"
+                ],
+                "capitalLocation": [
+                    1.33,
+                    172.98
+                ]
+            },
+            {
+                "name": "Vanuatu",
+                "cca2": "VU",
+                "cca3": "VUT",
+                "capital": [
+                    "Port Vila"
+                ],
+                "region": "Oceania",
+                "subRegion": "Melanesia",
+                "flag": "🇻🇺",
+                "location": [
+                    -16,
+                    167
+                ],
+                "timeZone": [
+                    "UTC+11:00"
+                ],
+                "capitalLocation": [
+                    -17.73,
+                    168.32
+                ]
+            },
+            {
+                "name": "Pitcairn Islands",
+                "cca2": "PN",
+                "cca3": "PCN",
+                "capital": [
+                    "Adamstown"
+                ],
+                "region": "Oceania",
+                "subRegion": "Polynesia",
+                "flag": "🇵🇳",
+                "location": [
+                    -25.06666666,
+                    -130.1
+                ],
+                "timeZone": [
+                    "UTC-08:00"
+                ],
+                "capitalLocation": [
+                    -25.07,
+                    -130.08
+                ]
+            },
+            {
+                "name": "Cook Islands",
+                "cca2": "CK",
+                "cca3": "COK",
+                "capital": [
+                    "Avarua"
+                ],
+                "region": "Oceania",
+                "subRegion": "Polynesia",
+                "flag": "🇨🇰",
+                "location": [
+                    -21.23333333,
+                    -159.76666666
+                ],
+                "timeZone": [
+                    "UTC-10:00"
+                ],
+                "capitalLocation": [
+                    -21.2,
+                    -159.77
+                ]
+            },
+            {
+                "name": "Fiji",
+                "cca2": "FJ",
+                "cca3": "FJI",
+                "capital": [
+                    "Suva"
+                ],
+                "region": "Oceania",
+                "subRegion": "Melanesia",
+                "flag": "🇫🇯",
+                "location": [
+                    17.7134,
+                    178.065
+                ],
+                "timeZone": [
+                    "UTC+12:00"
+                ],
+                "capitalLocation": [
+                    -18.13,
+                    178.42
+                ]
+            },
+            {
+                "name": "Papua New Guinea",
+                "cca2": "PG",
+                "cca3": "PNG",
+                "capital": [
+                    "Port Moresby"
+                ],
+                "region": "Oceania",
+                "subRegion": "Melanesia",
+                "flag": "🇵🇬",
+                "location": [
+                    -6,
+                    147
+                ],
+                "timeZone": [
+                    "UTC+10:00"
+                ],
+                "capitalLocation": [
+                    -9.45,
+                    147.18
+                ]
+            },
+            {
+                "name": "Northern Mariana Islands",
+                "cca2": "MP",
+                "cca3": "MNP",
+                "capital": [
+                    "Saipan"
+                ],
+                "region": "Oceania",
+                "subRegion": "Micronesia",
+                "flag": "🇲🇵",
+                "location": [
+                    15.2,
+                    145.75
+                ],
+                "timeZone": [
+                    "UTC+10:00"
+                ],
+                "capitalLocation": [
+                    15.2,
+                    145.75
+                ]
+            },
+            {
+                "name": "Niue",
+                "cca2": "NU",
+                "cca3": "NIU",
+                "capital": [
+                    "Alofi"
+                ],
+                "region": "Oceania",
+                "subRegion": "Polynesia",
+                "flag": "🇳🇺",
+                "location": [
+                    -19.03333333,
+                    -169.86666666
+                ],
+                "timeZone": [
+                    "UTC-11:00"
+                ],
+                "capitalLocation": [
+                    -19.02,
+                    -169.92
+                ]
+            },
+            {
+                "name": "Tuvalu",
+                "cca2": "TV",
+                "cca3": "TUV",
+                "capital": [
+                    "Funafuti"
+                ],
+                "region": "Oceania",
+                "subRegion": "Polynesia",
+                "flag": "🇹🇻",
+                "location": [
+                    -8,
+                    178
+                ],
+                "timeZone": [
+                    "UTC+12:00"
+                ],
+                "capitalLocation": [
+                    -8.52,
+                    179.22
+                ]
+            },
+            {
+                "name": "Norfolk Island",
+                "cca2": "NF",
+                "cca3": "NFK",
+                "capital": [
+                    "Kingston"
+                ],
+                "region": "Oceania",
+                "subRegion": "Australia and New Zealand",
+                "flag": "🇳🇫",
+                "location": [
+                    -29.03333333,
+                    167.95
+                ],
+                "timeZone": [
+                    "UTC+11:30"
+                ],
+                "capitalLocation": [
+                    -29.05,
+                    167.97
+                ]
+            },
+            {
+                "name": "Tonga",
+                "cca2": "TO",
+                "cca3": "TON",
+                "capital": [
+                    "Nuku'alofa"
+                ],
+                "region": "Oceania",
+                "subRegion": "Polynesia",
+                "flag": "🇹🇴",
+                "location": [
+                    -20,
+                    -175
+                ],
+                "timeZone": [
+                    "UTC+13:00"
+                ],
+                "capitalLocation": [
+                    -21.13,
+                    -175.2
+                ]
+            },
+            {
+                "name": "Micronesia",
+                "cca2": "FM",
+                "cca3": "FSM",
+                "capital": [
+                    "Palikir"
+                ],
+                "region": "Oceania",
+                "subRegion": "Micronesia",
+                "flag": "🇫🇲",
+                "location": [
+                    6.91666666,
+                    158.25
+                ],
+                "timeZone": [
+                    "UTC+10:00",
+                    "UTC+11:00"
+                ],
+                "capitalLocation": [
+                    6.92,
+                    158.15
+                ]
+            },
+            {
+                "name": "Solomon Islands",
+                "cca2": "SB",
+                "cca3": "SLB",
+                "capital": [
+                    "Honiara"
+                ],
+                "region": "Oceania",
+                "subRegion": "Melanesia",
+                "flag": "🇸🇧",
+                "location": [
+                    -8,
+                    159
+                ],
+                "timeZone": [
+                    "UTC+11:00"
+                ],
+                "capitalLocation": [
+                    -9.43,
+                    159.95
+                ]
+            },
+            {
+                "name": "Nauru",
+                "cca2": "NR",
+                "cca3": "NRU",
+                "capital": [
+                    "Yaren"
+                ],
+                "region": "Oceania",
+                "subRegion": "Micronesia",
+                "flag": "🇳🇷",
+                "location": [
+                    -0.53333333,
+                    166.91666666
+                ],
+                "timeZone": [
+                    "UTC+12:00"
+                ],
+                "capitalLocation": [
+                    -0.55,
+                    166.92
+                ]
+            },
+            {
+                "name": "Wallis and Futuna",
+                "cca2": "WF",
+                "cca3": "WLF",
+                "capital": [
+                    "Mata-Utu"
+                ],
+                "region": "Oceania",
+                "subRegion": "Polynesia",
+                "flag": "🇼🇫",
+                "location": [
+                    -13.3,
+                    -176.2
+                ],
+                "timeZone": [
+                    "UTC+12:00"
+                ],
+                "capitalLocation": [
+                    -13.95,
+                    -171.93
+                ]
+            },
+            {
+                "name": "Guam",
+                "cca2": "GU",
+                "cca3": "GUM",
+                "capital": [
+                    "Hagåtña"
+                ],
+                "region": "Oceania",
+                "subRegion": "Micronesia",
+                "flag": "🇬🇺",
+                "location": [
+                    13.46666666,
+                    144.78333333
+                ],
+                "timeZone": [
+                    "UTC+10:00"
+                ],
+                "capitalLocation": [
+                    13.48,
+                    144.75
+                ]
+            },
+            {
+                "name": "Australia",
+                "cca2": "AU",
+                "cca3": "AUS",
+                "capital": [
+                    "Canberra"
+                ],
+                "region": "Oceania",
+                "subRegion": "Australia and New Zealand",
+                "flag": "🇦🇺",
+                "location": [
+                    -27,
+                    133
+                ],
+                "timeZone": [
+                    "UTC+05:00",
+                    "UTC+06:30",
+                    "UTC+07:00",
+                    "UTC+08:00",
+                    "UTC+09:30",
+                    "UTC+10:00",
+                    "UTC+10:30",
+                    "UTC+11:30"
+                ],
+                "capitalLocation": [
+                    -35.27,
+                    149.13
+                ]
+            },
+            {
+                "name": "New Zealand",
+                "cca2": "NZ",
+                "cca3": "NZL",
+                "capital": [
+                    "Wellington"
+                ],
+                "region": "Oceania",
+                "subRegion": "Australia and New Zealand",
+                "flag": "🇳🇿",
+                "location": [
+                    -41,
+                    174
+                ],
+                "timeZone": [
+                    "UTC-11:00",
+                    "UTC-10:00",
+                    "UTC+12:00",
+                    "UTC+12:45",
+                    "UTC+13:00"
+                ],
+                "capitalLocation": [
+                    -41.3,
+                    174.78
+                ]
+            },
+            {
+                "name": "Marshall Islands",
+                "cca2": "MH",
+                "cca3": "MHL",
+                "capital": [
+                    "Majuro"
+                ],
+                "region": "Oceania",
+                "subRegion": "Micronesia",
+                "flag": "🇲🇭",
+                "location": [
+                    9,
+                    168
+                ],
+                "timeZone": [
+                    "UTC+12:00"
+                ],
+                "capitalLocation": [
+                    7.1,
+                    171.38
+                ]
+            },
+            {
+                "name": "Cocos (Keeling) Islands",
+                "cca2": "CC",
+                "cca3": "CCK",
+                "capital": [
+                    "West Island"
+                ],
+                "region": "Oceania",
+                "subRegion": "Australia and New Zealand",
+                "flag": "🇨🇨",
+                "location": [
+                    12.1642,
+                    96.871
+                ],
+                "timeZone": [
+                    "UTC+06:30"
+                ],
+                "capitalLocation": [
+                    -12.17,
+                    96.83
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Africa",
+        "countries": [
+            {
+                "name": "Eritrea",
+                "cca2": "ER",
+                "cca3": "ERI",
+                "capital": [
+                    "Asmara"
+                ],
+                "region": "Africa",
+                "subRegion": "Eastern Africa",
+                "flag": "🇪🇷",
+                "location": [
+                    15,
+                    39
+                ],
+                "timeZone": [
+                    "UTC+03:00"
+                ],
+                "capitalLocation": [
+                    15.33,
+                    38.93
+                ]
+            },
+            {
+                "name": "Djibouti",
+                "cca2": "DJ",
+                "cca3": "DJI",
+                "capital": [
+                    "Djibouti"
+                ],
+                "region": "Africa",
+                "subRegion": "Eastern Africa",
+                "flag": "🇩🇯",
+                "location": [
+                    11.5,
+                    43
+                ],
+                "timeZone": [
+                    "UTC+03:00"
+                ],
+                "capitalLocation": [
+                    11.58,
+                    43.15
+                ]
+            },
+            {
+                "name": "Mauritania",
+                "cca2": "MR",
+                "cca3": "MRT",
+                "capital": [
+                    "Nouakchott"
+                ],
+                "region": "Africa",
+                "subRegion": "Western Africa",
+                "flag": "🇲🇷",
+                "location": [
+                    20,
+                    -12
+                ],
+                "timeZone": [
+                    "UTC"
+                ],
+                "capitalLocation": [
+                    18.07,
+                    -15.97
+                ]
+            },
+            {
+                "name": "Namibia",
+                "cca2": "NA",
+                "cca3": "NAM",
+                "capital": [
+                    "Windhoek"
+                ],
+                "region": "Africa",
+                "subRegion": "Southern Africa",
+                "flag": "🇳🇦",
+                "location": [
+                    -22,
+                    17
+                ],
+                "timeZone": [
+                    "UTC+01:00"
+                ],
+                "capitalLocation": [
+                    -22.57,
+                    17.08
+                ]
+            },
+            {
+                "name": "Ghana",
+                "cca2": "GH",
+                "cca3": "GHA",
+                "capital": [
+                    "Accra"
+                ],
+                "region": "Africa",
+                "subRegion": "Western Africa",
+                "flag": "🇬🇭",
+                "location": [
+                    8,
+                    -2
+                ],
+                "timeZone": [
+                    "UTC"
+                ],
+                "capitalLocation": [
+                    5.55,
+                    -0.22
+                ]
+            },
+            {
+                "name": "South Sudan",
+                "cca2": "SS",
+                "cca3": "SSD",
+                "capital": [
+                    "Juba"
+                ],
+                "region": "Africa",
+                "subRegion": "Middle Africa",
+                "flag": "🇸🇸",
+                "location": [
+                    7,
+                    30
+                ],
+                "timeZone": [
+                    "UTC+03:00"
+                ],
+                "capitalLocation": [
+                    4.85,
+                    31.62
+                ]
+            },
+            {
+                "name": "Seychelles",
+                "cca2": "SC",
+                "cca3": "SYC",
+                "capital": [
+                    "Victoria"
+                ],
+                "region": "Africa",
+                "subRegion": "Eastern Africa",
+                "flag": "🇸🇨",
+                "location": [
+                    -4.58333333,
+                    55.66666666
+                ],
+                "timeZone": [
+                    "UTC+04:00"
+                ],
+                "capitalLocation": [
+                    -4.62,
+                    55.45
+                ]
+            },
+            {
+                "name": "British Indian Ocean Territory",
+                "cca2": "IO",
+                "cca3": "IOT",
+                "capital": [
+                    "Diego Garcia"
+                ],
+                "region": "Africa",
+                "subRegion": "Eastern Africa",
+                "flag": "🇮🇴",
+                "location": [
+                    -6,
+                    71.5
+                ],
+                "timeZone": [
+                    "UTC+06:00"
+                ],
+                "capitalLocation": [
+                    -7.3,
+                    72.4
+                ]
+            },
+            {
+                "name": "Equatorial Guinea",
+                "cca2": "GQ",
+                "cca3": "GNQ",
+                "capital": [
+                    "Malabo"
+                ],
+                "region": "Africa",
+                "subRegion": "Middle Africa",
+                "flag": "🇬🇶",
+                "location": [
+                    2,
+                    10
+                ],
+                "timeZone": [
+                    "UTC+01:00"
+                ],
+                "capitalLocation": [
+                    3.75,
+                    8.78
+                ]
+            },
+            {
+                "name": "Angola",
+                "cca2": "AO",
+                "cca3": "AGO",
+                "capital": [
+                    "Luanda"
+                ],
+                "region": "Africa",
+                "subRegion": "Middle Africa",
+                "flag": "🇦🇴",
+                "location": [
+                    -12.5,
+                    18.5
+                ],
+                "timeZone": [
+                    "UTC+01:00"
+                ],
+                "capitalLocation": [
+                    -8.83,
+                    13.22
+                ]
+            },
+            {
+                "name": "Republic of the Congo",
+                "cca2": "CG",
+                "cca3": "COG",
+                "capital": [
+                    "Brazzaville"
+                ],
+                "region": "Africa",
+                "subRegion": "Middle Africa",
+                "flag": "🇨🇬",
+                "location": [
+                    -1,
+                    15
+                ],
+                "timeZone": [
+                    "UTC+01:00"
+                ],
+                "capitalLocation": [
+                    -4.25,
+                    15.28
+                ]
+            },
+            {
+                "name": "Botswana",
+                "cca2": "BW",
+                "cca3": "BWA",
+                "capital": [
+                    "Gaborone"
+                ],
+                "region": "Africa",
+                "subRegion": "Southern Africa",
+                "flag": "🇧🇼",
+                "location": [
+                    -22,
+                    24
+                ],
+                "timeZone": [
+                    "UTC+02:00"
+                ],
+                "capitalLocation": [
+                    -24.63,
+                    25.9
+                ]
+            },
+            {
+                "name": "Burundi",
+                "cca2": "BI",
+                "cca3": "BDI",
+                "capital": [
+                    "Gitega"
+                ],
+                "region": "Africa",
+                "subRegion": "Eastern Africa",
+                "flag": "🇧🇮",
+                "location": [
+                    -3.5,
+                    30
+                ],
+                "timeZone": [
+                    "UTC+02:00"
+                ],
+                "capitalLocation": [
+                    -3.43,
+                    29.93
+                ]
+            },
+            {
+                "name": "Algeria",
+                "cca2": "DZ",
+                "cca3": "DZA",
+                "capital": [
+                    "Algiers"
+                ],
+                "region": "Africa",
+                "subRegion": "Northern Africa",
+                "flag": "🇩🇿",
+                "location": [
+                    28,
+                    3
+                ],
+                "timeZone": [
+                    "UTC+01:00"
+                ],
+                "capitalLocation": [
+                    36.75,
+                    3.05
+                ]
+            },
+            {
+                "name": "Chad",
+                "cca2": "TD",
+                "cca3": "TCD",
+                "capital": [
+                    "N'Djamena"
+                ],
+                "region": "Africa",
+                "subRegion": "Middle Africa",
+                "flag": "🇹🇩",
+                "location": [
+                    15,
+                    19
+                ],
+                "timeZone": [
+                    "UTC+01:00"
+                ],
+                "capitalLocation": [
+                    12.1,
+                    15.03
+                ]
+            },
+            {
+                "name": "Nigeria",
+                "cca2": "NG",
+                "cca3": "NGA",
+                "capital": [
+                    "Abuja"
+                ],
+                "region": "Africa",
+                "subRegion": "Western Africa",
+                "flag": "🇳🇬",
+                "location": [
+                    10,
+                    8
+                ],
+                "timeZone": [
+                    "UTC+01:00"
+                ],
+                "capitalLocation": [
+                    9.08,
+                    7.53
+                ]
+            },
+            {
+                "name": "Tanzania",
+                "cca2": "TZ",
+                "cca3": "TZA",
+                "capital": [
+                    "Dodoma"
+                ],
+                "region": "Africa",
+                "subRegion": "Eastern Africa",
+                "flag": "🇹🇿",
+                "location": [
+                    -6,
+                    35
+                ],
+                "timeZone": [
+                    "UTC+03:00"
+                ],
+                "capitalLocation": [
+                    -6.16,
+                    35.75
+                ]
+            },
+            {
+                "name": "Western Sahara",
+                "cca2": "EH",
+                "cca3": "ESH",
+                "capital": [
+                    "El Aaiún"
+                ],
+                "region": "Africa",
+                "subRegion": "Northern Africa",
+                "flag": "🇪🇭",
+                "location": [
+                    24.5,
+                    -13
+                ],
+                "timeZone": [
+                    "UTC+00:00"
+                ],
+                "capitalLocation": [
+                    -13.28,
+                    27.14
+                ]
+            },
+            {
+                "name": "Senegal",
+                "cca2": "SN",
+                "cca3": "SEN",
+                "capital": [
+                    "Dakar"
+                ],
+                "region": "Africa",
+                "subRegion": "Western Africa",
+                "flag": "🇸🇳",
+                "location": [
+                    14,
+                    -14
+                ],
+                "timeZone": [
+                    "UTC"
+                ],
+                "capitalLocation": [
+                    14.73,
+                    -17.63
+                ]
+            },
+            {
+                "name": "Liberia",
+                "cca2": "LR",
+                "cca3": "LBR",
+                "capital": [
+                    "Monrovia"
+                ],
+                "region": "Africa",
+                "subRegion": "Western Africa",
+                "flag": "🇱🇷",
+                "location": [
+                    6.5,
+                    -9.5
+                ],
+                "timeZone": [
+                    "UTC"
+                ],
+                "capitalLocation": [
+                    6.3,
+                    -10.8
+                ]
+            },
+            {
+                "name": "South Africa",
+                "cca2": "ZA",
+                "cca3": "ZAF",
+                "capital": [
+                    "Pretoria",
+                    "Bloemfontein",
+                    "Cape Town"
+                ],
+                "region": "Africa",
+                "subRegion": "Southern Africa",
+                "flag": "🇿🇦",
+                "location": [
+                    -29,
+                    24
+                ],
+                "timeZone": [
+                    "UTC+02:00"
+                ],
+                "capitalLocation": [
+                    -25.7,
+                    28.22
+                ]
+            },
+            {
+                "name": "Cape Verde",
+                "cca2": "CV",
+                "cca3": "CPV",
+                "capital": [
+                    "Praia"
+                ],
+                "region": "Africa",
+                "subRegion": "Western Africa",
+                "flag": "🇨🇻",
+                "location": [
+                    16.5388,
+                    23.0418
+                ],
+                "timeZone": [
+                    "UTC-01:00"
+                ],
+                "capitalLocation": [
+                    14.92,
+                    -23.52
+                ]
+            },
+            {
+                "name": "Gambia",
+                "cca2": "GM",
+                "cca3": "GMB",
+                "capital": [
+                    "Banjul"
+                ],
+                "region": "Africa",
+                "subRegion": "Western Africa",
+                "flag": "🇬🇲",
+                "location": [
+                    13.46666666,
+                    -16.56666666
+                ],
+                "timeZone": [
+                    "UTC+00:00"
+                ],
+                "capitalLocation": [
+                    13.45,
+                    -16.57
+                ]
+            },
+            {
+                "name": "Sudan",
+                "cca2": "SD",
+                "cca3": "SDN",
+                "capital": [
+                    "Khartoum"
+                ],
+                "region": "Africa",
+                "subRegion": "Northern Africa",
+                "flag": "🇸🇩",
+                "location": [
+                    15,
+                    30
+                ],
+                "timeZone": [
+                    "UTC+03:00"
+                ],
+                "capitalLocation": [
+                    15.6,
+                    32.53
+                ]
+            },
+            {
+                "name": "Comoros",
+                "cca2": "KM",
+                "cca3": "COM",
+                "capital": [
+                    "Moroni"
+                ],
+                "region": "Africa",
+                "subRegion": "Eastern Africa",
+                "flag": "🇰🇲",
+                "location": [
+                    -12.16666666,
+                    44.25
+                ],
+                "timeZone": [
+                    "UTC+03:00"
+                ],
+                "capitalLocation": [
+                    -11.7,
+                    43.23
+                ]
+            },
+            {
+                "name": "Eswatini",
+                "cca2": "SZ",
+                "cca3": "SWZ",
+                "capital": [
+                    "Mbabane"
+                ],
+                "region": "Africa",
+                "subRegion": "Southern Africa",
+                "flag": "🇸🇿",
+                "location": [
+                    -26.5,
+                    31.5
+                ],
+                "timeZone": [
+                    "UTC+02:00"
+                ],
+                "capitalLocation": [
+                    -26.32,
+                    31.13
+                ]
+            },
+            {
+                "name": "Uganda",
+                "cca2": "UG",
+                "cca3": "UGA",
+                "capital": [
+                    "Kampala"
+                ],
+                "region": "Africa",
+                "subRegion": "Eastern Africa",
+                "flag": "🇺🇬",
+                "location": [
+                    1,
+                    32
+                ],
+                "timeZone": [
+                    "UTC+03:00"
+                ],
+                "capitalLocation": [
+                    0.32,
+                    32.55
+                ]
+            },
+            {
+                "name": "Madagascar",
+                "cca2": "MG",
+                "cca3": "MDG",
+                "capital": [
+                    "Antananarivo"
+                ],
+                "region": "Africa",
+                "subRegion": "Eastern Africa",
+                "flag": "🇲🇬",
+                "location": [
+                    -20,
+                    47
+                ],
+                "timeZone": [
+                    "UTC+03:00"
+                ],
+                "capitalLocation": [
+                    -18.92,
+                    47.52
+                ]
+            },
+            {
+                "name": "Rwanda",
+                "cca2": "RW",
+                "cca3": "RWA",
+                "capital": [
+                    "Kigali"
+                ],
+                "region": "Africa",
+                "subRegion": "Eastern Africa",
+                "flag": "🇷🇼",
+                "location": [
+                    -2,
+                    30
+                ],
+                "timeZone": [
+                    "UTC+02:00"
+                ],
+                "capitalLocation": [
+                    -1.95,
+                    30.05
+                ]
+            },
+            {
+                "name": "DR Congo",
+                "cca2": "CD",
+                "cca3": "COD",
+                "capital": [
+                    "Kinshasa"
+                ],
+                "region": "Africa",
+                "subRegion": "Middle Africa",
+                "flag": "🇨🇩",
+                "location": [
+                    0,
+                    25
+                ],
+                "timeZone": [
+                    "UTC+01:00",
+                    "UTC+02:00"
+                ],
+                "capitalLocation": [
+                    -4.32,
+                    15.3
+                ]
+            },
+            {
+                "name": "Cameroon",
+                "cca2": "CM",
+                "cca3": "CMR",
+                "capital": [
+                    "Yaoundé"
+                ],
+                "region": "Africa",
+                "subRegion": "Middle Africa",
+                "flag": "🇨🇲",
+                "location": [
+                    6,
+                    12
+                ],
+                "timeZone": [
+                    "UTC+01:00"
+                ],
+                "capitalLocation": [
+                    3.85,
+                    11.5
+                ]
+            },
+            {
+                "name": "Saint Helena, Ascension and Tristan da Cunha",
+                "cca2": "SH",
+                "cca3": "SHN",
+                "capital": [
+                    "Jamestown"
+                ],
+                "region": "Africa",
+                "subRegion": "Western Africa",
+                "flag": "🇸🇭",
+                "location": [
+                    -15.95,
+                    -5.72
+                ],
+                "timeZone": [
+                    "UTC+00:00"
+                ],
+                "capitalLocation": [
+                    -15.93,
+                    -5.72
+                ]
+            },
+            {
+                "name": "Togo",
+                "cca2": "TG",
+                "cca3": "TGO",
+                "capital": [
+                    "Lomé"
+                ],
+                "region": "Africa",
+                "subRegion": "Western Africa",
+                "flag": "🇹🇬",
+                "location": [
+                    8,
+                    1.16666666
+                ],
+                "timeZone": [
+                    "UTC"
+                ],
+                "capitalLocation": [
+                    6.14,
+                    1.21
+                ]
+            },
+            {
+                "name": "Mauritius",
+                "cca2": "MU",
+                "cca3": "MUS",
+                "capital": [
+                    "Port Louis"
+                ],
+                "region": "Africa",
+                "subRegion": "Eastern Africa",
+                "flag": "🇲🇺",
+                "location": [
+                    -20.28333333,
+                    57.55
+                ],
+                "timeZone": [
+                    "UTC+04:00"
+                ],
+                "capitalLocation": [
+                    -20.15,
+                    57.48
+                ]
+            },
+            {
+                "name": "Niger",
+                "cca2": "NE",
+                "cca3": "NER",
+                "capital": [
+                    "Niamey"
+                ],
+                "region": "Africa",
+                "subRegion": "Western Africa",
+                "flag": "🇳🇪",
+                "location": [
+                    16,
+                    8
+                ],
+                "timeZone": [
+                    "UTC+01:00"
+                ],
+                "capitalLocation": [
+                    13.52,
+                    2.12
+                ]
+            },
+            {
+                "name": "Benin",
+                "cca2": "BJ",
+                "cca3": "BEN",
+                "capital": [
+                    "Porto-Novo"
+                ],
+                "region": "Africa",
+                "subRegion": "Western Africa",
+                "flag": "🇧🇯",
+                "location": [
+                    9.5,
+                    2.25
+                ],
+                "timeZone": [
+                    "UTC+01:00"
+                ],
+                "capitalLocation": [
+                    6.48,
+                    2.62
+                ]
+            },
+            {
+                "name": "Egypt",
+                "cca2": "EG",
+                "cca3": "EGY",
+                "capital": [
+                    "Cairo"
+                ],
+                "region": "Africa",
+                "subRegion": "Northern Africa",
+                "flag": "🇪🇬",
+                "location": [
+                    27,
+                    30
+                ],
+                "timeZone": [
+                    "UTC+02:00"
+                ],
+                "capitalLocation": [
+                    30.05,
+                    31.25
+                ]
+            },
+            {
+                "name": "Lesotho",
+                "cca2": "LS",
+                "cca3": "LSO",
+                "capital": [
+                    "Maseru"
+                ],
+                "region": "Africa",
+                "subRegion": "Southern Africa",
+                "flag": "🇱🇸",
+                "location": [
+                    -29.5,
+                    28.5
+                ],
+                "timeZone": [
+                    "UTC+02:00"
+                ],
+                "capitalLocation": [
+                    -29.32,
+                    27.48
+                ]
+            },
+            {
+                "name": "Ethiopia",
+                "cca2": "ET",
+                "cca3": "ETH",
+                "capital": [
+                    "Addis Ababa"
+                ],
+                "region": "Africa",
+                "subRegion": "Eastern Africa",
+                "flag": "🇪🇹",
+                "location": [
+                    8,
+                    38
+                ],
+                "timeZone": [
+                    "UTC+03:00"
+                ],
+                "capitalLocation": [
+                    9.03,
+                    38.7
+                ]
+            },
+            {
+                "name": "Morocco",
+                "cca2": "MA",
+                "cca3": "MAR",
+                "capital": [
+                    "Rabat"
+                ],
+                "region": "Africa",
+                "subRegion": "Northern Africa",
+                "flag": "🇲🇦",
+                "location": [
+                    32,
+                    -5
+                ],
+                "timeZone": [
+                    "UTC"
+                ],
+                "capitalLocation": [
+                    34.02,
+                    -6.82
+                ]
+            },
+            {
+                "name": "Mayotte",
+                "cca2": "YT",
+                "cca3": "MYT",
+                "capital": [
+                    "Mamoudzou"
+                ],
+                "region": "Africa",
+                "subRegion": "Eastern Africa",
+                "flag": "🇾🇹",
+                "location": [
+                    -12.83333333,
+                    45.16666666
+                ],
+                "timeZone": [
+                    "UTC+03:00"
+                ],
+                "capitalLocation": [
+                    -12.78,
+                    45.22
+                ]
+            },
+            {
+                "name": "Burkina Faso",
+                "cca2": "BF",
+                "cca3": "BFA",
+                "capital": [
+                    "Ouagadougou"
+                ],
+                "region": "Africa",
+                "subRegion": "Western Africa",
+                "flag": "🇧🇫",
+                "location": [
+                    13,
+                    -2
+                ],
+                "timeZone": [
+                    "UTC"
+                ],
+                "capitalLocation": [
+                    12.37,
+                    -1.52
+                ]
+            },
+            {
+                "name": "Réunion",
+                "cca2": "RE",
+                "cca3": "REU",
+                "capital": [
+                    "Saint-Denis"
+                ],
+                "region": "Africa",
+                "subRegion": "Eastern Africa",
+                "flag": "🇷🇪",
+                "location": [
+                    -21.15,
+                    55.5
+                ],
+                "timeZone": [
+                    "UTC+04:00"
+                ],
+                "capitalLocation": [
+                    -20.88,
+                    55.45
+                ]
+            },
+            {
+                "name": "São Tomé and Príncipe",
+                "cca2": "ST",
+                "cca3": "STP",
+                "capital": [
+                    "São Tomé"
+                ],
+                "region": "Africa",
+                "subRegion": "Middle Africa",
+                "flag": "🇸🇹",
+                "location": [
+                    1,
+                    7
+                ],
+                "timeZone": [
+                    "UTC"
+                ],
+                "capitalLocation": [
+                    0.34,
+                    6.73
+                ]
+            },
+            {
+                "name": "Central African Republic",
+                "cca2": "CF",
+                "cca3": "CAF",
+                "capital": [
+                    "Bangui"
+                ],
+                "region": "Africa",
+                "subRegion": "Middle Africa",
+                "flag": "🇨🇫",
+                "location": [
+                    7,
+                    21
+                ],
+                "timeZone": [
+                    "UTC+01:00"
+                ],
+                "capitalLocation": [
+                    4.37,
+                    18.58
+                ]
+            },
+            {
+                "name": "Mozambique",
+                "cca2": "MZ",
+                "cca3": "MOZ",
+                "capital": [
+                    "Maputo"
+                ],
+                "region": "Africa",
+                "subRegion": "Eastern Africa",
+                "flag": "🇲🇿",
+                "location": [
+                    -18.25,
+                    35
+                ],
+                "timeZone": [
+                    "UTC+02:00"
+                ],
+                "capitalLocation": [
+                    -25.95,
+                    32.58
+                ]
+            },
+            {
+                "name": "Malawi",
+                "cca2": "MW",
+                "cca3": "MWI",
+                "capital": [
+                    "Lilongwe"
+                ],
+                "region": "Africa",
+                "subRegion": "Eastern Africa",
+                "flag": "🇲🇼",
+                "location": [
+                    -13.5,
+                    34
+                ],
+                "timeZone": [
+                    "UTC+02:00"
+                ],
+                "capitalLocation": [
+                    -13.97,
+                    33.78
+                ]
+            },
+            {
+                "name": "Mali",
+                "cca2": "ML",
+                "cca3": "MLI",
+                "capital": [
+                    "Bamako"
+                ],
+                "region": "Africa",
+                "subRegion": "Western Africa",
+                "flag": "🇲🇱",
+                "location": [
+                    17,
+                    -4
+                ],
+                "timeZone": [
+                    "UTC"
+                ],
+                "capitalLocation": [
+                    12.65,
+                    -8
+                ]
+            },
+            {
+                "name": "Zambia",
+                "cca2": "ZM",
+                "cca3": "ZMB",
+                "capital": [
+                    "Lusaka"
+                ],
+                "region": "Africa",
+                "subRegion": "Eastern Africa",
+                "flag": "🇿🇲",
+                "location": [
+                    -15,
+                    30
+                ],
+                "timeZone": [
+                    "UTC+02:00"
+                ],
+                "capitalLocation": [
+                    -15.42,
+                    28.28
+                ]
+            },
+            {
+                "name": "Libya",
+                "cca2": "LY",
+                "cca3": "LBY",
+                "capital": [
+                    "Tripoli"
+                ],
+                "region": "Africa",
+                "subRegion": "Northern Africa",
+                "flag": "🇱🇾",
+                "location": [
+                    25,
+                    17
+                ],
+                "timeZone": [
+                    "UTC+01:00"
+                ],
+                "capitalLocation": [
+                    32.88,
+                    13.17
+                ]
+            },
+            {
+                "name": "Guinea-Bissau",
+                "cca2": "GW",
+                "cca3": "GNB",
+                "capital": [
+                    "Bissau"
+                ],
+                "region": "Africa",
+                "subRegion": "Western Africa",
+                "flag": "🇬🇼",
+                "location": [
+                    12,
+                    -15
+                ],
+                "timeZone": [
+                    "UTC"
+                ],
+                "capitalLocation": [
+                    11.85,
+                    -15.58
+                ]
+            },
+            {
+                "name": "Somalia",
+                "cca2": "SO",
+                "cca3": "SOM",
+                "capital": [
+                    "Mogadishu"
+                ],
+                "region": "Africa",
+                "subRegion": "Eastern Africa",
+                "flag": "🇸🇴",
+                "location": [
+                    10,
+                    49
+                ],
+                "timeZone": [
+                    "UTC+03:00"
+                ],
+                "capitalLocation": [
+                    2.07,
+                    45.33
+                ]
+            },
+            {
+                "name": "Kenya",
+                "cca2": "KE",
+                "cca3": "KEN",
+                "capital": [
+                    "Nairobi"
+                ],
+                "region": "Africa",
+                "subRegion": "Eastern Africa",
+                "flag": "🇰🇪",
+                "location": [
+                    1,
+                    38
+                ],
+                "timeZone": [
+                    "UTC+03:00"
+                ],
+                "capitalLocation": [
+                    -1.28,
+                    36.82
+                ]
+            },
+            {
+                "name": "Guinea",
+                "cca2": "GN",
+                "cca3": "GIN",
+                "capital": [
+                    "Conakry"
+                ],
+                "region": "Africa",
+                "subRegion": "Western Africa",
+                "flag": "🇬🇳",
+                "location": [
+                    11,
+                    -10
+                ],
+                "timeZone": [
+                    "UTC"
+                ],
+                "capitalLocation": [
+                    9.5,
+                    -13.7
+                ]
+            },
+            {
+                "name": "Zimbabwe",
+                "cca2": "ZW",
+                "cca3": "ZWE",
+                "capital": [
+                    "Harare"
+                ],
+                "region": "Africa",
+                "subRegion": "Southern Africa",
+                "flag": "🇿🇼",
+                "location": [
+                    -20,
+                    30
+                ],
+                "timeZone": [
+                    "UTC+02:00"
+                ],
+                "capitalLocation": [
+                    -17.82,
+                    31.03
+                ]
+            },
+            {
+                "name": "Tunisia",
+                "cca2": "TN",
+                "cca3": "TUN",
+                "capital": [
+                    "Tunis"
+                ],
+                "region": "Africa",
+                "subRegion": "Northern Africa",
+                "flag": "🇹🇳",
+                "location": [
+                    34,
+                    9
+                ],
+                "timeZone": [
+                    "UTC+01:00"
+                ],
+                "capitalLocation": [
+                    36.8,
+                    10.18
+                ]
+            },
+            {
+                "name": "Sierra Leone",
+                "cca2": "SL",
+                "cca3": "SLE",
+                "capital": [
+                    "Freetown"
+                ],
+                "region": "Africa",
+                "subRegion": "Western Africa",
+                "flag": "🇸🇱",
+                "location": [
+                    8.5,
+                    -11.5
+                ],
+                "timeZone": [
+                    "UTC"
+                ],
+                "capitalLocation": [
+                    8.48,
+                    -13.23
+                ]
+            },
+            {
+                "name": "Gabon",
+                "cca2": "GA",
+                "cca3": "GAB",
+                "capital": [
+                    "Libreville"
+                ],
+                "region": "Africa",
+                "subRegion": "Middle Africa",
+                "flag": "🇬🇦",
+                "location": [
+                    -1,
+                    11.75
+                ],
+                "timeZone": [
+                    "UTC+01:00"
+                ],
+                "capitalLocation": [
+                    0.38,
+                    9.45
+                ]
+            },
+            {
+                "name": "Ivory Coast",
+                "cca2": "CI",
+                "cca3": "CIV",
+                "capital": [
+                    "Yamoussoukro"
+                ],
+                "region": "Africa",
+                "subRegion": "Western Africa",
+                "flag": "🇨🇮",
+                "location": [
+                    8,
+                    -5
+                ],
+                "timeZone": [
+                    "UTC"
+                ],
+                "capitalLocation": [
+                    6.82,
+                    -5.27
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Europe",
+        "countries": [
+            {
+                "name": "North Macedonia",
+                "cca2": "MK",
+                "cca3": "MKD",
+                "capital": [
+                    "Skopje"
+                ],
+                "region": "Europe",
+                "subRegion": "Southeast Europe",
+                "flag": "🇲🇰",
+                "location": [
+                    41.83333333,
+                    22
+                ],
+                "timeZone": [
+                    "UTC+01:00"
+                ],
+                "capitalLocation": [
+                    42,
+                    21.43
+                ]
+            },
+            {
+                "name": "Ireland",
+                "cca2": "IE",
+                "cca3": "IRL",
+                "capital": [
+                    "Dublin"
+                ],
+                "region": "Europe",
+                "subRegion": "Northern Europe",
+                "flag": "🇮🇪",
+                "location": [
+                    53,
+                    -8
+                ],
+                "timeZone": [
+                    "UTC"
+                ],
+                "capitalLocation": [
+                    53.32,
+                    -6.23
+                ]
+            },
+            {
+                "name": "Denmark",
+                "cca2": "DK",
+                "cca3": "DNK",
+                "capital": [
+                    "Copenhagen"
+                ],
+                "region": "Europe",
+                "subRegion": "Northern Europe",
+                "flag": "🇩🇰",
+                "location": [
+                    56,
+                    10
+                ],
+                "timeZone": [
+                    "UTC-04:00",
+                    "UTC-03:00",
+                    "UTC-01:00",
+                    "UTC",
+                    "UTC+01:00"
+                ],
+                "capitalLocation": [
+                    55.67,
+                    12.58
+                ]
+            },
+            {
+                "name": "Slovakia",
+                "cca2": "SK",
+                "cca3": "SVK",
+                "capital": [
+                    "Bratislava"
+                ],
+                "region": "Europe",
+                "subRegion": "Central Europe",
+                "flag": "🇸🇰",
+                "location": [
+                    48.66666666,
+                    19.5
+                ],
+                "timeZone": [
+                    "UTC+01:00"
+                ],
+                "capitalLocation": [
+                    48.15,
+                    17.12
+                ]
+            },
+            {
+                "name": "Moldova",
+                "cca2": "MD",
+                "cca3": "MDA",
+                "capital": [
+                    "Chișinău"
+                ],
+                "region": "Europe",
+                "subRegion": "Eastern Europe",
+                "flag": "🇲🇩",
+                "location": [
+                    47,
+                    29
+                ],
+                "timeZone": [
+                    "UTC+02:00"
+                ],
+                "capitalLocation": [
+                    47.01,
+                    28.9
+                ]
+            },
+            {
+                "name": "Åland Islands",
+                "cca2": "AX",
+                "cca3": "ALA",
+                "capital": [
+                    "Mariehamn"
+                ],
+                "region": "Europe",
+                "subRegion": "Northern Europe",
+                "flag": "🇦🇽",
+                "location": [
+                    60.116667,
+                    19.9
+                ],
+                "timeZone": [
+                    "UTC+02:00"
+                ],
+                "capitalLocation": [
+                    60.12,
+                    19.9
+                ]
+            },
+            {
+                "name": "Poland",
+                "cca2": "PL",
+                "cca3": "POL",
+                "capital": [
+                    "Warsaw"
+                ],
+                "region": "Europe",
+                "subRegion": "Central Europe",
+                "flag": "🇵🇱",
+                "location": [
+                    52,
+                    20
+                ],
+                "timeZone": [
+                    "UTC+01:00"
+                ],
+                "capitalLocation": [
+                    52.25,
+                    21
+                ]
+            },
+            {
+                "name": "Bosnia and Herzegovina",
+                "cca2": "BA",
+                "cca3": "BIH",
+                "capital": [
+                    "Sarajevo"
+                ],
+                "region": "Europe",
+                "subRegion": "Southeast Europe",
+                "flag": "🇧🇦",
+                "location": [
+                    44,
+                    18
+                ],
+                "timeZone": [
+                    "UTC+01:00"
+                ],
+                "capitalLocation": [
+                    43.87,
+                    18.42
+                ]
+            },
+            {
+                "name": "San Marino",
+                "cca2": "SM",
+                "cca3": "SMR",
+                "capital": [
+                    "City of San Marino"
+                ],
+                "region": "Europe",
+                "subRegion": "Southern Europe",
+                "flag": "🇸🇲",
+                "location": [
+                    43.76666666,
+                    12.41666666
+                ],
+                "timeZone": [
+                    "UTC+01:00"
+                ],
+                "capitalLocation": [
+                    43.94,
+                    12.45
+                ]
+            },
+            {
+                "name": "Czechia",
+                "cca2": "CZ",
+                "cca3": "CZE",
+                "capital": [
+                    "Prague"
+                ],
+                "region": "Europe",
+                "subRegion": "Central Europe",
+                "flag": "🇨🇿",
+                "location": [
+                    49.75,
+                    15.5
+                ],
+                "timeZone": [
+                    "UTC+01:00"
+                ],
+                "capitalLocation": [
+                    50.08,
+                    14.47
+                ]
+            },
+            {
+                "name": "Estonia",
+                "cca2": "EE",
+                "cca3": "EST",
+                "capital": [
+                    "Tallinn"
+                ],
+                "region": "Europe",
+                "subRegion": "Northern Europe",
+                "flag": "🇪🇪",
+                "location": [
+                    59,
+                    26
+                ],
+                "timeZone": [
+                    "UTC+02:00"
+                ],
+                "capitalLocation": [
+                    59.43,
+                    24.72
+                ]
+            },
+            {
+                "name": "Kosovo",
+                "cca2": "XK",
+                "cca3": "UNK",
+                "capital": [
+                    "Pristina"
+                ],
+                "region": "Europe",
+                "subRegion": "Southeast Europe",
+                "flag": "🇽🇰",
+                "location": [
+                    42.666667,
+                    21.166667
+                ],
+                "timeZone": [
+                    "UTC+01:00"
+                ],
+                "capitalLocation": [
+                    42.67,
+                    21.17
+                ]
+            },
+            {
+                "name": "Faroe Islands",
+                "cca2": "FO",
+                "cca3": "FRO",
+                "capital": [
+                    "Tórshavn"
+                ],
+                "region": "Europe",
+                "subRegion": "Northern Europe",
+                "flag": "🇫🇴",
+                "location": [
+                    62,
+                    -7
+                ],
+                "timeZone": [
+                    "UTC+00:00"
+                ],
+                "capitalLocation": [
+                    62.01,
+                    -6.77
+                ]
+            },
+            {
+                "name": "Svalbard and Jan Mayen",
+                "cca2": "SJ",
+                "cca3": "SJM",
+                "capital": [
+                    "Longyearbyen"
+                ],
+                "region": "Europe",
+                "subRegion": "Northern Europe",
+                "flag": "🇸🇯",
+                "location": [
+                    78,
+                    20
+                ],
+                "timeZone": [
+                    "UTC+01:00"
+                ],
+                "capitalLocation": [
+                    78.22,
+                    15.63
+                ]
+            },
+            {
+                "name": "Guernsey",
+                "cca2": "GG",
+                "cca3": "GGY",
+                "capital": [
+                    "St. Peter Port"
+                ],
+                "region": "Europe",
+                "subRegion": "Northern Europe",
+                "flag": "🇬🇬",
+                "location": [
+                    49.46666666,
+                    -2.58333333
+                ],
+                "timeZone": [
+                    "UTC+00:00"
+                ],
+                "capitalLocation": [
+                    49.45,
+                    -2.54
+                ]
+            },
+            {
+                "name": "France",
+                "cca2": "FR",
+                "cca3": "FRA",
+                "capital": [
+                    "Paris"
+                ],
+                "region": "Europe",
+                "subRegion": "Western Europe",
+                "flag": "🇫🇷",
+                "location": [
+                    46,
+                    2
+                ],
+                "timeZone": [
+                    "UTC-10:00",
+                    "UTC-09:30",
+                    "UTC-09:00",
+                    "UTC-08:00",
+                    "UTC-04:00",
+                    "UTC-03:00",
+                    "UTC+01:00",
+                    "UTC+02:00",
+                    "UTC+03:00",
+                    "UTC+04:00",
+                    "UTC+05:00",
+                    "UTC+10:00",
+                    "UTC+11:00",
+                    "UTC+12:00"
+                ],
+                "capitalLocation": [
+                    48.87,
+                    2.33
+                ]
+            },
+            {
+                "name": "Netherlands",
+                "cca2": "NL",
+                "cca3": "NLD",
+                "capital": [
+                    "Amsterdam"
+                ],
+                "region": "Europe",
+                "subRegion": "Western Europe",
+                "flag": "🇳🇱",
+                "location": [
+                    52.5,
+                    5.75
+                ],
+                "timeZone": [
+                    "UTC+01:00"
+                ],
+                "capitalLocation": [
+                    52.35,
+                    4.92
+                ]
+            },
+            {
+                "name": "Finland",
+                "cca2": "FI",
+                "cca3": "FIN",
+                "capital": [
+                    "Helsinki"
+                ],
+                "region": "Europe",
+                "subRegion": "Northern Europe",
+                "flag": "🇫🇮",
+                "location": [
+                    64,
+                    26
+                ],
+                "timeZone": [
+                    "UTC+02:00"
+                ],
+                "capitalLocation": [
+                    60.17,
+                    24.93
+                ]
+            },
+            {
+                "name": "Portugal",
+                "cca2": "PT",
+                "cca3": "PRT",
+                "capital": [
+                    "Lisbon"
+                ],
+                "region": "Europe",
+                "subRegion": "Southern Europe",
+                "flag": "🇵🇹",
+                "location": [
+                    39.5,
+                    -8
+                ],
+                "timeZone": [
+                    "UTC-01:00",
+                    "UTC"
+                ],
+                "capitalLocation": [
+                    38.72,
+                    -9.13
+                ]
+            },
+            {
+                "name": "Germany",
+                "cca2": "DE",
+                "cca3": "DEU",
+                "capital": [
+                    "Berlin"
+                ],
+                "region": "Europe",
+                "subRegion": "Western Europe",
+                "flag": "🇩🇪",
+                "location": [
+                    51,
+                    9
+                ],
+                "timeZone": [
+                    "UTC+01:00"
+                ],
+                "capitalLocation": [
+                    52.52,
+                    13.4
+                ]
+            },
+            {
+                "name": "Malta",
+                "cca2": "MT",
+                "cca3": "MLT",
+                "capital": [
+                    "Valletta"
+                ],
+                "region": "Europe",
+                "subRegion": "Southern Europe",
+                "flag": "🇲🇹",
+                "location": [
+                    35.9375,
+                    14.3754
+                ],
+                "timeZone": [
+                    "UTC+01:00"
+                ],
+                "capitalLocation": [
+                    35.88,
+                    14.5
+                ]
+            },
+            {
+                "name": "Jersey",
+                "cca2": "JE",
+                "cca3": "JEY",
+                "capital": [
+                    "Saint Helier"
+                ],
+                "region": "Europe",
+                "subRegion": "Northern Europe",
+                "flag": "🇯🇪",
+                "location": [
+                    49.25,
+                    -2.16666666
+                ],
+                "timeZone": [
+                    "UTC+01:00"
+                ],
+                "capitalLocation": [
+                    49.18,
+                    -2.1
+                ]
+            },
+            {
+                "name": "Iceland",
+                "cca2": "IS",
+                "cca3": "ISL",
+                "capital": [
+                    "Reykjavik"
+                ],
+                "region": "Europe",
+                "subRegion": "Northern Europe",
+                "flag": "🇮🇸",
+                "location": [
+                    65,
+                    -18
+                ],
+                "timeZone": [
+                    "UTC"
+                ],
+                "capitalLocation": [
+                    64.15,
+                    -21.95
+                ]
+            },
+            {
+                "name": "Spain",
+                "cca2": "ES",
+                "cca3": "ESP",
+                "capital": [
+                    "Madrid"
+                ],
+                "region": "Europe",
+                "subRegion": "Southern Europe",
+                "flag": "🇪🇸",
+                "location": [
+                    40,
+                    -4
+                ],
+                "timeZone": [
+                    "UTC",
+                    "UTC+01:00"
+                ],
+                "capitalLocation": [
+                    40.4,
+                    -3.68
+                ]
+            },
+            {
+                "name": "Gibraltar",
+                "cca2": "GI",
+                "cca3": "GIB",
+                "capital": [
+                    "Gibraltar"
+                ],
+                "region": "Europe",
+                "subRegion": "Southern Europe",
+                "flag": "🇬🇮",
+                "location": [
+                    36.13333333,
+                    -5.35
+                ],
+                "timeZone": [
+                    "UTC+01:00"
+                ],
+                "capitalLocation": [
+                    36.13,
+                    -5.35
+                ]
+            },
+            {
+                "name": "Norway",
+                "cca2": "NO",
+                "cca3": "NOR",
+                "capital": [
+                    "Oslo"
+                ],
+                "region": "Europe",
+                "subRegion": "Northern Europe",
+                "flag": "🇳🇴",
+                "location": [
+                    62,
+                    10
+                ],
+                "timeZone": [
+                    "UTC+01:00"
+                ],
+                "capitalLocation": [
+                    59.92,
+                    10.75
+                ]
+            },
+            {
+                "name": "Cyprus",
+                "cca2": "CY",
+                "cca3": "CYP",
+                "capital": [
+                    "Nicosia"
+                ],
+                "region": "Europe",
+                "subRegion": "Southern Europe",
+                "flag": "🇨🇾",
+                "location": [
+                    35,
+                    33
+                ],
+                "timeZone": [
+                    "UTC+02:00"
+                ],
+                "capitalLocation": [
+                    35.17,
+                    33.37
+                ]
+            },
+            {
+                "name": "Serbia",
+                "cca2": "RS",
+                "cca3": "SRB",
+                "capital": [
+                    "Belgrade"
+                ],
+                "region": "Europe",
+                "subRegion": "Southeast Europe",
+                "flag": "🇷🇸",
+                "location": [
+                    44,
+                    21
+                ],
+                "timeZone": [
+                    "UTC+01:00"
+                ],
+                "capitalLocation": [
+                    44.83,
+                    20.5
+                ]
+            },
+            {
+                "name": "Lithuania",
+                "cca2": "LT",
+                "cca3": "LTU",
+                "capital": [
+                    "Vilnius"
+                ],
+                "region": "Europe",
+                "subRegion": "Northern Europe",
+                "flag": "🇱🇹",
+                "location": [
+                    56,
+                    24
+                ],
+                "timeZone": [
+                    "UTC+02:00"
+                ],
+                "capitalLocation": [
+                    54.68,
+                    25.32
+                ]
+            },
+            {
+                "name": "Monaco",
+                "cca2": "MC",
+                "cca3": "MCO",
+                "capital": [
+                    "Monaco"
+                ],
+                "region": "Europe",
+                "subRegion": "Western Europe",
+                "flag": "🇲🇨",
+                "location": [
+                    43.73333333,
+                    7.4
+                ],
+                "timeZone": [
+                    "UTC+01:00"
+                ],
+                "capitalLocation": [
+                    43.73,
+                    7.42
+                ]
+            },
+            {
+                "name": "Luxembourg",
+                "cca2": "LU",
+                "cca3": "LUX",
+                "capital": [
+                    "Luxembourg"
+                ],
+                "region": "Europe",
+                "subRegion": "Western Europe",
+                "flag": "🇱🇺",
+                "location": [
+                    49.75,
+                    6.16666666
+                ],
+                "timeZone": [
+                    "UTC+01:00"
+                ],
+                "capitalLocation": [
+                    49.6,
+                    6.12
+                ]
+            },
+            {
+                "name": "Ukraine",
+                "cca2": "UA",
+                "cca3": "UKR",
+                "capital": [
+                    "Kyiv"
+                ],
+                "region": "Europe",
+                "subRegion": "Eastern Europe",
+                "flag": "🇺🇦",
+                "location": [
+                    49,
+                    32
+                ],
+                "timeZone": [
+                    "UTC+02:00"
+                ],
+                "capitalLocation": [
+                    50.43,
+                    30.52
+                ]
+            },
+            {
+                "name": "Isle of Man",
+                "cca2": "IM",
+                "cca3": "IMN",
+                "capital": [
+                    "Douglas"
+                ],
+                "region": "Europe",
+                "subRegion": "Northern Europe",
+                "flag": "🇮🇲",
+                "location": [
+                    54.25,
+                    -4.5
+                ],
+                "timeZone": [
+                    "UTC+00:00"
+                ],
+                "capitalLocation": [
+                    54.15,
+                    -4.48
+                ]
+            },
+            {
+                "name": "Romania",
+                "cca2": "RO",
+                "cca3": "ROU",
+                "capital": [
+                    "Bucharest"
+                ],
+                "region": "Europe",
+                "subRegion": "Southeast Europe",
+                "flag": "🇷🇴",
+                "location": [
+                    46,
+                    25
+                ],
+                "timeZone": [
+                    "UTC+02:00"
+                ],
+                "capitalLocation": [
+                    44.43,
+                    26.1
+                ]
+            },
+            {
+                "name": "Belgium",
+                "cca2": "BE",
+                "cca3": "BEL",
+                "capital": [
+                    "Brussels"
+                ],
+                "region": "Europe",
+                "subRegion": "Western Europe",
+                "flag": "🇧🇪",
+                "location": [
+                    50.83333333,
+                    4
+                ],
+                "timeZone": [
+                    "UTC+01:00"
+                ],
+                "capitalLocation": [
+                    50.83,
+                    4.33
+                ]
+            },
+            {
+                "name": "Sweden",
+                "cca2": "SE",
+                "cca3": "SWE",
+                "capital": [
+                    "Stockholm"
+                ],
+                "region": "Europe",
+                "subRegion": "Northern Europe",
+                "flag": "🇸🇪",
+                "location": [
+                    62,
+                    15
+                ],
+                "timeZone": [
+                    "UTC+01:00"
+                ],
+                "capitalLocation": [
+                    59.33,
+                    18.05
+                ]
+            },
+            {
+                "name": "Montenegro",
+                "cca2": "ME",
+                "cca3": "MNE",
+                "capital": [
+                    "Podgorica"
+                ],
+                "region": "Europe",
+                "subRegion": "Southeast Europe",
+                "flag": "🇲🇪",
+                "location": [
+                    42.5,
+                    19.3
+                ],
+                "timeZone": [
+                    "UTC+01:00"
+                ],
+                "capitalLocation": [
+                    42.43,
+                    19.27
+                ]
+            },
+            {
+                "name": "Latvia",
+                "cca2": "LV",
+                "cca3": "LVA",
+                "capital": [
+                    "Riga"
+                ],
+                "region": "Europe",
+                "subRegion": "Northern Europe",
+                "flag": "🇱🇻",
+                "location": [
+                    57,
+                    25
+                ],
+                "timeZone": [
+                    "UTC+02:00"
+                ],
+                "capitalLocation": [
+                    56.95,
+                    24.1
+                ]
+            },
+            {
+                "name": "Vatican City",
+                "cca2": "VA",
+                "cca3": "VAT",
+                "capital": [
+                    "Vatican City"
+                ],
+                "region": "Europe",
+                "subRegion": "Southern Europe",
+                "flag": "🇻🇦",
+                "location": [
+                    41.9,
+                    12.45
+                ],
+                "timeZone": [
+                    "UTC+01:00"
+                ],
+                "capitalLocation": [
+                    41.9,
+                    12.45
+                ]
+            },
+            {
+                "name": "Austria",
+                "cca2": "AT",
+                "cca3": "AUT",
+                "capital": [
+                    "Vienna"
+                ],
+                "region": "Europe",
+                "subRegion": "Central Europe",
+                "flag": "🇦🇹",
+                "location": [
+                    47.33333333,
+                    13.33333333
+                ],
+                "timeZone": [
+                    "UTC+01:00"
+                ],
+                "capitalLocation": [
+                    48.2,
+                    16.37
+                ]
+            },
+            {
+                "name": "Albania",
+                "cca2": "AL",
+                "cca3": "ALB",
+                "capital": [
+                    "Tirana"
+                ],
+                "region": "Europe",
+                "subRegion": "Southeast Europe",
+                "flag": "🇦🇱",
+                "location": [
+                    41,
+                    20
+                ],
+                "timeZone": [
+                    "UTC+01:00"
+                ],
+                "capitalLocation": [
+                    41.32,
+                    19.82
+                ]
+            },
+            {
+                "name": "Liechtenstein",
+                "cca2": "LI",
+                "cca3": "LIE",
+                "capital": [
+                    "Vaduz"
+                ],
+                "region": "Europe",
+                "subRegion": "Western Europe",
+                "flag": "🇱🇮",
+                "location": [
+                    47.26666666,
+                    9.53333333
+                ],
+                "timeZone": [
+                    "UTC+01:00"
+                ],
+                "capitalLocation": [
+                    47.13,
+                    9.52
+                ]
+            },
+            {
+                "name": "Greece",
+                "cca2": "GR",
+                "cca3": "GRC",
+                "capital": [
+                    "Athens"
+                ],
+                "region": "Europe",
+                "subRegion": "Southern Europe",
+                "flag": "🇬🇷",
+                "location": [
+                    39,
+                    22
+                ],
+                "timeZone": [
+                    "UTC+02:00"
+                ],
+                "capitalLocation": [
+                    37.98,
+                    23.73
+                ]
+            },
+            {
+                "name": "Italy",
+                "cca2": "IT",
+                "cca3": "ITA",
+                "capital": [
+                    "Rome"
+                ],
+                "region": "Europe",
+                "subRegion": "Southern Europe",
+                "flag": "🇮🇹",
+                "location": [
+                    42.83333333,
+                    12.83333333
+                ],
+                "timeZone": [
+                    "UTC+01:00"
+                ],
+                "capitalLocation": [
+                    41.9,
+                    12.48
+                ]
+            },
+            {
+                "name": "Andorra",
+                "cca2": "AD",
+                "cca3": "AND",
+                "capital": [
+                    "Andorra la Vella"
+                ],
+                "region": "Europe",
+                "subRegion": "Southern Europe",
+                "flag": "🇦🇩",
+                "location": [
+                    42.5,
+                    1.5
+                ],
+                "timeZone": [
+                    "UTC+01:00"
+                ],
+                "capitalLocation": [
+                    42.5,
+                    1.52
+                ]
+            },
+            {
+                "name": "United Kingdom",
+                "cca2": "GB",
+                "cca3": "GBR",
+                "capital": [
+                    "London"
+                ],
+                "region": "Europe",
+                "subRegion": "Northern Europe",
+                "flag": "🇬🇧",
+                "location": [
+                    54,
+                    -2
+                ],
+                "timeZone": [
+                    "UTC-08:00",
+                    "UTC-05:00",
+                    "UTC-04:00",
+                    "UTC-03:00",
+                    "UTC-02:00",
+                    "UTC",
+                    "UTC+01:00",
+                    "UTC+02:00",
+                    "UTC+06:00"
+                ],
+                "capitalLocation": [
+                    51.5,
+                    -0.08
+                ]
+            },
+            {
+                "name": "Russia",
+                "cca2": "RU",
+                "cca3": "RUS",
+                "capital": [
+                    "Moscow"
+                ],
+                "region": "Europe",
+                "subRegion": "Eastern Europe",
+                "flag": "🇷🇺",
+                "location": [
+                    60,
+                    100
+                ],
+                "timeZone": [
+                    "UTC+03:00",
+                    "UTC+04:00",
+                    "UTC+06:00",
+                    "UTC+07:00",
+                    "UTC+08:00",
+                    "UTC+09:00",
+                    "UTC+10:00",
+                    "UTC+11:00",
+                    "UTC+12:00"
+                ],
+                "capitalLocation": [
+                    55.75,
+                    37.6
+                ]
+            },
+            {
+                "name": "Slovenia",
+                "cca2": "SI",
+                "cca3": "SVN",
+                "capital": [
+                    "Ljubljana"
+                ],
+                "region": "Europe",
+                "subRegion": "Central Europe",
+                "flag": "🇸🇮",
+                "location": [
+                    46.11666666,
+                    14.81666666
+                ],
+                "timeZone": [
+                    "UTC+01:00"
+                ],
+                "capitalLocation": [
+                    46.05,
+                    14.52
+                ]
+            },
+            {
+                "name": "Belarus",
+                "cca2": "BY",
+                "cca3": "BLR",
+                "capital": [
+                    "Minsk"
+                ],
+                "region": "Europe",
+                "subRegion": "Eastern Europe",
+                "flag": "🇧🇾",
+                "location": [
+                    53,
+                    28
+                ],
+                "timeZone": [
+                    "UTC+03:00"
+                ],
+                "capitalLocation": [
+                    53.9,
+                    27.57
+                ]
+            },
+            {
+                "name": "Switzerland",
+                "cca2": "CH",
+                "cca3": "CHE",
+                "capital": [
+                    "Bern"
+                ],
+                "region": "Europe",
+                "subRegion": "Western Europe",
+                "flag": "🇨🇭",
+                "location": [
+                    47,
+                    8
+                ],
+                "timeZone": [
+                    "UTC+01:00"
+                ],
+                "capitalLocation": [
+                    46.92,
+                    7.47
+                ]
+            },
+            {
+                "name": "Hungary",
+                "cca2": "HU",
+                "cca3": "HUN",
+                "capital": [
+                    "Budapest"
+                ],
+                "region": "Europe",
+                "subRegion": "Central Europe",
+                "flag": "🇭🇺",
+                "location": [
+                    47,
+                    20
+                ],
+                "timeZone": [
+                    "UTC+01:00"
+                ],
+                "capitalLocation": [
+                    47.5,
+                    19.08
+                ]
+            },
+            {
+                "name": "Bulgaria",
+                "cca2": "BG",
+                "cca3": "BGR",
+                "capital": [
+                    "Sofia"
+                ],
+                "region": "Europe",
+                "subRegion": "Southeast Europe",
+                "flag": "🇧🇬",
+                "location": [
+                    43,
+                    25
+                ],
+                "timeZone": [
+                    "UTC+02:00"
+                ],
+                "capitalLocation": [
+                    42.68,
+                    23.32
+                ]
+            },
+            {
+                "name": "Croatia",
+                "cca2": "HR",
+                "cca3": "HRV",
+                "capital": [
+                    "Zagreb"
+                ],
+                "region": "Europe",
+                "subRegion": "Southeast Europe",
+                "flag": "🇭🇷",
+                "location": [
+                    45.16666666,
+                    15.5
+                ],
+                "timeZone": [
+                    "UTC+01:00"
+                ],
+                "capitalLocation": [
+                    45.8,
+                    16
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Asia",
+        "countries": [
+            {
+                "name": "Jordan",
+                "cca2": "JO",
+                "cca3": "JOR",
+                "capital": [
+                    "Amman"
+                ],
+                "region": "Asia",
+                "subRegion": "Western Asia",
+                "flag": "🇯🇴",
+                "location": [
+                    31,
+                    36
+                ],
+                "timeZone": [
+                    "UTC+03:00"
+                ],
+                "capitalLocation": [
+                    31.95,
+                    35.93
+                ]
+            },
+            {
+                "name": "Pakistan",
+                "cca2": "PK",
+                "cca3": "PAK",
+                "capital": [
+                    "Islamabad"
+                ],
+                "region": "Asia",
+                "subRegion": "Southern Asia",
+                "flag": "🇵🇰",
+                "location": [
+                    30,
+                    70
+                ],
+                "timeZone": [
+                    "UTC+05:00"
+                ],
+                "capitalLocation": [
+                    33.68,
+                    73.05
+                ]
+            },
+            {
+                "name": "North Korea",
+                "cca2": "KP",
+                "cca3": "PRK",
+                "capital": [
+                    "Pyongyang"
+                ],
+                "region": "Asia",
+                "subRegion": "Eastern Asia",
+                "flag": "🇰🇵",
+                "location": [
+                    40,
+                    127
+                ],
+                "timeZone": [
+                    "UTC+09:00"
+                ],
+                "capitalLocation": [
+                    39.02,
+                    125.75
+                ]
+            },
+            {
+                "name": "Macau",
+                "cca2": "MO",
+                "cca3": "MAC",
+                "region": "Asia",
+                "subRegion": "Eastern Asia",
+                "flag": "🇲🇴",
+                "location": [
+                    22.16666666,
+                    113.55
+                ],
+                "timeZone": [
+                    "UTC+08:00"
+                ]
+            },
+            {
+                "name": "Armenia",
+                "cca2": "AM",
+                "cca3": "ARM",
+                "capital": [
+                    "Yerevan"
+                ],
+                "region": "Asia",
+                "subRegion": "Western Asia",
+                "flag": "🇦🇲",
+                "location": [
+                    40,
+                    45
+                ],
+                "timeZone": [
+                    "UTC+04:00"
+                ],
+                "capitalLocation": [
+                    40.17,
+                    44.5
+                ]
+            },
+            {
+                "name": "Syria",
+                "cca2": "SY",
+                "cca3": "SYR",
+                "capital": [
+                    "Damascus"
+                ],
+                "region": "Asia",
+                "subRegion": "Western Asia",
+                "flag": "🇸🇾",
+                "location": [
+                    35,
+                    38
+                ],
+                "timeZone": [
+                    "UTC+02:00"
+                ],
+                "capitalLocation": [
+                    33.5,
+                    36.3
+                ]
+            },
+            {
+                "name": "Tajikistan",
+                "cca2": "TJ",
+                "cca3": "TJK",
+                "capital": [
+                    "Dushanbe"
+                ],
+                "region": "Asia",
+                "subRegion": "Central Asia",
+                "flag": "🇹🇯",
+                "location": [
+                    39,
+                    71
+                ],
+                "timeZone": [
+                    "UTC+05:00"
+                ],
+                "capitalLocation": [
+                    38.55,
+                    68.77
+                ]
+            },
+            {
+                "name": "Saudi Arabia",
+                "cca2": "SA",
+                "cca3": "SAU",
+                "capital": [
+                    "Riyadh"
+                ],
+                "region": "Asia",
+                "subRegion": "Western Asia",
+                "flag": "🇸🇦",
+                "location": [
+                    25,
+                    45
+                ],
+                "timeZone": [
+                    "UTC+03:00"
+                ],
+                "capitalLocation": [
+                    24.65,
+                    46.7
+                ]
+            },
+            {
+                "name": "South Korea",
+                "cca2": "KR",
+                "cca3": "KOR",
+                "capital": [
+                    "Seoul"
+                ],
+                "region": "Asia",
+                "subRegion": "Eastern Asia",
+                "flag": "🇰🇷",
+                "location": [
+                    37,
+                    127.5
+                ],
+                "timeZone": [
+                    "UTC+09:00"
+                ],
+                "capitalLocation": [
+                    37.55,
+                    126.98
+                ]
+            },
+            {
+                "name": "Nepal",
+                "cca2": "NP",
+                "cca3": "NPL",
+                "capital": [
+                    "Kathmandu"
+                ],
+                "region": "Asia",
+                "subRegion": "Southern Asia",
+                "flag": "🇳🇵",
+                "location": [
+                    28,
+                    84
+                ],
+                "timeZone": [
+                    "UTC+05:45"
+                ],
+                "capitalLocation": [
+                    27.72,
+                    85.32
+                ]
+            },
+            {
+                "name": "Philippines",
+                "cca2": "PH",
+                "cca3": "PHL",
+                "capital": [
+                    "Manila"
+                ],
+                "region": "Asia",
+                "subRegion": "South-Eastern Asia",
+                "flag": "🇵🇭",
+                "location": [
+                    13,
+                    122
+                ],
+                "timeZone": [
+                    "UTC+08:00"
+                ],
+                "capitalLocation": [
+                    14.6,
+                    120.97
+                ]
+            },
+            {
+                "name": "Iraq",
+                "cca2": "IQ",
+                "cca3": "IRQ",
+                "capital": [
+                    "Baghdad"
+                ],
+                "region": "Asia",
+                "subRegion": "Western Asia",
+                "flag": "🇮🇶",
+                "location": [
+                    33,
+                    44
+                ],
+                "timeZone": [
+                    "UTC+03:00"
+                ],
+                "capitalLocation": [
+                    33.33,
+                    44.4
+                ]
+            },
+            {
+                "name": "Lebanon",
+                "cca2": "LB",
+                "cca3": "LBN",
+                "capital": [
+                    "Beirut"
+                ],
+                "region": "Asia",
+                "subRegion": "Western Asia",
+                "flag": "🇱🇧",
+                "location": [
+                    33.83333333,
+                    35.83333333
+                ],
+                "timeZone": [
+                    "UTC+02:00"
+                ],
+                "capitalLocation": [
+                    33.87,
+                    35.5
+                ]
+            },
+            {
+                "name": "Mongolia",
+                "cca2": "MN",
+                "cca3": "MNG",
+                "capital": [
+                    "Ulan Bator"
+                ],
+                "region": "Asia",
+                "subRegion": "Eastern Asia",
+                "flag": "🇲🇳",
+                "location": [
+                    46,
+                    105
+                ],
+                "timeZone": [
+                    "UTC+07:00",
+                    "UTC+08:00"
+                ],
+                "capitalLocation": [
+                    47.92,
+                    106.91
+                ]
+            },
+            {
+                "name": "Palestine",
+                "cca2": "PS",
+                "cca3": "PSE",
+                "capital": [
+                    "Ramallah",
+                    "Jerusalem"
+                ],
+                "region": "Asia",
+                "subRegion": "Western Asia",
+                "flag": "🇵🇸",
+                "location": [
+                    31.9,
+                    35.2
+                ],
+                "timeZone": [
+                    "UTC+02:00"
+                ],
+                "capitalLocation": [
+                    31.9,
+                    35.2
+                ]
+            },
+            {
+                "name": "Yemen",
+                "cca2": "YE",
+                "cca3": "YEM",
+                "capital": [
+                    "Sana'a"
+                ],
+                "region": "Asia",
+                "subRegion": "Western Asia",
+                "flag": "🇾🇪",
+                "location": [
+                    15,
+                    48
+                ],
+                "timeZone": [
+                    "UTC+03:00"
+                ],
+                "capitalLocation": [
+                    15.37,
+                    44.19
+                ]
+            },
+            {
+                "name": "Japan",
+                "cca2": "JP",
+                "cca3": "JPN",
+                "capital": [
+                    "Tokyo"
+                ],
+                "region": "Asia",
+                "subRegion": "Eastern Asia",
+                "flag": "🇯🇵",
+                "location": [
+                    36,
+                    138
+                ],
+                "timeZone": [
+                    "UTC+09:00"
+                ],
+                "capitalLocation": [
+                    35.68,
+                    139.75
+                ]
+            },
+            {
+                "name": "Kazakhstan",
+                "cca2": "KZ",
+                "cca3": "KAZ",
+                "capital": [
+                    "Nur-Sultan"
+                ],
+                "region": "Asia",
+                "subRegion": "Central Asia",
+                "flag": "🇰🇿",
+                "location": [
+                    48.0196,
+                    66.9237
+                ],
+                "timeZone": [
+                    "UTC+05:00",
+                    "UTC+06:00"
+                ],
+                "capitalLocation": [
+                    51.16,
+                    71.45
+                ]
+            },
+            {
+                "name": "Sri Lanka",
+                "cca2": "LK",
+                "cca3": "LKA",
+                "capital": [
+                    "Sri Jayawardenepura Kotte"
+                ],
+                "region": "Asia",
+                "subRegion": "Southern Asia",
+                "flag": "🇱🇰",
+                "location": [
+                    7,
+                    81
+                ],
+                "timeZone": [
+                    "UTC+05:30"
+                ],
+                "capitalLocation": [
+                    6.89,
+                    79.9
+                ]
+            },
+            {
+                "name": "Myanmar",
+                "cca2": "MM",
+                "cca3": "MMR",
+                "capital": [
+                    "Naypyidaw"
+                ],
+                "region": "Asia",
+                "subRegion": "South-Eastern Asia",
+                "flag": "🇲🇲",
+                "location": [
+                    22,
+                    98
+                ],
+                "timeZone": [
+                    "UTC+06:30"
+                ],
+                "capitalLocation": [
+                    19.76,
+                    96.07
+                ]
+            },
+            {
+                "name": "Kyrgyzstan",
+                "cca2": "KG",
+                "cca3": "KGZ",
+                "capital": [
+                    "Bishkek"
+                ],
+                "region": "Asia",
+                "subRegion": "Central Asia",
+                "flag": "🇰🇬",
+                "location": [
+                    41,
+                    75
+                ],
+                "timeZone": [
+                    "UTC+06:00"
+                ],
+                "capitalLocation": [
+                    42.87,
+                    74.6
+                ]
+            },
+            {
+                "name": "China",
+                "cca2": "CN",
+                "cca3": "CHN",
+                "capital": [
+                    "Beijing"
+                ],
+                "region": "Asia",
+                "subRegion": "Eastern Asia",
+                "flag": "🇨🇳",
+                "location": [
+                    35,
+                    105
+                ],
+                "timeZone": [
+                    "UTC+08:00"
+                ],
+                "capitalLocation": [
+                    39.92,
+                    116.38
+                ]
+            },
+            {
+                "name": "Afghanistan",
+                "cca2": "AF",
+                "cca3": "AFG",
+                "capital": [
+                    "Kabul"
+                ],
+                "region": "Asia",
+                "subRegion": "Southern Asia",
+                "flag": "🇦🇫",
+                "location": [
+                    33,
+                    65
+                ],
+                "timeZone": [
+                    "UTC+04:30"
+                ],
+                "capitalLocation": [
+                    34.52,
+                    69.18
+                ]
+            },
+            {
+                "name": "Turkey",
+                "cca2": "TR",
+                "cca3": "TUR",
+                "capital": [
+                    "Ankara"
+                ],
+                "region": "Asia",
+                "subRegion": "Western Asia",
+                "flag": "🇹🇷",
+                "location": [
+                    39,
+                    35
+                ],
+                "timeZone": [
+                    "UTC+03:00"
+                ],
+                "capitalLocation": [
+                    39.93,
+                    32.87
+                ]
+            },
+            {
+                "name": "Oman",
+                "cca2": "OM",
+                "cca3": "OMN",
+                "capital": [
+                    "Muscat"
+                ],
+                "region": "Asia",
+                "subRegion": "Western Asia",
+                "flag": "🇴🇲",
+                "location": [
+                    21,
+                    57
+                ],
+                "timeZone": [
+                    "UTC+04:00"
+                ],
+                "capitalLocation": [
+                    23.62,
+                    58.58
+                ]
+            },
+            {
+                "name": "India",
+                "cca2": "IN",
+                "cca3": "IND",
+                "capital": [
+                    "New Delhi"
+                ],
+                "region": "Asia",
+                "subRegion": "Southern Asia",
+                "flag": "🇮🇳",
+                "location": [
+                    20,
+                    77
+                ],
+                "timeZone": [
+                    "UTC+05:30"
+                ],
+                "capitalLocation": [
+                    28.6,
+                    77.2
+                ]
+            },
+            {
+                "name": "Laos",
+                "cca2": "LA",
+                "cca3": "LAO",
+                "capital": [
+                    "Vientiane"
+                ],
+                "region": "Asia",
+                "subRegion": "South-Eastern Asia",
+                "flag": "🇱🇦",
+                "location": [
+                    18,
+                    105
+                ],
+                "timeZone": [
+                    "UTC+07:00"
+                ],
+                "capitalLocation": [
+                    17.97,
+                    102.6
+                ]
+            },
+            {
+                "name": "Uzbekistan",
+                "cca2": "UZ",
+                "cca3": "UZB",
+                "capital": [
+                    "Tashkent"
+                ],
+                "region": "Asia",
+                "subRegion": "Central Asia",
+                "flag": "🇺🇿",
+                "location": [
+                    41,
+                    64
+                ],
+                "timeZone": [
+                    "UTC+05:00"
+                ],
+                "capitalLocation": [
+                    41.32,
+                    69.25
+                ]
+            },
+            {
+                "name": "Maldives",
+                "cca2": "MV",
+                "cca3": "MDV",
+                "capital": [
+                    "Malé"
+                ],
+                "region": "Asia",
+                "subRegion": "Southern Asia",
+                "flag": "🇲🇻",
+                "location": [
+                    3.25,
+                    73
+                ],
+                "timeZone": [
+                    "UTC+05:00"
+                ],
+                "capitalLocation": [
+                    4.17,
+                    73.51
+                ]
+            },
+            {
+                "name": "Indonesia",
+                "cca2": "ID",
+                "cca3": "IDN",
+                "capital": [
+                    "Jakarta"
+                ],
+                "region": "Asia",
+                "subRegion": "South-Eastern Asia",
+                "flag": "🇮🇩",
+                "location": [
+                    -5,
+                    120
+                ],
+                "timeZone": [
+                    "UTC+07:00",
+                    "UTC+08:00",
+                    "UTC+09:00"
+                ],
+                "capitalLocation": [
+                    -6.17,
+                    106.82
+                ]
+            },
+            {
+                "name": "Vietnam",
+                "cca2": "VN",
+                "cca3": "VNM",
+                "capital": [
+                    "Hanoi"
+                ],
+                "region": "Asia",
+                "subRegion": "South-Eastern Asia",
+                "flag": "🇻🇳",
+                "location": [
+                    16.16666666,
+                    107.83333333
+                ],
+                "timeZone": [
+                    "UTC+07:00"
+                ],
+                "capitalLocation": [
+                    21.03,
+                    105.85
+                ]
+            },
+            {
+                "name": "Malaysia",
+                "cca2": "MY",
+                "cca3": "MYS",
+                "capital": [
+                    "Kuala Lumpur"
+                ],
+                "region": "Asia",
+                "subRegion": "South-Eastern Asia",
+                "flag": "🇲🇾",
+                "location": [
+                    2.5,
+                    112.5
+                ],
+                "timeZone": [
+                    "UTC+08:00"
+                ],
+                "capitalLocation": [
+                    3.17,
+                    101.7
+                ]
+            },
+            {
+                "name": "Taiwan",
+                "cca2": "TW",
+                "cca3": "TWN",
+                "capital": [
+                    "Taipei"
+                ],
+                "region": "Asia",
+                "subRegion": "Eastern Asia",
+                "flag": "🇹🇼",
+                "location": [
+                    23.5,
+                    121
+                ],
+                "timeZone": [
+                    "UTC+08:00"
+                ],
+                "capitalLocation": [
+                    25.03,
+                    121.52
+                ]
+            },
+            {
+                "name": "Cambodia",
+                "cca2": "KH",
+                "cca3": "KHM",
+                "capital": [
+                    "Phnom Penh"
+                ],
+                "region": "Asia",
+                "subRegion": "South-Eastern Asia",
+                "flag": "🇰🇭",
+                "location": [
+                    13,
+                    105
+                ],
+                "timeZone": [
+                    "UTC+07:00"
+                ],
+                "capitalLocation": [
+                    11.55,
+                    104.92
+                ]
+            },
+            {
+                "name": "United Arab Emirates",
+                "cca2": "AE",
+                "cca3": "ARE",
+                "capital": [
+                    "Abu Dhabi"
+                ],
+                "region": "Asia",
+                "subRegion": "Western Asia",
+                "flag": "🇦🇪",
+                "location": [
+                    24,
+                    54
+                ],
+                "timeZone": [
+                    "UTC+04:00"
+                ],
+                "capitalLocation": [
+                    24.47,
+                    54.37
+                ]
+            },
+            {
+                "name": "Hong Kong",
+                "cca2": "HK",
+                "cca3": "HKG",
+                "capital": [
+                    "City of Victoria"
+                ],
+                "region": "Asia",
+                "subRegion": "Eastern Asia",
+                "flag": "🇭🇰",
+                "location": [
+                    22.267,
+                    114.188
+                ],
+                "timeZone": [
+                    "UTC+08:00"
+                ],
+                "capitalLocation": [
+                    22.267,
+                    114.188
+                ]
+            },
+            {
+                "name": "Georgia",
+                "cca2": "GE",
+                "cca3": "GEO",
+                "capital": [
+                    "Tbilisi"
+                ],
+                "region": "Asia",
+                "subRegion": "Western Asia",
+                "flag": "🇬🇪",
+                "location": [
+                    42,
+                    43.5
+                ],
+                "timeZone": [
+                    "UTC+04:00"
+                ],
+                "capitalLocation": [
+                    41.68,
+                    44.83
+                ]
+            },
+            {
+                "name": "Bangladesh",
+                "cca2": "BD",
+                "cca3": "BGD",
+                "capital": [
+                    "Dhaka"
+                ],
+                "region": "Asia",
+                "subRegion": "Southern Asia",
+                "flag": "🇧🇩",
+                "location": [
+                    24,
+                    90
+                ],
+                "timeZone": [
+                    "UTC+06:00"
+                ],
+                "capitalLocation": [
+                    23.72,
+                    90.4
+                ]
+            },
+            {
+                "name": "Kuwait",
+                "cca2": "KW",
+                "cca3": "KWT",
+                "capital": [
+                    "Kuwait City"
+                ],
+                "region": "Asia",
+                "subRegion": "Western Asia",
+                "flag": "🇰🇼",
+                "location": [
+                    29.5,
+                    45.75
+                ],
+                "timeZone": [
+                    "UTC+03:00"
+                ],
+                "capitalLocation": [
+                    29.37,
+                    47.97
+                ]
+            },
+            {
+                "name": "Turkmenistan",
+                "cca2": "TM",
+                "cca3": "TKM",
+                "capital": [
+                    "Ashgabat"
+                ],
+                "region": "Asia",
+                "subRegion": "Central Asia",
+                "flag": "🇹🇲",
+                "location": [
+                    40,
+                    60
+                ],
+                "timeZone": [
+                    "UTC+05:00"
+                ],
+                "capitalLocation": [
+                    37.95,
+                    58.38
+                ]
+            },
+            {
+                "name": "Qatar",
+                "cca2": "QA",
+                "cca3": "QAT",
+                "capital": [
+                    "Doha"
+                ],
+                "region": "Asia",
+                "subRegion": "Western Asia",
+                "flag": "🇶🇦",
+                "location": [
+                    25.5,
+                    51.25
+                ],
+                "timeZone": [
+                    "UTC+03:00"
+                ],
+                "capitalLocation": [
+                    25.28,
+                    51.53
+                ]
+            },
+            {
+                "name": "Bahrain",
+                "cca2": "BH",
+                "cca3": "BHR",
+                "capital": [
+                    "Manama"
+                ],
+                "region": "Asia",
+                "subRegion": "Western Asia",
+                "flag": "🇧🇭",
+                "location": [
+                    26,
+                    50.55
+                ],
+                "timeZone": [
+                    "UTC+03:00"
+                ],
+                "capitalLocation": [
+                    26.23,
+                    50.57
+                ]
+            },
+            {
+                "name": "Brunei",
+                "cca2": "BN",
+                "cca3": "BRN",
+                "capital": [
+                    "Bandar Seri Begawan"
+                ],
+                "region": "Asia",
+                "subRegion": "South-Eastern Asia",
+                "flag": "🇧🇳",
+                "location": [
+                    4.5,
+                    114.66666666
+                ],
+                "timeZone": [
+                    "UTC+08:00"
+                ],
+                "capitalLocation": [
+                    4.88,
+                    114.93
+                ]
+            },
+            {
+                "name": "Thailand",
+                "cca2": "TH",
+                "cca3": "THA",
+                "capital": [
+                    "Bangkok"
+                ],
+                "region": "Asia",
+                "subRegion": "South-Eastern Asia",
+                "flag": "🇹🇭",
+                "location": [
+                    15,
+                    100
+                ],
+                "timeZone": [
+                    "UTC+07:00"
+                ],
+                "capitalLocation": [
+                    13.75,
+                    100.52
+                ]
+            },
+            {
+                "name": "Bhutan",
+                "cca2": "BT",
+                "cca3": "BTN",
+                "capital": [
+                    "Thimphu"
+                ],
+                "region": "Asia",
+                "subRegion": "Southern Asia",
+                "flag": "🇧🇹",
+                "location": [
+                    27.5,
+                    90.5
+                ],
+                "timeZone": [
+                    "UTC+06:00"
+                ],
+                "capitalLocation": [
+                    27.47,
+                    89.63
+                ]
+            },
+            {
+                "name": "Singapore",
+                "cca2": "SG",
+                "cca3": "SGP",
+                "capital": [
+                    "Singapore"
+                ],
+                "region": "Asia",
+                "subRegion": "South-Eastern Asia",
+                "flag": "🇸🇬",
+                "location": [
+                    1.36666666,
+                    103.8
+                ],
+                "timeZone": [
+                    "UTC+08:00"
+                ],
+                "capitalLocation": [
+                    1.28,
+                    103.85
+                ]
+            },
+            {
+                "name": "Israel",
+                "cca2": "IL",
+                "cca3": "ISR",
+                "capital": [
+                    "Jerusalem"
+                ],
+                "region": "Asia",
+                "subRegion": "Western Asia",
+                "flag": "🇮🇱",
+                "location": [
+                    31.47,
+                    35.13
+                ],
+                "timeZone": [
+                    "UTC+02:00"
+                ],
+                "capitalLocation": [
+                    31.77,
+                    35.23
+                ]
+            },
+            {
+                "name": "Azerbaijan",
+                "cca2": "AZ",
+                "cca3": "AZE",
+                "capital": [
+                    "Baku"
+                ],
+                "region": "Asia",
+                "subRegion": "Western Asia",
+                "flag": "🇦🇿",
+                "location": [
+                    40.5,
+                    47.5
+                ],
+                "timeZone": [
+                    "UTC+04:00"
+                ],
+                "capitalLocation": [
+                    40.38,
+                    49.87
+                ]
+            },
+            {
+                "name": "Timor-Leste",
+                "cca2": "TL",
+                "cca3": "TLS",
+                "capital": [
+                    "Dili"
+                ],
+                "region": "Asia",
+                "subRegion": "South-Eastern Asia",
+                "flag": "🇹🇱",
+                "location": [
+                    -8.83333333,
+                    125.91666666
+                ],
+                "timeZone": [
+                    "UTC+09:00"
+                ],
+                "capitalLocation": [
+                    -8.58,
+                    125.6
+                ]
+            },
+            {
+                "name": "Iran",
+                "cca2": "IR",
+                "cca3": "IRN",
+                "capital": [
+                    "Tehran"
+                ],
+                "region": "Asia",
+                "subRegion": "Southern Asia",
+                "flag": "🇮🇷",
+                "location": [
+                    32,
+                    53
+                ],
+                "timeZone": [
+                    "UTC+03:30"
+                ],
+                "capitalLocation": [
+                    35.7,
+                    51.42
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Americas",
+        "countries": [
+            {
+                "name": "Turks and Caicos Islands",
+                "cca2": "TC",
+                "cca3": "TCA",
+                "capital": [
+                    "Cockburn Town"
+                ],
+                "region": "Americas",
+                "subRegion": "Caribbean",
+                "flag": "🇹🇨",
+                "location": [
+                    21.75,
+                    -71.58333333
+                ],
+                "timeZone": [
+                    "UTC-04:00"
+                ],
+                "capitalLocation": [
+                    21.46,
+                    -71.14
+                ]
+            },
+            {
+                "name": "Curaçao",
+                "cca2": "CW",
+                "cca3": "CUW",
+                "capital": [
+                    "Willemstad"
+                ],
+                "region": "Americas",
+                "subRegion": "Caribbean",
+                "flag": "🇨🇼",
+                "location": [
+                    12.116667,
+                    -68.933333
+                ],
+                "timeZone": [
+                    "UTC-04:00"
+                ],
+                "capitalLocation": [
+                    12.1,
+                    -68.92
+                ]
+            },
+            {
+                "name": "Guadeloupe",
+                "cca2": "GP",
+                "cca3": "GLP",
+                "capital": [
+                    "Basse-Terre"
+                ],
+                "region": "Americas",
+                "subRegion": "Caribbean",
+                "flag": "🇬🇵",
+                "location": [
+                    16.25,
+                    -61.583333
+                ],
+                "timeZone": [
+                    "UTC-04:00"
+                ],
+                "capitalLocation": [
+                    16.03,
+                    -61.73
+                ]
+            },
+            {
+                "name": "Venezuela",
+                "cca2": "VE",
+                "cca3": "VEN",
+                "capital": [
+                    "Caracas"
+                ],
+                "region": "Americas",
+                "subRegion": "South America",
+                "flag": "🇻🇪",
+                "location": [
+                    8,
+                    -66
+                ],
+                "timeZone": [
+                    "UTC-04:00"
+                ],
+                "capitalLocation": [
+                    10.48,
+                    -66.87
+                ]
+            },
+            {
+                "name": "United States Minor Outlying Islands",
+                "cca2": "UM",
+                "cca3": "UMI",
+                "capital": [
+                    "Washington DC"
+                ],
+                "region": "Americas",
+                "subRegion": "North America",
+                "flag": "🇺🇲",
+                "location": [
+                    19.3,
+                    166.633333
+                ],
+                "timeZone": [
+                    "UTC-11:00",
+                    "UTC-10:00",
+                    "UTC+12:00"
+                ]
+            },
+            {
+                "name": "United States Virgin Islands",
+                "cca2": "VI",
+                "cca3": "VIR",
+                "capital": [
+                    "Charlotte Amalie"
+                ],
+                "region": "Americas",
+                "subRegion": "Caribbean",
+                "flag": "🇻🇮",
+                "location": [
+                    18.35,
+                    -64.933333
+                ],
+                "timeZone": [
+                    "UTC-04:00"
+                ],
+                "capitalLocation": [
+                    18.35,
+                    -64.93
+                ]
+            },
+            {
+                "name": "Guatemala",
+                "cca2": "GT",
+                "cca3": "GTM",
+                "capital": [
+                    "Guatemala City"
+                ],
+                "region": "Americas",
+                "subRegion": "Central America",
+                "flag": "🇬🇹",
+                "location": [
+                    15.5,
+                    -90.25
+                ],
+                "timeZone": [
+                    "UTC-06:00"
+                ],
+                "capitalLocation": [
+                    14.62,
+                    -90.52
+                ]
+            },
+            {
+                "name": "Saint Pierre and Miquelon",
+                "cca2": "PM",
+                "cca3": "SPM",
+                "capital": [
+                    "Saint-Pierre"
+                ],
+                "region": "Americas",
+                "subRegion": "North America",
+                "flag": "🇵🇲",
+                "location": [
+                    46.83333333,
+                    -56.33333333
+                ],
+                "timeZone": [
+                    "UTC-03:00"
+                ],
+                "capitalLocation": [
+                    46.77,
+                    -56.18
+                ]
+            },
+            {
+                "name": "Paraguay",
+                "cca2": "PY",
+                "cca3": "PRY",
+                "capital": [
+                    "Asunción"
+                ],
+                "region": "Americas",
+                "subRegion": "South America",
+                "flag": "🇵🇾",
+                "location": [
+                    -23,
+                    -58
+                ],
+                "timeZone": [
+                    "UTC-04:00"
+                ],
+                "capitalLocation": [
+                    -25.28,
+                    -57.57
+                ]
+            },
+            {
+                "name": "Caribbean Netherlands",
+                "cca2": "BQ",
+                "cca3": "BES",
+                "capital": [
+                    "Kralendijk"
+                ],
+                "region": "Americas",
+                "subRegion": "Caribbean",
+                "flag": "🇧🇶",
+                "location": [
+                    12.18,
+                    -68.25
+                ],
+                "timeZone": [
+                    "UTC-04:00"
+                ],
+                "capitalLocation": [
+                    12.14,
+                    -68.27
+                ]
+            },
+            {
+                "name": "Greenland",
+                "cca2": "GL",
+                "cca3": "GRL",
+                "capital": [
+                    "Nuuk"
+                ],
+                "region": "Americas",
+                "subRegion": "North America",
+                "flag": "🇬🇱",
+                "location": [
+                    72,
+                    -40
+                ],
+                "timeZone": [
+                    "UTC-04:00",
+                    "UTC-03:00",
+                    "UTC-01:00",
+                    "UTC+00:00"
+                ],
+                "capitalLocation": [
+                    64.18,
+                    -51.75
+                ]
+            },
+            {
+                "name": "Sint Maarten",
+                "cca2": "SX",
+                "cca3": "SXM",
+                "capital": [
+                    "Philipsburg"
+                ],
+                "region": "Americas",
+                "subRegion": "Caribbean",
+                "flag": "🇸🇽",
+                "location": [
+                    18.033333,
+                    -63.05
+                ],
+                "timeZone": [
+                    "UTC-04:00"
+                ],
+                "capitalLocation": [
+                    18.02,
+                    -63.03
+                ]
+            },
+            {
+                "name": "Panama",
+                "cca2": "PA",
+                "cca3": "PAN",
+                "capital": [
+                    "Panama City"
+                ],
+                "region": "Americas",
+                "subRegion": "Central America",
+                "flag": "🇵🇦",
+                "location": [
+                    9,
+                    -80
+                ],
+                "timeZone": [
+                    "UTC-05:00"
+                ],
+                "capitalLocation": [
+                    8.97,
+                    -79.53
+                ]
+            },
+            {
+                "name": "Brazil",
+                "cca2": "BR",
+                "cca3": "BRA",
+                "capital": [
+                    "Brasília"
+                ],
+                "region": "Americas",
+                "subRegion": "South America",
+                "flag": "🇧🇷",
+                "location": [
+                    -10,
+                    -55
+                ],
+                "timeZone": [
+                    "UTC-05:00",
+                    "UTC-04:00",
+                    "UTC-03:00",
+                    "UTC-02:00"
+                ],
+                "capitalLocation": [
+                    -15.79,
+                    -47.88
+                ]
+            },
+            {
+                "name": "Colombia",
+                "cca2": "CO",
+                "cca3": "COL",
+                "capital": [
+                    "Bogotá"
+                ],
+                "region": "Americas",
+                "subRegion": "South America",
+                "flag": "🇨🇴",
+                "location": [
+                    4,
+                    -72
+                ],
+                "timeZone": [
+                    "UTC-05:00"
+                ],
+                "capitalLocation": [
+                    4.71,
+                    -74.07
+                ]
+            },
+            {
+                "name": "Peru",
+                "cca2": "PE",
+                "cca3": "PER",
+                "capital": [
+                    "Lima"
+                ],
+                "region": "Americas",
+                "subRegion": "South America",
+                "flag": "🇵🇪",
+                "location": [
+                    -10,
+                    -76
+                ],
+                "timeZone": [
+                    "UTC-05:00"
+                ],
+                "capitalLocation": [
+                    -12.05,
+                    -77.05
+                ]
+            },
+            {
+                "name": "Chile",
+                "cca2": "CL",
+                "cca3": "CHL",
+                "capital": [
+                    "Santiago"
+                ],
+                "region": "Americas",
+                "subRegion": "South America",
+                "flag": "🇨🇱",
+                "location": [
+                    -30,
+                    -71
+                ],
+                "timeZone": [
+                    "UTC-06:00",
+                    "UTC-04:00"
+                ],
+                "capitalLocation": [
+                    -33.45,
+                    -70.67
+                ]
+            },
+            {
+                "name": "Uruguay",
+                "cca2": "UY",
+                "cca3": "URY",
+                "capital": [
+                    "Montevideo"
+                ],
+                "region": "Americas",
+                "subRegion": "South America",
+                "flag": "🇺🇾",
+                "location": [
+                    -33,
+                    -56
+                ],
+                "timeZone": [
+                    "UTC-03:00"
+                ],
+                "capitalLocation": [
+                    -34.85,
+                    -56.17
+                ]
+            },
+            {
+                "name": "Aruba",
+                "cca2": "AW",
+                "cca3": "ABW",
+                "capital": [
+                    "Oranjestad"
+                ],
+                "region": "Americas",
+                "subRegion": "Caribbean",
+                "flag": "🇦🇼",
+                "location": [
+                    12.5,
+                    -69.96666666
+                ],
+                "timeZone": [
+                    "UTC-04:00"
+                ],
+                "capitalLocation": [
+                    12.52,
+                    -70.03
+                ]
+            },
+            {
+                "name": "Martinique",
+                "cca2": "MQ",
+                "cca3": "MTQ",
+                "capital": [
+                    "Fort-de-France"
+                ],
+                "region": "Americas",
+                "subRegion": "Caribbean",
+                "flag": "🇲🇶",
+                "location": [
+                    14.666667,
+                    -61
+                ],
+                "timeZone": [
+                    "UTC-04:00"
+                ],
+                "capitalLocation": [
+                    14.6,
+                    -61.08
+                ]
+            },
+            {
+                "name": "Antigua and Barbuda",
+                "cca2": "AG",
+                "cca3": "ATG",
+                "capital": [
+                    "Saint John's"
+                ],
+                "region": "Americas",
+                "subRegion": "Caribbean",
+                "flag": "🇦🇬",
+                "location": [
+                    17.05,
+                    -61.8
+                ],
+                "timeZone": [
+                    "UTC-04:00"
+                ],
+                "capitalLocation": [
+                    17.12,
+                    -61.85
+                ]
+            },
+            {
+                "name": "Bermuda",
+                "cca2": "BM",
+                "cca3": "BMU",
+                "capital": [
+                    "Hamilton"
+                ],
+                "region": "Americas",
+                "subRegion": "North America",
+                "flag": "🇧🇲",
+                "location": [
+                    32.33333333,
+                    -64.75
+                ],
+                "timeZone": [
+                    "UTC-04:00"
+                ],
+                "capitalLocation": [
+                    32.28,
+                    -64.78
+                ]
+            },
+            {
+                "name": "Cuba",
+                "cca2": "CU",
+                "cca3": "CUB",
+                "capital": [
+                    "Havana"
+                ],
+                "region": "Americas",
+                "subRegion": "Caribbean",
+                "flag": "🇨🇺",
+                "location": [
+                    21.5,
+                    -80
+                ],
+                "timeZone": [
+                    "UTC-05:00"
+                ],
+                "capitalLocation": [
+                    23.12,
+                    -82.35
+                ]
+            },
+            {
+                "name": "Argentina",
+                "cca2": "AR",
+                "cca3": "ARG",
+                "capital": [
+                    "Buenos Aires"
+                ],
+                "region": "Americas",
+                "subRegion": "South America",
+                "flag": "🇦🇷",
+                "location": [
+                    -34,
+                    -64
+                ],
+                "timeZone": [
+                    "UTC-03:00"
+                ],
+                "capitalLocation": [
+                    -34.58,
+                    -58.67
+                ]
+            },
+            {
+                "name": "Grenada",
+                "cca2": "GD",
+                "cca3": "GRD",
+                "capital": [
+                    "St. George's"
+                ],
+                "region": "Americas",
+                "subRegion": "Caribbean",
+                "flag": "🇬🇩",
+                "location": [
+                    12.11666666,
+                    -61.66666666
+                ],
+                "timeZone": [
+                    "UTC-04:00"
+                ],
+                "capitalLocation": [
+                    32.38,
+                    -64.68
+                ]
+            },
+            {
+                "name": "Nicaragua",
+                "cca2": "NI",
+                "cca3": "NIC",
+                "capital": [
+                    "Managua"
+                ],
+                "region": "Americas",
+                "subRegion": "Central America",
+                "flag": "🇳🇮",
+                "location": [
+                    13,
+                    -85
+                ],
+                "timeZone": [
+                    "UTC-06:00"
+                ],
+                "capitalLocation": [
+                    12.13,
+                    -86.25
+                ]
+            },
+            {
+                "name": "Guyana",
+                "cca2": "GY",
+                "cca3": "GUY",
+                "capital": [
+                    "Georgetown"
+                ],
+                "region": "Americas",
+                "subRegion": "South America",
+                "flag": "🇬🇾",
+                "location": [
+                    5,
+                    -59
+                ],
+                "timeZone": [
+                    "UTC-04:00"
+                ],
+                "capitalLocation": [
+                    6.8,
+                    -58.15
+                ]
+            },
+            {
+                "name": "Saint Lucia",
+                "cca2": "LC",
+                "cca3": "LCA",
+                "capital": [
+                    "Castries"
+                ],
+                "region": "Americas",
+                "subRegion": "Caribbean",
+                "flag": "🇱🇨",
+                "location": [
+                    13.88333333,
+                    -60.96666666
+                ],
+                "timeZone": [
+                    "UTC-04:00"
+                ],
+                "capitalLocation": [
+                    14,
+                    -61
+                ]
+            },
+            {
+                "name": "Saint Kitts and Nevis",
+                "cca2": "KN",
+                "cca3": "KNA",
+                "capital": [
+                    "Basseterre"
+                ],
+                "region": "Americas",
+                "subRegion": "Caribbean",
+                "flag": "🇰🇳",
+                "location": [
+                    17.33333333,
+                    -62.75
+                ],
+                "timeZone": [
+                    "UTC-04:00"
+                ],
+                "capitalLocation": [
+                    17.3,
+                    -62.72
+                ]
+            },
+            {
+                "name": "Dominican Republic",
+                "cca2": "DO",
+                "cca3": "DOM",
+                "capital": [
+                    "Santo Domingo"
+                ],
+                "region": "Americas",
+                "subRegion": "Caribbean",
+                "flag": "🇩🇴",
+                "location": [
+                    19,
+                    -70.66666666
+                ],
+                "timeZone": [
+                    "UTC-04:00"
+                ],
+                "capitalLocation": [
+                    18.47,
+                    -69.9
+                ]
+            },
+            {
+                "name": "Saint Vincent and the Grenadines",
+                "cca2": "VC",
+                "cca3": "VCT",
+                "capital": [
+                    "Kingstown"
+                ],
+                "region": "Americas",
+                "subRegion": "Caribbean",
+                "flag": "🇻🇨",
+                "location": [
+                    13.25,
+                    -61.2
+                ],
+                "timeZone": [
+                    "UTC-04:00"
+                ],
+                "capitalLocation": [
+                    13.13,
+                    -61.22
+                ]
+            },
+            {
+                "name": "Belize",
+                "cca2": "BZ",
+                "cca3": "BLZ",
+                "capital": [
+                    "Belmopan"
+                ],
+                "region": "Americas",
+                "subRegion": "Central America",
+                "flag": "🇧🇿",
+                "location": [
+                    17.25,
+                    -88.75
+                ],
+                "timeZone": [
+                    "UTC-06:00"
+                ],
+                "capitalLocation": [
+                    17.25,
+                    -88.77
+                ]
+            },
+            {
+                "name": "Haiti",
+                "cca2": "HT",
+                "cca3": "HTI",
+                "capital": [
+                    "Port-au-Prince"
+                ],
+                "region": "Americas",
+                "subRegion": "Caribbean",
+                "flag": "🇭🇹",
+                "location": [
+                    19,
+                    -72.41666666
+                ],
+                "timeZone": [
+                    "UTC-05:00"
+                ],
+                "capitalLocation": [
+                    18.53,
+                    -72.33
+                ]
+            },
+            {
+                "name": "Jamaica",
+                "cca2": "JM",
+                "cca3": "JAM",
+                "capital": [
+                    "Kingston"
+                ],
+                "region": "Americas",
+                "subRegion": "Caribbean",
+                "flag": "🇯🇲",
+                "location": [
+                    18.25,
+                    -77.5
+                ],
+                "timeZone": [
+                    "UTC-05:00"
+                ],
+                "capitalLocation": [
+                    17.99702,
+                    -76.79358
+                ]
+            },
+            {
+                "name": "Bahamas",
+                "cca2": "BS",
+                "cca3": "BHS",
+                "capital": [
+                    "Nassau"
+                ],
+                "region": "Americas",
+                "subRegion": "Caribbean",
+                "flag": "🇧🇸",
+                "location": [
+                    25.0343,
+                    -77.3963
+                ],
+                "timeZone": [
+                    "UTC-05:00"
+                ],
+                "capitalLocation": [
+                    25.08,
+                    -77.35
+                ]
+            },
+            {
+                "name": "Mexico",
+                "cca2": "MX",
+                "cca3": "MEX",
+                "capital": [
+                    "Mexico City"
+                ],
+                "region": "Americas",
+                "subRegion": "North America",
+                "flag": "🇲🇽",
+                "location": [
+                    23,
+                    -102
+                ],
+                "timeZone": [
+                    "UTC-08:00",
+                    "UTC-07:00",
+                    "UTC-06:00"
+                ],
+                "capitalLocation": [
+                    19.43,
+                    -99.13
+                ]
+            },
+            {
+                "name": "Saint Martin",
+                "cca2": "MF",
+                "cca3": "MAF",
+                "capital": [
+                    "Marigot"
+                ],
+                "region": "Americas",
+                "subRegion": "Caribbean",
+                "flag": "🇲🇫",
+                "location": [
+                    18.0708,
+                    63.0501
+                ],
+                "timeZone": [
+                    "UTC-04:00"
+                ],
+                "capitalLocation": [
+                    18.07,
+                    -63.08
+                ]
+            },
+            {
+                "name": "El Salvador",
+                "cca2": "SV",
+                "cca3": "SLV",
+                "capital": [
+                    "San Salvador"
+                ],
+                "region": "Americas",
+                "subRegion": "Central America",
+                "flag": "🇸🇻",
+                "location": [
+                    13.83333333,
+                    -88.91666666
+                ],
+                "timeZone": [
+                    "UTC-06:00"
+                ],
+                "capitalLocation": [
+                    13.7,
+                    -89.2
+                ]
+            },
+            {
+                "name": "Saint Barthélemy",
+                "cca2": "BL",
+                "cca3": "BLM",
+                "capital": [
+                    "Gustavia"
+                ],
+                "region": "Americas",
+                "subRegion": "Caribbean",
+                "flag": "🇧🇱",
+                "location": [
+                    18.5,
+                    -63.41666666
+                ],
+                "timeZone": [
+                    "UTC-04:00"
+                ],
+                "capitalLocation": [
+                    17.88,
+                    -62.85
+                ]
+            },
+            {
+                "name": "Anguilla",
+                "cca2": "AI",
+                "cca3": "AIA",
+                "capital": [
+                    "The Valley"
+                ],
+                "region": "Americas",
+                "subRegion": "Caribbean",
+                "flag": "🇦🇮",
+                "location": [
+                    18.25,
+                    -63.16666666
+                ],
+                "timeZone": [
+                    "UTC-04:00"
+                ],
+                "capitalLocation": [
+                    18.22,
+                    -63.05
+                ]
+            },
+            {
+                "name": "Suriname",
+                "cca2": "SR",
+                "cca3": "SUR",
+                "capital": [
+                    "Paramaribo"
+                ],
+                "region": "Americas",
+                "subRegion": "South America",
+                "flag": "🇸🇷",
+                "location": [
+                    4,
+                    -56
+                ],
+                "timeZone": [
+                    "UTC-03:00"
+                ],
+                "capitalLocation": [
+                    5.83,
+                    -55.17
+                ]
+            },
+            {
+                "name": "Bolivia",
+                "cca2": "BO",
+                "cca3": "BOL",
+                "capital": [
+                    "Sucre"
+                ],
+                "region": "Americas",
+                "subRegion": "South America",
+                "flag": "🇧🇴",
+                "location": [
+                    -17,
+                    -65
+                ],
+                "timeZone": [
+                    "UTC-04:00"
+                ],
+                "capitalLocation": [
+                    -19.02,
+                    -65.26
+                ]
+            },
+            {
+                "name": "Montserrat",
+                "cca2": "MS",
+                "cca3": "MSR",
+                "capital": [
+                    "Plymouth"
+                ],
+                "region": "Americas",
+                "subRegion": "Caribbean",
+                "flag": "🇲🇸",
+                "location": [
+                    16.75,
+                    -62.2
+                ],
+                "timeZone": [
+                    "UTC-04:00"
+                ],
+                "capitalLocation": [
+                    16.7,
+                    -62.22
+                ]
+            },
+            {
+                "name": "British Virgin Islands",
+                "cca2": "VG",
+                "cca3": "VGB",
+                "capital": [
+                    "Road Town"
+                ],
+                "region": "Americas",
+                "subRegion": "Caribbean",
+                "flag": "🇻🇬",
+                "location": [
+                    18.431383,
+                    -64.62305
+                ],
+                "timeZone": [
+                    "UTC-04:00"
+                ],
+                "capitalLocation": [
+                    18.42,
+                    -64.62
+                ]
+            },
+            {
+                "name": "French Guiana",
+                "cca2": "GF",
+                "cca3": "GUF",
+                "capital": [
+                    "Cayenne"
+                ],
+                "region": "Americas",
+                "subRegion": "South America",
+                "flag": "🇬🇫",
+                "location": [
+                    4,
+                    -53
+                ],
+                "timeZone": [
+                    "UTC-03:00"
+                ],
+                "capitalLocation": [
+                    4.94,
+                    -52.33
+                ]
+            },
+            {
+                "name": "Barbados",
+                "cca2": "BB",
+                "cca3": "BRB",
+                "capital": [
+                    "Bridgetown"
+                ],
+                "region": "Americas",
+                "subRegion": "Caribbean",
+                "flag": "🇧🇧",
+                "location": [
+                    13.16666666,
+                    -59.53333333
+                ],
+                "timeZone": [
+                    "UTC-04:00"
+                ],
+                "capitalLocation": [
+                    13.1,
+                    -59.62
+                ]
+            },
+            {
+                "name": "Honduras",
+                "cca2": "HN",
+                "cca3": "HND",
+                "capital": [
+                    "Tegucigalpa"
+                ],
+                "region": "Americas",
+                "subRegion": "Central America",
+                "flag": "🇭🇳",
+                "location": [
+                    15,
+                    -86.5
+                ],
+                "timeZone": [
+                    "UTC-06:00"
+                ],
+                "capitalLocation": [
+                    14.1,
+                    -87.22
+                ]
+            },
+            {
+                "name": "Cayman Islands",
+                "cca2": "KY",
+                "cca3": "CYM",
+                "capital": [
+                    "George Town"
+                ],
+                "region": "Americas",
+                "subRegion": "Caribbean",
+                "flag": "🇰🇾",
+                "location": [
+                    19.3133,
+                    -81.2546
+                ],
+                "timeZone": [
+                    "UTC-05:00"
+                ],
+                "capitalLocation": [
+                    19.3,
+                    -81.38
+                ]
+            },
+            {
+                "name": "Ecuador",
+                "cca2": "EC",
+                "cca3": "ECU",
+                "capital": [
+                    "Quito"
+                ],
+                "region": "Americas",
+                "subRegion": "South America",
+                "flag": "🇪🇨",
+                "location": [
+                    -2,
+                    -77.5
+                ],
+                "timeZone": [
+                    "UTC-06:00",
+                    "UTC-05:00"
+                ],
+                "capitalLocation": [
+                    -0.22,
+                    -78.5
+                ]
+            },
+            {
+                "name": "United States",
+                "cca2": "US",
+                "cca3": "USA",
+                "capital": [
+                    "Washington, D.C."
+                ],
+                "region": "Americas",
+                "subRegion": "North America",
+                "flag": "🇺🇸",
+                "location": [
+                    38,
+                    -97
+                ],
+                "timeZone": [
+                    "UTC-12:00",
+                    "UTC-11:00",
+                    "UTC-10:00",
+                    "UTC-09:00",
+                    "UTC-08:00",
+                    "UTC-07:00",
+                    "UTC-06:00",
+                    "UTC-05:00",
+                    "UTC-04:00",
+                    "UTC+10:00",
+                    "UTC+12:00"
+                ],
+                "capitalLocation": [
+                    38.89,
+                    -77.05
+                ]
+            },
+            {
+                "name": "Falkland Islands",
+                "cca2": "FK",
+                "cca3": "FLK",
+                "capital": [
+                    "Stanley"
+                ],
+                "region": "Americas",
+                "subRegion": "South America",
+                "flag": "🇫🇰",
+                "location": [
+                    -51.75,
+                    -59
+                ],
+                "timeZone": [
+                    "UTC-04:00"
+                ],
+                "capitalLocation": [
+                    -51.7,
+                    -57.85
+                ]
+            },
+            {
+                "name": "Dominica",
+                "cca2": "DM",
+                "cca3": "DMA",
+                "capital": [
+                    "Roseau"
+                ],
+                "region": "Americas",
+                "subRegion": "Caribbean",
+                "flag": "🇩🇲",
+                "location": [
+                    15.41666666,
+                    -61.33333333
+                ],
+                "timeZone": [
+                    "UTC-04:00"
+                ],
+                "capitalLocation": [
+                    15.3,
+                    -61.4
+                ]
+            },
+            {
+                "name": "Canada",
+                "cca2": "CA",
+                "cca3": "CAN",
+                "capital": [
+                    "Ottawa"
+                ],
+                "region": "Americas",
+                "subRegion": "North America",
+                "flag": "🇨🇦",
+                "location": [
+                    60,
+                    -95
+                ],
+                "timeZone": [
+                    "UTC-08:00",
+                    "UTC-07:00",
+                    "UTC-06:00",
+                    "UTC-05:00",
+                    "UTC-04:00",
+                    "UTC-03:30"
+                ],
+                "capitalLocation": [
+                    45.42,
+                    -75.7
+                ]
+            },
+            {
+                "name": "Trinidad and Tobago",
+                "cca2": "TT",
+                "cca3": "TTO",
+                "capital": [
+                    "Port of Spain"
+                ],
+                "region": "Americas",
+                "subRegion": "Caribbean",
+                "flag": "🇹🇹",
+                "location": [
+                    10.6918,
+                    -61.2225
+                ],
+                "timeZone": [
+                    "UTC-04:00"
+                ],
+                "capitalLocation": [
+                    10.65,
+                    -61.52
+                ]
+            },
+            {
+                "name": "Puerto Rico",
+                "cca2": "PR",
+                "cca3": "PRI",
+                "capital": [
+                    "San Juan"
+                ],
+                "region": "Americas",
+                "subRegion": "Caribbean",
+                "flag": "🇵🇷",
+                "location": [
+                    18.25,
+                    -66.5
+                ],
+                "timeZone": [
+                    "UTC-04:00"
+                ],
+                "capitalLocation": [
+                    18.47,
+                    -66.12
+                ]
+            },
+            {
+                "name": "Costa Rica",
+                "cca2": "CR",
+                "cca3": "CRI",
+                "capital": [
+                    "San José"
+                ],
+                "region": "Americas",
+                "subRegion": "Central America",
+                "flag": "🇨🇷",
+                "location": [
+                    10,
+                    -84
+                ],
+                "timeZone": [
+                    "UTC-06:00"
+                ],
+                "capitalLocation": [
+                    9.93,
+                    -84.09
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Antarctic",
+        "countries": [
+            {
+                "name": "South Georgia",
+                "cca2": "GS",
+                "cca3": "SGS",
+                "capital": [
+                    "King Edward Point"
+                ],
+                "region": "Antarctic",
+                "flag": "🇬🇸",
+                "location": [
+                    -54.5,
+                    -37
+                ],
+                "timeZone": [
+                    "UTC-02:00"
+                ],
+                "capitalLocation": [
+                    -54.28,
+                    -36.5
+                ]
+            },
+            {
+                "name": "Antarctica",
+                "cca2": "AQ",
+                "cca3": "ATA",
+                "region": "Antarctic",
+                "flag": "🇦🇶",
+                "location": [
+                    -90,
+                    0
+                ],
+                "timeZone": [
+                    "UTC-03:00",
+                    "UTC+03:00",
+                    "UTC+05:00",
+                    "UTC+06:00",
+                    "UTC+07:00",
+                    "UTC+08:00",
+                    "UTC+10:00",
+                    "UTC+12:00"
+                ]
+            },
+            {
+                "name": "Bouvet Island",
+                "cca2": "BV",
+                "cca3": "BVT",
+                "region": "Antarctic",
+                "flag": "🇧🇻",
+                "location": [
+                    54.4208,
+                    3.3464
+                ],
+                "timeZone": [
+                    "UTC+01:00"
+                ]
+            },
+            {
+                "name": "French Southern and Antarctic Lands",
+                "cca2": "TF",
+                "cca3": "ATF",
+                "capital": [
+                    "Port-aux-Français"
+                ],
+                "region": "Antarctic",
+                "flag": "🇹🇫",
+                "location": [
+                    -49.25,
+                    69.167
+                ],
+                "timeZone": [
+                    "UTC+05:00"
+                ],
+                "capitalLocation": [
+                    48.81,
+                    -1.4
+                ]
+            },
+            {
+                "name": "Heard Island and McDonald Islands",
+                "cca2": "HM",
+                "cca3": "HMD",
+                "region": "Antarctic",
+                "flag": "🇭🇲",
+                "location": [
+                    53.0818,
+                    73.5042
+                ],
+                "timeZone": [
+                    "UTC+05:00"
+                ]
+            }
+        ]
+    }
+]
