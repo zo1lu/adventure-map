@@ -6,7 +6,7 @@ import { spotTypes } from '@/data/spot'
 import { timeZoneArray } from '@/data/dateAndTime'
 import { getLocalDateTime, getLocalTimeZone, getDurationInHour } from '@/utils/calculation'
 import { setFeatureSelectedById,toggleHandMapInteraction } from '@/utils/map/Interaction';
-import { spotInfo_fake } from '../../../../fake_data/fake_data';
+import { spotInfo_fake } from '../../../../deprecate/fake_data';
 import { getFeatureGeoData } from '@/utils/geoData';
 
 interface SpotInfoProps {

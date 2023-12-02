@@ -5,7 +5,7 @@ import { travelTypes, memberTypes } from '@/data/map';
 import { timeZoneArray } from '@/data/dateAndTime';
 import { getDurationInHour, getLocalDateTime, getLocalTimeZone } from '@/utils/calculation';
 //data for test
-import { mapInfo_fake } from '../../../../fake_data/fake_data';
+import { mapInfo_fake } from '../../../../deprecate/fake_data';
 import { mapInfoType } from '@/data/infoType';
 interface MapInfoProps {
     openImagePreview:(type:ImageTargetType, id:string, isNew:Boolean)=>void

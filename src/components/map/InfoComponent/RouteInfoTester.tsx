@@ -5,7 +5,7 @@ import { timeZoneArray } from '@/data/dateAndTime'
 import { routeSource } from '@/utils/map/layer'
 import MapContext from '@/context/MapContext';
 import { setFeatureSelectedById, setSelectedFeatureBoundary, toggleHandMapInteraction } from '@/utils/map/Interaction';
-import { routeInfo_fake } from '../../../../fake_data/fake_data';
+import { routeInfo_fake } from '../../../../deprecate/fake_data';
 import { getDurationInHour, getLocalDateTime, getLocalTimeZone } from '@/utils/calculation';
 import { getFeatureGeoData } from '@/utils/geoData';
 
