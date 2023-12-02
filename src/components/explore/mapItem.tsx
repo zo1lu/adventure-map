@@ -26,8 +26,7 @@ const MapItem = ({data, session, goToMap, checkIsLogin}:MapItemProps) => {
   const {id, title, country, regionOrDistrict, travelType, memberType, author, duration, mapImage, description, startTime, endTime, isLiked} = data
     
     const [liked, setLiked] = useState(isLiked)
-    const likeMap = (e:MouseEvent, mapId:string) => {
-        e.stopPropagation()
+    const likeMap = (mapId:string) => {
         const isLogin = checkIsLogin()
         if(isLogin){
             //send Request base on current like state
@@ -70,7 +69,7 @@ const MapItem = ({data, session, goToMap, checkIsLogin}:MapItemProps) => {
             </div>
             <div className='flex justify-between'>
               <div className='text-xs text-left'>{author.username}</div>
-              <button onClick={(e)=>{likeMap(e, id)}}>
+              <button onClick={()=>{likeMap(id)}}>
                 
                 <Image 
                   src={liked?'/icons/star-50-fill.png':'/icons/star-50.png'}
