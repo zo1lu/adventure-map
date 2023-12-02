@@ -70,7 +70,7 @@ const SignUpPage = () => {
       form.reset()
     },3000)
   }
-  if(status=="unauthenticated"){
+
     return (
       <>
           <div className='w-full h-screen flex flex-col items-center bg-emerald-950 justify-center relative'>
@@ -94,9 +94,6 @@ const SignUpPage = () => {
           </div>
       </>
     )
-  }else{
-    router.push("/home")
-  }
   
 }
 

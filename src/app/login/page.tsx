@@ -40,7 +40,7 @@ const LoginPage = () => {
       })
     }
   }
-  if(status=="unauthenticated"){
+
     return (
       <>
           <div className='w-full h-screen flex flex-col items-center bg-emerald-950 justify-center relative'>
@@ -64,10 +64,7 @@ const LoginPage = () => {
           </div>
       </>
   )
-  }else{
-    router.replace("/home")
-  }
-  
+
 }
 
 export default LoginPage
