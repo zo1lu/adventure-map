@@ -8,10 +8,23 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+      fontFamily: {
+        roboto: ['Roboto', 'sans-serif'],
+        prata: ['Prata', 'serif'],
+        yeseva_one: ['Yeseva One', 'serif'],
+        noto_serif_tc: ['Noto Serif TC', 'serif'],
+        noto_sans_tc: ['Noto Sans TC', 'sans-serif'],
+      },
+      colors:{
+        'main-70':'#022c22',
+        'main-50':'#115D4C',
+        'main-30':'#318471',
+        'main-10':'#5D9F90',
+        'neutral-lighter':'#FFFFFF',
+        'neutral-light':'#fdfdf4',
+        'neutral-dark':'#e0e0ce',
+        'error':'#EE1C1C',
+        'success':'#03AE17'
       },
     },
   },
