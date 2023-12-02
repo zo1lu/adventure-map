@@ -56,7 +56,9 @@ const renderGeoData = (geoData: geoDataType) => {
     }
 }
 const renderGeoDataCollections = (geoDataColleactions:geoDataCollectionType) => {
-
+    vectorSource.clear()
+    routeSource.clear()
+    markSource.clear()
     const format = new GeoJSON({featureProjection: 'EPSG:3857'});
     if (geoDataColleactions.geometrys.length>0){
         geoDataColleactions.geometrys.forEach((featureObject)=>{
