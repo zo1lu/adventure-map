@@ -12,7 +12,6 @@ const LoginPage = () => {
   const [message, setMessage] = useState({"error":true,"content":""})
   let messageColor = message.error?"red":"rgb(85, 230, 63)"
 
-
   async function loginHandler(e:React.FormEvent){
     e.preventDefault();
     let email = emailRef.current!=null?emailRef.current.value:""
