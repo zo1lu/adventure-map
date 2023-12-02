@@ -4,6 +4,10 @@ import { GetObjectCommand, DeleteObjectCommand } from '@aws-sdk/client-s3'
 import { getGetParams, getDeleteParams } from './image/shareModel'
 import {s3} from '@/service/s3'
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
+import { firstMapData, publicMapData } from '@/data/user'
+import { randomIndex } from '../calculation'
+import { createMapImageById } from './image/mapImageModel'
+import { getImageBlob } from '../image'
 //create map
 const createMap = async(userId:string) => {
     try{
@@ -16,6 +20,66 @@ const createMap = async(userId:string) => {
             }
         })
         return {"data": newlyCreatedMapId}
+    }catch(e){
+        console.log("creating map > ",e)
+        return {"error":true, "message":"Something wrong when creating map"}
+    }
+}
+const createFirstMap = async(userId:string, username:string) => {
+    try{
+        const index = randomIndex(1,16)
+        const data = firstMapData[index]
+        const firstMapId = await prisma.map.create({
+            data:{
+                authorId: userId,
+                title:`${username} 's first travel map`,
+                country:data.country,
+                regionOrDistrict:data.city,
+                center:[data.longitude,data.latitude]
+            },
+            select:{
+                id: true,
+            }
+        })
+        return {"data": firstMapId}
+    }catch(e){
+        console.log("creating map > ",e)
+        return {"error":true, "message":"Something wrong when creating map"}
+    }
+}
+const createPublicMap = async(userId:string) => {
+    try{
+        const index = randomIndex(1,30)
+        const travelRandomIndex = randomIndex(1,15) 
+        const travelRandomType = travelRandomIndex<10?`0${travelRandomIndex}`:travelRandomIndex
+        const memberRandomType = randomIndex(1,5)
+        const data = publicMapData[index]
+        const publicMap = await prisma.map.create({
+            data:{
+                authorId: userId,
+                title: data.title,
+                country: data.country,
+                regionOrDistrict: data.city,
+                travelTypeId:`TT${travelRandomType}`,
+                memberTypeId:`MT0${memberRandomType}`,
+                center:[data.longitude,data.latitude],
+                startTime:data.startTime,
+                startTimeZone:data.startTimeZone,
+                endTime:data.endTime,
+                endTimeZone:data.endTimeZone,
+                description:data.description,
+                duration:data.duration,
+                public:true,
+            },
+            select:{
+                id: true,
+            }
+        })
+        const imgSrc = `/images/publicMapImages/${data.image}.jpg`
+        const imageBlob = await getImageBlob(imgSrc)
+        const imageBuffer = Buffer.from(await imageBlob.arrayBuffer())
+        await createMapImageById(publicMap.id, imageBuffer)
+        return {"data": publicMap}
     }catch(e){
         console.log("creating map > ",e)
         return {"error":true, "message":"Something wrong when creating map"}
@@ -88,6 +152,7 @@ const createMap = async(userId:string) => {
 // }
 
 //get map geoinfo with ID
+
 const getMapGeoInfoById = async(mapId:string) => {
     try{
         const mapGeoInfo = await prisma.map.findUnique({
@@ -106,6 +171,7 @@ const getMapGeoInfoById = async(mapId:string) => {
         return {"error":true, "message":"Something wrong when getting map geo"}
     }
 }
+
 const getMapGeoDataById = async(mapId:string) => {
     try{
         const mapGeoDataCollections = await prisma.map.findUnique({
@@ -236,7 +302,6 @@ const updateMapInfoById = async (mapId:string, mapInfo:mapInfoType) => {
     }
 }
 
-
 //delete map with ID
 const deleteMapById = async (mapId:string) => {
     try{
@@ -248,18 +313,17 @@ const deleteMapById = async (mapId:string) => {
                 id:true
             }
         })
-        if(!image){
-            return {"error":true, "message":"Image not found"}
+        if(image){
+            const imageId = image.id
+            const params = getDeleteParams("map",imageId)
+            const command = new DeleteObjectCommand(params)
+            await s3.send(command)
+            await prisma.mapImage.delete({
+                where:{
+                    id:imageId
+                }
+            })
         }
-        const imageId = image.id
-        const params = getDeleteParams("map",imageId)
-        const command = new DeleteObjectCommand(params)
-        await s3.send(command)
-        await prisma.mapImage.delete({
-            where:{
-                id:imageId
-            }
-        })
         await prisma.map.delete({
             where:{
                 id: mapId,
@@ -271,4 +335,5 @@ const deleteMapById = async (mapId:string) => {
         return {"error":true, "message":"Something wrong when deleting map"}
     }
 }
-export{createMap, getMapGeoInfoById, updateMapGeoInfoById, getMapInfoById, getMapGeoDataById, updateMapInfoById, deleteMapById}
+
+export{createMap, createFirstMap, createPublicMap, getMapGeoInfoById, updateMapGeoInfoById, getMapInfoById, getMapGeoDataById, updateMapInfoById, deleteMapById}

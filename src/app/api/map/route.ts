@@ -1,6 +1,7 @@
 import { NextRequest } from "next/server"
 import { NextResponse as res } from 'next/server'
 import { createMap, deleteMapById, getMapGeoInfoById, getMapInfoById ,updateMapGeoInfoById, updateMapInfoById } from "@/utils/models/mapModel"
+import { setMapPrivate, setMapPublic } from "@/utils/models/publicMapsModel"
 //create map
 export async function POST(req:NextRequest){
     try{
@@ -43,15 +44,23 @@ export async function POST(req:NextRequest){
 export async function PATCH(req:NextRequest){
     const type = req.nextUrl.searchParams.get('type')
     try{
-        const { mapId, mapData } = await req.json()
+        
         if(type=="plain"){
+            const { mapId, mapData } = await req.json()
             const result = await updateMapInfoById(mapId, mapData)
             return result.success?
             res.json(result, {status:200})
             :res.json(result, {status:400})
         }else if(type=="geo"){
+            const { mapId, mapData } = await req.json()
             const result = await updateMapGeoInfoById(mapId, mapData)
             return result.success?
+            res.json(result, {status:200})
+            :res.json(result, {status:400})
+        }else if(type=="public"){
+            const { mapId, setPublic } = await req.json()
+            const result = setPublic? await setMapPublic(mapId):await setMapPrivate(mapId)
+            return result.success? 
             res.json(result, {status:200})
             :res.json(result, {status:400})
         }
@@ -67,9 +76,9 @@ export async function DELETE(req:NextRequest){
     try{
         const { mapId } = await req.json()
         const result = await deleteMapById(mapId)
-        const orignUrl = req.url.split("api")[0]
+        //const orignUrl = req.url.split("api")[0]
         return result.success? 
-        res.redirect(new URL(`/home`, orignUrl), {status: 300})
+        res.json(result, {status:200})
         :res.json(result, {status:400})
     }catch(e){
         console.log(e)

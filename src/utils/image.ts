@@ -39,4 +39,24 @@ const getCroppedImage = (imageSrc:any, crop:cropAreaPixelType, filter:filterStyl
     }
 }
 
-export {getCroppedImage}
+const getImageBlob = (imageSrc:string) => {
+    const dCanvas = document.createElement('canvas')
+    const dCtx = dCanvas.getContext('2d')
+    dCanvas.width = 500
+    dCanvas.height = 400
+    const image = document.createElement('img')
+    image.setAttribute('src', imageSrc)
+    dCtx?.drawImage(image,0,0,500,400)
+    return new Promise<Blob>((resolve, reject)=>{
+        dCanvas.toBlob((file)=>{
+            if(file!=null){
+                resolve(file)
+            }else{
+                reject(console.log("generate final image error"))
+            }
+            
+        }, 'image/jpeg', 0.95)
+    })
+}
+
+export {getCroppedImage, getImageBlob}

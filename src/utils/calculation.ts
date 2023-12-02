@@ -35,4 +35,13 @@ const getDurationInHour = (startTime:string, endTime:string, startTimeZone:strin
 
 }
 
-export {getLocalDateTime, getLocalTimeZone, getDurationInHour}
+const arrayRange = (start:number, stop:number, step:number) =>
+    Array.from(
+    { length: (stop - start) / step + 1 },
+    (value, index) => start + index * step
+);
+
+const randomIndex = (min:number, max:number) => {
+    return Math.floor(Math.random() * (max - min + 1) + min)
+}
+export {getLocalDateTime, getLocalTimeZone, getDurationInHour, arrayRange, randomIndex}
