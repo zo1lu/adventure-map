@@ -1,8 +1,12 @@
 import React from 'react'
-
+import PublicMapContainer from '@/components/explore/map/PublicMapContainer'
 const page = () => {
   return (
-    <div>It is public map</div>
+    <>
+      <main className="flex">
+        <PublicMapContainer />
+      </main> 
+    </>
   )
 }
 
