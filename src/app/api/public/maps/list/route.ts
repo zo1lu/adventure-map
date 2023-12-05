@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server"
 import { NextResponse as res } from 'next/server'
-import { getPublicMaps, getPublicMapsWithFilter } from "@/utils/models/publicMapsModel"
+import { getPublicMaps, getPublicMapsWithFilter, getPublicMapsWithKeyword } from "@/utils/models/publicMapsModel"
 export async function GET(req:NextRequest){
     const page = req.nextUrl.searchParams.get('page') || undefined
     const perPage = req.nextUrl.searchParams.get('perPage') || undefined
@@ -16,12 +16,17 @@ export async function GET(req:NextRequest){
     const pageNum = page?parseInt(page):1
     const perPageNum = perPage?parseInt(perPage):8
     const travelTypeList = travelType?travelType.split(","):[]
-    const dayMin = min? parseInt(min):0
-    const dayMax = max? parseInt(max):4320
+    const dayMin = min!=undefined? parseInt(min):0
+    const dayMax = max!=undefined? parseInt(max):4320
 
     try{
-        if(key||country||region||travelType||memberType||min||max){
-            const result = await getPublicMapsWithFilter(pageNum, perPageNum, user, key, country, region, travelTypeList, memberType, dayMin, dayMax)
+        if(country||region||travelType||memberType){
+            const result = await getPublicMapsWithFilter(pageNum, perPageNum, user, country, region, travelTypeList, memberType, dayMin, dayMax)
+            return result.data?
+            res.json(result, {status:200})
+            :res.json(result, {status:400})
+        }else if(key){
+            const result = await getPublicMapsWithKeyword(pageNum, perPageNum, key, user)
             return result.data?
             res.json(result, {status:200})
             :res.json(result, {status:400})

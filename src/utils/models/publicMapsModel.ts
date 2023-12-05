@@ -13,14 +13,19 @@ const getPublicMaps = async(pageNum:number, numPerPage:number, userId?:string) =
             skip: startRowIndex,
             take: numPerPage,
             where:{
-                public:true,
+                isPublic:true,
             },
             select:{
                 id:true,
                 title:true,
                 country:true,
                 regionOrDistrict:true,
-                author:true,
+                author:{
+                    select:{
+                        id:true,
+                        username:true,
+                    }
+                },
                 startTime:true,
                 endTime:true,
                 duration:true,
@@ -61,7 +66,7 @@ const getPublicMaps = async(pageNum:number, numPerPage:number, userId?:string) =
             }
         )
         const maps = await Promise.all(mapPromises);
-        return {"data": maps}
+        return {"data": maps, "type":"all"}
     }catch(e){
         return{"error":true, message:"something error when getting public maps"}
     }
@@ -74,36 +79,42 @@ const getPublicMapsWithKeyword = async(pageNum:number, numPerPage:number, keywor
                 skip: startRowIndex,
                 take: numPerPage,
                 where:{
-                        public:{
+                        isPublic:{
                             equals:true
                         },
                         OR:[
                             {
                                 title:{
-                                    contains: keyword
+                                    contains: keyword,
+                                    mode: 'insensitive'
                                 }
                             },{
                                 country:{
-                                    contains: keyword
+                                    contains: keyword,
+                                    mode: 'insensitive'
                                 }
                             },{
                                 regionOrDistrict:{
-                                    contains: keyword
+                                    contains: keyword,
+                                    mode: 'insensitive'
                                 }
                             },{
                                 description:{
-                                    contains: keyword
+                                    contains: keyword,
+                                    mode: 'insensitive'
                                 }
                             },{
                                 travelType:{
                                     name:{
-                                        contains: keyword
+                                        contains: keyword,
+                                        mode: 'insensitive'
                                     }
                                 }
                             },{
                                 memberType:{
                                     name:{
-                                        contains: keyword
+                                        contains: keyword,
+                                        mode: 'insensitive'
                                     }
                                 }
                             }
@@ -137,7 +148,7 @@ const getPublicMapsWithKeyword = async(pageNum:number, numPerPage:number, keywor
                     likedUserIds:true
                 }    
             })
-            const maps = filterdMaps.map(async(mapInfo)=>{
+            const mapPromises = filterdMaps.map(async(mapInfo)=>{
                 const isLiked = userId?mapInfo.likedUserIds.includes(userId):false
                 if(mapInfo.mapImage!=null){
                     const name = mapInfo.mapImage.id
@@ -154,75 +165,38 @@ const getPublicMapsWithKeyword = async(pageNum:number, numPerPage:number, keywor
                     return {...mapInfo, isLiked:isLiked }}
                 }
             )
-            return {"data": maps}
+            const maps = await Promise.all(mapPromises);
+            return {"data": maps, "type":"key"}
     }catch(e){
         return{"error":true, message:"something error when getting filtered maps"}
     }
 }
 
-const getPublicMapsWithFilter = async(pageNum:number, numPerPage:number, keyword?:string, userId?:string, countryName?:string,  regionName?:string, travelTypeIds?:string[], memberTypeId?:string, hourMin:number = 0, hourMax:number = 4320) => {
+const getPublicMapsWithFilter = async(pageNum:number, numPerPage:number, userId?:string, countryName?:string,  regionName?:string, travelTypeIds?:string[], memberTypeId?:string, hourMin?:number , hourMax?:number ) => {
     try{
         const startRowIndex = numPerPage*(pageNum-1)
         const filterdMaps = await prisma.map.findMany({
             skip: startRowIndex,
             take: numPerPage,
             where:{
-                    public:{
-                        equals:true
+                    country:{
+                        contains: countryName
                     },
-                    OR:[
-                        {
-                            title:{
-                                contains: keyword
-                            }
-                        },{
-                            country:{
-                                contains: keyword
-                            }
-                        },{
-                            regionOrDistrict:{
-                                contains: keyword
-                            }
-                        },{
-                            description:{
-                                contains: keyword
-                            }
-                        },{
-                            travelType:{
-                                name:{
-                                    contains: keyword
-                                }
-                            }
-                        },{
-                            memberType:{
-                                name:{
-                                    contains: keyword
-                                }
-                            }
+                    regionOrDistrict:{
+                        contains: regionName
+                    },
+                    travelType:{
+                        id:{
+                            in: travelTypeIds?.length==0?undefined:travelTypeIds
                         }
-                    ],
+                    },
+                    memberType:{
+                        id:{
+                           equals: memberTypeId
+                        }
+                    },
                     AND:[
                         {
-                            country:{
-                                contains: countryName
-                            }
-                        },{
-                            regionOrDistrict:{
-                                contains: regionName
-                            }
-                        },{
-                            travelType:{
-                                id:{
-                                    in: travelTypeIds
-                                }
-                            }
-                        },{
-                            memberType:{
-                                id:{
-                                    contains: memberTypeId
-                                }
-                            }
-                        },{
                             duration:{
                                 gte:hourMin
                             }
@@ -231,6 +205,11 @@ const getPublicMapsWithFilter = async(pageNum:number, numPerPage:number, keyword
                             duration:{
                                 lte:hourMax
                             }
+                        },
+                        {
+                            isPublic:{
+                                equals:true
+                            },
                         }
                     ]
                 },
@@ -239,7 +218,12 @@ const getPublicMapsWithFilter = async(pageNum:number, numPerPage:number, keyword
                 title:true,
                 country:true,
                 regionOrDistrict:true,
-                author:true,
+                author:{
+                    select:{
+                        id:true,
+                        username:true,
+                    }
+                },
                 startTime:true,
                 endTime:true,
                 duration:true,
@@ -280,7 +264,7 @@ const getPublicMapsWithFilter = async(pageNum:number, numPerPage:number, keyword
             }
         )
         const maps = await Promise.all(mapPromises);
-        return {"data": maps}
+        return {"data": maps, "type":"filter"}
 }catch(e){
     return{"error":true, message:"something error when getting filtered maps"}
 }
@@ -290,10 +274,10 @@ const getPublicMapsCount = async() => {
     try{
         const count = await prisma.map.count({
             where:{
-                public:true
+                isPublic:true
             },
         })
-        return {"data":{count: count}}
+        return {"data":{count: count}, "type":"all count"}
     }catch{
         return {"error":true, message:"Something wrong when counting public map number"}
     }
@@ -303,108 +287,76 @@ const getPublicMapsCountWithKeyword = async(keyword:string) => {
     try{
         const count = await prisma.map.count({
             where:{
-                public:{
+                isPublic:{
                     equals:true
                 },
                 OR:[
                     {
                         title:{
-                            contains: keyword
+                            contains: keyword,
+                            mode: 'insensitive'
                         }
                     },{
                         country:{
-                            contains: keyword
+                            contains: keyword,
+                            mode: 'insensitive'
                         }
                     },{
                         regionOrDistrict:{
-                            contains: keyword
+                            contains: keyword,
+                            mode: 'insensitive'
                         }
                     },{
                         description:{
-                            contains: keyword
+                            contains: keyword,
+                            mode: 'insensitive'
                         }
                     },{
                         travelType:{
                             name:{
-                                contains: keyword
+                                contains: keyword,
+                                mode: 'insensitive'
                             }
                         }
                     },{
                         memberType:{
                             name:{
-                                contains: keyword
+                                contains: keyword,
+                                mode: 'insensitive'
                             }
                         }
                     }
                 ]
             },
         })
-        return {"data":{count: count}}
+        return {"data":{count: count}, "type":"key count"}
     }catch{
         return {"error":true, message:"Something wrong when counting keyword filtered public map number"}
     }
 }
 
-const getPublicMapsCountWithFilter = async(keyword?:string, countryName?:string,  regionName?:string, travelTypeIds?:string[], memberTypeId?:string, hourMin:number = 0, hourMax:number = 4320) => {
+const getPublicMapsCountWithFilter = async(countryName?:string,  regionName?:string, travelTypeIds?:string[], memberTypeId?:string, hourMin?:number, hourMax?:number) => {
     try{
         const count = prisma.map.count({
             where:{
-                public:{
-                    equals:true
+                country:{
+                    contains: countryName
                 },
-                OR:[
-                    {
-                        title:{
-                            contains: keyword
-                        }
-                    },{
-                        country:{
-                            contains: keyword
-                        }
-                    },{
-                        regionOrDistrict:{
-                            contains: keyword
-                        }
-                    },{
-                        description:{
-                            contains: keyword
-                        }
-                    },{
-                        travelType:{
-                            name:{
-                                contains: keyword
-                            }
-                        }
-                    },{
-                        memberType:{
-                            name:{
-                                contains: keyword
-                            }
-                        }
+                regionOrDistrict:{
+                    contains: regionName
+                },
+                travelType:{
+                    id:{
+                        in: travelTypeIds?.length==0?undefined:travelTypeIds
                     }
-                ],
+                },
+                memberType:{
+                    id:{
+                       equals: memberTypeId
+                    }
+                },
                 AND:[
                     {
-                        country:{
-                            contains: countryName
-                        }
-                    },{
-                        regionOrDistrict:{
-                            contains: regionName
-                        }
-                    },{
-                        travelType:{
-                            id:{
-                                in: travelTypeIds
-                            }
-                        }
-                    },{
-                        memberType:{
-                            id:{
-                                contains: memberTypeId
-                            }
-                        }
-                    },{
                         duration:{
                             gte:hourMin
                         }
@@ -413,11 +365,16 @@ const getPublicMapsCountWithFilter = async(keyword?:string, countryName?:string,
                         duration:{
                             lte:hourMax
                         }
+                    },
+                    {
+                        isPublic:{
+                            equals:true
+                        },
                     }
                 ]
             },
         })
-        return {"data":{count: count}}
+        return {"data":{count: count}, "type":"filter count"}
     }catch{
         return {"error":true, message:"Something wrong when counting filtered public map number"}
     }
@@ -425,12 +382,16 @@ const getPublicMapsCountWithFilter = async(keyword?:string, countryName?:string,
 
 const setMapPublic = async(mapId:string) => {
     try{
+        const result = await checkIfAbleToGoPublic(mapId)
+        if(!result.result||result.error){
+            return{"sucess":false, message:"make sure you're map is ready to public"}
+        }
         await prisma.map.update({
             where:{
                 id: mapId
             },
             data:{
-                public: {
+                isPublic: {
                     set: true
                 }
             }
@@ -448,8 +409,8 @@ const setMapPrivate = async(mapId:string) => {
                 id: mapId
             },
             data:{
-                public: {
-                    set: true
+                isPublic: {
+                    set: false
                 }
             }
         })
@@ -459,6 +420,40 @@ const setMapPrivate = async(mapId:string) => {
     }
 }
 
+const checkIfAbleToGoPublic = async(mapId:string) => {
+    try{
+        const mapInfo = await prisma.map.findUnique({
+            where:{
+                id:mapId
+            },
+            select:{
+                title:true,
+                country:true,
+                regionOrDistrict:true,
+                mapImage:{
+                    select:{
+                        id:true,
+                    }
+                },
+                startTime:true,
+                startTimeZone:true,
+                endTime:true,
+                endTimeZone:true,
+                description:true,
+            }
+        })
+        let result = true
+        for (const prop in mapInfo){
+            if(mapInfo[prop]==""||mapInfo[prop]==null){
+                result = false
+            }
+        }
+        return {"result": result}
+    }catch(e){
+        return{"error":true, message:"something error when checking if map can go public"}
+    }
+}
+
 export {
-    getPublicMaps, getPublicMapsWithKeyword, getPublicMapsWithFilter, getPublicMapsCount, getPublicMapsCountWithKeyword, getPublicMapsCountWithFilter, setMapPublic, setMapPrivate
+    getPublicMaps, getPublicMapsWithKeyword, getPublicMapsWithFilter, getPublicMapsCount, getPublicMapsCountWithKeyword, getPublicMapsCountWithFilter, setMapPublic, setMapPrivate, checkIfAbleToGoPublic
 }

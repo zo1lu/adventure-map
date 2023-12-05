@@ -37,6 +37,7 @@ const ExplorePage = () => {
   const [data, setData] = useState<object[]>([])
   ///
   const [keyword, setKeyword] = useState("")
+  const [hourMinMax, setHourMinMax] = useState([0,4320])
   const [dayRange, setDayRange] = useState(3)
   const [countryName, setCountryName] = useState("")
   const [regionName, setRegionName] = useState("")
@@ -64,7 +65,7 @@ const ExplorePage = () => {
   const perPageElement = useRef(8) 
   ///
   const [regionList, setRegionList] = useState<string[]>([])
-  const [dataSize, setDataSize] = useState(80)
+  const [dataSize, setDataSize] = useState(8)
   const [pageNum, setPageNum] = useState(1)
   const [pageArray, setPageArray] = useState([1])
   
@@ -74,14 +75,20 @@ const ExplorePage = () => {
   })
 
   const [isFilterPageOpen, setIsFilterPageOpen] = useState(false)
+  const [isSearchFieldOpen, setIsSearchFieldOpen] = useState(false)
   const searchResultRef = useRef<HTMLDivElement>(null)
   const searchRef = useRef<HTMLDivElement>(null)
 
-  const changeCountry = (countryName:string)=>{
-    setCountryName(()=>countryName)
-  }
+  // const changeCountry = (countryName:string)=>{
+  //   setCountryName(()=>countryName)
+  // }
   
   const search = () => {
+    //get newest data and data count
+    getData(1)
+    getDataSize()
+    setCurrentPageNum(()=>1)
+    //scroll to result page
     if(searchResultRef.current!=null){
       searchResultRef.current.scrollIntoView({behavior:'smooth'})
     }
@@ -179,7 +186,9 @@ const ExplorePage = () => {
     }
   }
   const goToPage = (num:number) => {
-    setCurrentPageNum(()=>num)
+    if(num<=pageNum){
+      setCurrentPageNum(()=>num)
+    }
   }
   const goToPrePage =()=> {
     if(currentPageNum>1){
@@ -192,6 +201,7 @@ const ExplorePage = () => {
     }
   }
   const getPageArray = (currentPageNum:number, totalPageNum:number) => {
+    
     if(totalPageNum<5&&totalPageNum>1){
       return arrayRange(1,totalPageNum,1)
     }else if(totalPageNum==1){
@@ -225,26 +235,27 @@ const ExplorePage = () => {
         list.push(key)
       }
     })
-    return list.length>0?list.join(","):null
+    return list.length>0?list.join(","):""
   }
   const getQueryString = () => {
-    const [dayMin, dayMax] = getDayMinMax(dayRange)
-    const user = session?session.user.id:null
-    const key = keyword!=""?keyword:null
-    const country = countryName!=""?countryName:null
-    const region = regionName!=""?regionName:null
+    
+    const key = keyword
+    const country = countryName
+    const region = regionName
     const travel = getTravelTypeList(travelTypeToggles)
-    const member = memberTypeId!=""?memberTypeId:null
-    const min = dayMin
-    const max = dayMax
-    return `?user=${user}&key=${key}&country=${country}&region=${region}&travel=${travel}&member=${member}&min=${min}&max=${max}`
+    const member = memberTypeId
+    const min = hourMinMax[0]
+    const max = hourMinMax[1]
+    return `key=${key}&country=${country}&region=${region}&travel=${travel}&member=${member}&min=${min}&max=${max}`
   }
-  const dataRequest = () => {  
-    const string = getQueryString()   
+  const dataRequest = (currentPageNum:number) => {  
     const page = currentPageNum
     const perPage = perPageElement.current
+    const user = session?session.user.id:""
+    const string = getQueryString()  
+
     return new Promise<{"data"?:object[],"error"?:Boolean}>((resolve, reject)=>{
-      fetch(`/api/public/maps/list?page=${page}&perPage=${perPage}`)
+      fetch(`/api/public/maps/list?page=${page}&perPage=${perPage}&user=${user}&${string}`)
       .then(res=>res.json())
       .then((data)=>{
         return data.data? resolve(data):reject(data)
@@ -252,10 +263,11 @@ const ExplorePage = () => {
       .catch((e)=>reject(e))
     })
   }
+
   const dataSizeRequest = () => {
     const string = getQueryString()  
     return new Promise<{"data"?:{"count":number},"error"?:Boolean}>((resolve, reject)=>{
-      fetch(`/api/public/maps/count`)
+      fetch(`/api/public/maps/count?${string}`)
       .then(res=>res.json())
       .then((data)=>{
         return data.data? resolve(data):reject(data)
@@ -263,9 +275,10 @@ const ExplorePage = () => {
       .catch((e)=>reject(e))
     })
   }
-  const getData = async() => {
+  
+  const getData = async(currentPageNum:number) => {
     try{
-      const data = await dataRequest()
+      const data = await dataRequest(currentPageNum)
       if(data!=null&&data.data!=undefined&&data.data.length>0){
         console.log(data)
         setData(()=>{
@@ -279,7 +292,7 @@ const ExplorePage = () => {
   const getDataSize = async() => {
     try{
       const data = await dataSizeRequest()
-      if(data!=null&&data.data!=undefined){
+      if(data!=null&&data.data!=undefined&&data.data.count>0){
         setDataSize(()=>{
           return data.data.count
         })
@@ -296,15 +309,17 @@ const ExplorePage = () => {
       console.log(e)
     }
   }
+
   useEffect(()=>{
     perPageElement.current = window.innerWidth>1200?8:
                               window.innerWidth>800?6:
                               window.innerWidth>600?4:8
-    getData()
+    getData(1)
     getDataSize()
   },[])
+
   useEffect(()=>{
-    getData()
+    getData(currentPageNum)
   },[currentPageNum])
 
   useEffect(()=>{
@@ -328,19 +343,11 @@ const ExplorePage = () => {
         return []
       })
     }
-      
-
   },[countryName])
 
   const goToMap = (mapId:string) => {
     //check id member login
-    if(session==null){
-        setMessage(()=>{
-            return {type:"confirm","content":"Login to browse map detail"}
-        })
-    }else{
-      router.push(`/explore/map/${mapId}`)
-    } 
+    router.push(`/explore/map/${mapId}`)
     //if login redirect to map page else
   }
   
@@ -373,6 +380,10 @@ const ExplorePage = () => {
       case "region":
         setRegionName(()=>value)
         break 
+      case "dayRange":
+        setDayRange(()=>parseInt(value))
+        setHourMinMax(()=>getDayMinMax(parseInt(value)))
+        break
     }
   }
   const clearSearchField = () => {
@@ -402,6 +413,11 @@ const ExplorePage = () => {
       }
     })
     setMemberTypeId(()=>"")
+    setHourMinMax(()=>[0,4320])
+  }
+  const toggleSearchField = () => {
+    setIsSearchFieldOpen(()=>!isSearchFieldOpen)
+    isSearchFieldOpen?setIsFilterPageOpen(()=>false):null
   }
   return (
     <>
@@ -427,40 +443,55 @@ const ExplorePage = () => {
               
             </div>
             <div className='w-full h-screen overflow-y-scroll'>
-              <div ref={searchRef} className='w-3/5 h-[calc(100%)] m-auto flex flex-col justify-center'>
-                <div className='h-fit w-full'>
-                  <h1 className='font-prata text-6xl mb-3'>Explore</h1>
-                  <h3 className='text-2xl mb-3'>Find a travel journal inspired you!</h3>
-                  {/* search */}
-                  <div className='flex items-center gap-3 mb-10'>
-                    <div className="flex items-center w-2/5 h-10 px-3 border-2 border-main-70 rounded-md">
-                      <input value={keyword} className="w-full focus:outline-none" type="text" onChange={(e)=>keyContentChangeHandler("keyword",e.target.value)}/>
-                      {keyword!=""?
-                        <button onClick={()=>clearSearchField()}>
+              <div ref={searchRef} className='w-3/5 h-[100px] m-auto flex justify-between items-center'>
+                <div className='h-fit w-1/2 flex items-end gap-5'>
+                  <h1 className='font-prata text-4xl'>Explore</h1>
+                  <h3 className='text-lg mb-1'>Find a travel journal inspired you!</h3>
+                </div>
+                <div className='w-1/2 h-fit'>
+                    {/* search */}
+                  <div className='w-full flex items-center gap-3 justify-end'>
+                      {isSearchFieldOpen?
+                      <>
+                        <div className="flex items-center w-[200px] h-10 px-3 border-2 border-main-70 rounded-md">
+                          <input value={keyword} className="w-full focus:outline-none" type="text" placeholder='country, travel type...' onChange={(e)=>keyContentChangeHandler("keyword",e.target.value)}/>
+                          {keyword!=""?
+                            <button onClick={()=>clearSearchField()}>
+                              <Image 
+                              src={'/icons/cross-50.png'}
+                              width={25}
+                              height={25}
+                              alt="filter"/>
+                            </button>
+                            :null
+                          }
+                        </div>
+                        <button className='h-10 font-bold rounded-md text-main-70 border-2 border-main-70 px-5 py-2' onClick={()=>search()}>Search</button>
+                        <button onClick={()=>toggleFilterPage()}>
                           <Image 
-                          src={'/icons/cross-50.png'}
-                          width={25}
-                          height={25}
+                          src={'/icons/filter-24.png'}
+                          width={30}
+                          height={30}
                           alt="filter"/>
                         </button>
-                        :null
-                      }
-                    </div>
-                    
-                    <button className='h-10 font-bold rounded-md text-main-70 border-2 border-main-70 px-5 py-2' onClick={()=>search()}>Search</button>
-                    <button onClick={()=>toggleFilterPage()}>
-                      <Image 
-                      src={'/icons/filter-24.png'}
-                      width={30}
-                      height={30}
-                      alt="filter"/>
-                    </button>
+                      </>
+                      :<></>
+                    }
+                    <button onClick={()=>toggleSearchField()}>
+                        <Image 
+                        src={isSearchFieldOpen?'/icons/cross-60.png':'/icons/search-48.png'}
+                        width={30}
+                        height={30}
+                        alt="search"/>
+                      </button>
                   </div>
                 </div>
-                {isFilterPageOpen?
-                  <div className='flex flex-col py-3 gap-3 items-start'>
+        
+              </div> 
+              {isFilterPageOpen?
+                  <div className='w-3/5 m-auto grid grid-cols-3 grid-rows-3 py-3 gap-3 items-start relative'>
                     {/* location */}
-                    <div className='flex flex-col'>
+                    <div className='flex flex-col col-span-2'>
                       <p className='font-bold'>&#10033;Location</p>
                       <div className='flex pl-3 gap-5'>
                         <div className='flex items-center'>
@@ -488,51 +519,57 @@ const ExplorePage = () => {
                       </div>
                     </div>
                     {/* day range */}
-                    <p className='font-bold'>&#10033;Day Range</p>
-                    <div className='pl-3'>
-                      
-                      <p className='text-xl font-bold'>
-                        {dayRangeName[dayRange]}
-                      </p>
-                      <input value={dayRange.toString()} className="w-40 h-[2px] bg-gray-200 rounded-lg appearance-none cursor-pointer range-sm accent-main-70 dark:bg-gray-700" type="range" min={1} max={8} defaultValue={3} onChange={(e)=>{
-                        setDayRange(()=>parseInt(e.target.value))
-                      }}/> 
+                    <div>
+                      <p className='font-bold'>&#10033;Day Range</p>
+                      <div className='pl-3'>
+                        
+                        <p className='text-xl font-bold'>
+                          {dayRangeName[dayRange]}
+                        </p>
+                        <input value={dayRange.toString()} className="w-40 h-[2px] bg-gray-200 rounded-lg appearance-none cursor-pointer range-sm accent-main-70 dark:bg-gray-700" type="range" min={1} max={8} defaultValue={3} onChange={(e)=>{
+                          keyContentChangeHandler("dayRange",e.target.value)
+                        }}/> 
+                      </div>
                     </div>
+                    
                     {/* travel type */}
-                    <p className='font-bold'>&#10033;Travel Type</p>
-                    <div className='w-fit h-fit flex flex-wrap gap-1 pl-3'>
-                      {travelTypes.map((travelType, i)=>{
-                        return <label key={i} className='box-border border-[1px] border-main-70 rounded-md px-3 py-1 ' htmlFor={travelType.id} style={travelTypeToggles[travelType.id]?selectedStyle:unselectedStyle}>
-                        <input id={travelType.id} className="hidden" type="checkbox" name="travel-type" value={travelType.id} onChange={(e)=>changeTravelType(e.target.value)}/>
-                        {travelType.name}
-                      </label>
-                      })}
+                    <div className='col-span-3'>
+                      <p className='font-bold'>&#10033;Travel Type</p>
+                      <div className='w-fit h-fit flex flex-wrap gap-1 pl-3'>
+                        {travelTypes.map((travelType, i)=>{
+                          return <label key={i} className='box-border border-[1px] border-main-70 rounded-md px-3 py-1 ' htmlFor={travelType.id} style={travelTypeToggles[travelType.id]?selectedStyle:unselectedStyle}>
+                          <input id={travelType.id} className="hidden" type="checkbox" name="travel-type" value={travelType.id} onChange={(e)=>changeTravelType(e.target.value)}/>
+                          {travelType.name}
+                        </label>
+                        })}
+                      </div>
                     </div>
-                    {/* member type */}
-                    <p className='font-bold'>&#10033;Member Type</p>
-                    <div className='w-fit h-fit flex flex-wrap gap-1 pl-3'>
-                      {memberTypes.map((memberType, i)=>{
-                        return <label key={i} className='border-[1px] border-main-70 rounded-md px-3 py-1' htmlFor={memberType.id} style={memberTypeId==memberType.id?selectedStyle:unselectedStyle}>
-                        <input id={memberType.id} className="hidden" type="radio" name="member-type" value={memberType.id} onChange={(e)=>changeMemberTypeId(e.target.value)}/>
-                        {memberType.name}
-                      </label>
-                      })}
+                    <div className='col-span-3'>
+                        {/* member type */}
+                      <p className='font-bold'>&#10033;Member Type</p>
+                      <div className='w-fit h-fit flex flex-wrap gap-1 pl-3'>
+                        {memberTypes.map((memberType, i)=>{
+                          return <label key={i} className='border-[1px] border-main-70 rounded-md px-3 py-1' htmlFor={memberType.id} style={memberTypeId==memberType.id?selectedStyle:unselectedStyle}>
+                          <input id={memberType.id} className="hidden" type="radio" name="member-type" value={memberType.id} onChange={(e)=>changeMemberTypeId(e.target.value)}/>
+                          {memberType.name}
+                        </label>
+                        })}
+                      </div>
                     </div>
-                    <button className="h-8 flex items-center gap-1" onClick={()=>{resetFilter()}}>
+                    
+                    <button className="h-8 flex items-center gap-1 absolute top-5 right-5" onClick={()=>{resetFilter()}}>
                       <Image 
                       src={'/icons/reset-30.png'}
                       width={20}
                       height={20}
                       alt="filter"/>
-                      reset
+                      clear filter
                     </button>
                   </div>
-                :null}
-              </div> 
+                :null}  
             
-            
-              <hr className='w-3/5 m-auto border-main-70 mt-10'/>
-              <div ref={searchResultRef} className='w-3/5 h-full m-auto pt-10 pb-5 flex flex-col gap-5'>
+              {/* <hr className='w-3/5 m-auto border-main-70 mt-10'/> */}
+              <div ref={searchResultRef} className='w-3/5 h-[750px] m-auto pt-5 pb-5 flex flex-col gap-5'>
                 <div className='h-[calc(100%-32px)] flex flex-wrap gap-2'>
                   {data.map((map, i)=>{
                     return <MapItem data={map} key={i} session={session} goToMap={goToMap} checkIsLogin={checkIsLogin}/>
@@ -549,7 +586,7 @@ const ExplorePage = () => {
               </div>
               
             </div>
-            <div className='fixed bottom-20 right-40' onClick={()=>backToSearch()}>^^:-pBacktosearch</div>
+            {/* <div className='fixed bottom-20 right-40' onClick={()=>backToSearch()}>^^:-pBacktosearch</div> */}
         </div>
     </>
   )

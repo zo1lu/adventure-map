@@ -1,4 +1,4 @@
-import { getPublicMapsCount, getPublicMapsCountWithFilter } from "@/utils/models/publicMapsModel"
+import { getPublicMapsCount, getPublicMapsCountWithFilter, getPublicMapsCountWithKeyword } from "@/utils/models/publicMapsModel"
 import { NextRequest } from "next/server"
 import { NextResponse as res } from 'next/server'
 
@@ -12,11 +12,16 @@ export async function GET(req:NextRequest){
     const max = req.nextUrl.searchParams.get('max') || undefined
 
     const travelTypeList = travelType?travelType.split(","):[]
-    const dayMin = min? parseInt(min):0
-    const dayMax = max? parseInt(max):4320
+    const dayMin = min!=undefined? parseInt(min):0
+    const dayMax = max!=undefined? parseInt(max):4320
     try{
-        if(key||country||region||travelType||memberType||min||max){
-            const result = await getPublicMapsCountWithFilter(key, country, region, travelTypeList, memberType, dayMin, dayMax)
+        if(country||region||travelType||memberType){
+            const result = await getPublicMapsCountWithFilter(country, region, travelTypeList, memberType, dayMin, dayMax)
+            return result.data?
+            res.json(result, {status:200})
+            :res.json(result, {status:400})
+        }else if(key){
+            const result = await getPublicMapsCountWithKeyword(key)
             return result.data?
             res.json(result, {status:200})
             :res.json(result, {status:400})
