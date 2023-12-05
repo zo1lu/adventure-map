@@ -42,10 +42,6 @@ const HomePage = () => {
         console.log(e)
       }
     }
-    
-    const unLikeMap = (userId:string, mapId:string) => {
-
-    }
     const getMapRequest = (userId:string) => {
       return new Promise<{"data":object[]}>((resolve, reject)=>{
         fetch(`/api/user?user=${userId}&type=maps`)
@@ -100,7 +96,14 @@ const HomePage = () => {
 
     }
     const getLikedMaps = async(userId:string) => {
-
+      const result = await getLikedMapRequest(userId)
+      if(result&&result.data&&result.data.length>0){
+        setLikedList(()=>{
+          return result.data
+        })
+      }else{
+        setLikedList(()=>[])
+      }
     }
     const deleteMap = async(mapId:string, userId:string) => {
       const result = await deleteMapRequest(mapId)
@@ -108,7 +111,27 @@ const HomePage = () => {
         getMaps(userId)
       }
     }
-
+    const unlikeAMap = async(mapId:string, userId:string) => {
+      const body = {
+        mapId: mapId,
+        userId: userId,
+        like: false
+      }
+      fetch("/api/user?type=like",{
+        method:"PATCH",
+        headers:{
+          'Countent-Type':'application/json'
+        },
+        body:JSON.stringify(body)
+      })
+      .then((res)=>res.json())
+      .then((data)=>{
+        if(data.success){
+          getLikedMaps(userId)
+        }
+      })
+      .catch((e)=>console.log(e))
+    }
     useEffect(()=>{
         if(session==null){
         router.push("/")
@@ -116,6 +139,7 @@ const HomePage = () => {
  
           
           getMaps(session.user.id)
+          getLikedMaps(session.user.id)
         }
     },[session])
 
@@ -154,7 +178,7 @@ const HomePage = () => {
               <div className='w-full h-full overflow-y-scroll p-5 border-2 rounded-md border-main-70'> 
                 {likedList.length>0?
                   likedList.map((data, i)=>{
-                    return <LikedMapItem key={i} mapData={data} userId={userId}/>
+                    return <LikedMapItem key={i} mapData={data} userId={userId} unlikeAMap={unlikeAMap}/>
                   })
                   :<p className='mt-5'>You do not have any liked map. <Link className='hover:underline' href="/explore">Go explore&rarr;</Link>
                   </p>

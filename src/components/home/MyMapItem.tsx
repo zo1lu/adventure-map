@@ -9,7 +9,7 @@ interface MyMapItemProp{
         country:string,
         regionOrDistrict:string,
         description:string,
-        public:Boolean,
+        isPublic:Boolean,
         createdAt:string,
         updatedAt:string,
         mapImage?:{
@@ -39,7 +39,7 @@ const MyMapItem = ({mapData, userId, deleteMap}:MyMapItemProp) => {
         country: mapData.country?mapData.country:"Country",
         regionOrDistrict: mapData.regionOrDistrict!=null?mapData.regionOrDistrict:"region",
         description: mapData.description?mapData.description:"write",
-        public: mapData.public,
+        public: mapData.isPublic,
         createdAt: mapData.createdAt,
         updatedAt: mapData.updatedAt,
         mapImage: mapData.mapImage?{
@@ -59,8 +59,8 @@ const MyMapItem = ({mapData, userId, deleteMap}:MyMapItemProp) => {
         router.push(url)
     }
   return (
-    <button className='flex gap-3 p-2 my-2 w-full h-[120px] max-h-[150px] rounded-md border-[2px] border-black items-center' onDoubleClick={()=>goToMapPage(data.id)}>
-        <div className='w-[150px] h-full overflow-hidden rounded-md'>
+    <div className='flex gap-3 p-2 my-2 w-full h-[120px] max-h-[150px] rounded-md border-[2px] border-black items-center' >
+        <div className='w-[150px] h-full overflow-hidden rounded-md cursor-pointer' onClick={()=>goToMapPage(data.id)}>
             {data.mapImage?
                 <Image 
                     src={data.mapImage.url}
@@ -81,7 +81,7 @@ const MyMapItem = ({mapData, userId, deleteMap}:MyMapItemProp) => {
             }
             
         </div>
-        <div className='grid grid-cols-8 items-center gap-5 px-2 w-4/5'>
+        <div className='grid grid-cols-8 items-center gap-5 px-2 w-4/5 cursor-pointer' onClick={()=>goToMapPage(data.id)}>
             <div className='w-full col-span-4 flex flex-col gap-1 items-start'>
                 <h3 className='text-lg font-bold font-roboto'>{data.title}</h3>
                 <p className='text-sm font-roboto'>{data.country}, {data.regionOrDistrict}</p>
@@ -112,7 +112,7 @@ const MyMapItem = ({mapData, userId, deleteMap}:MyMapItemProp) => {
             alt='delete_btn'
             />
         </button>
-    </button>
+    </div>
   )
 }
 
