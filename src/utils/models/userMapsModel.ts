@@ -15,7 +15,7 @@ const getUserMaps = async(userId:string) => {
                 title:true,
                 country:true,
                 regionOrDistrict:true,
-                public:true,
+                isPublic:true,
                 startTime:true,
                 startTimeZone:true,
                 endTime:true,

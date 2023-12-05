@@ -47,7 +47,7 @@ model Map {
   geometrys Geometry[]
   zoom Int @default(8)
   center Float[] @default([120.00,24.00])
-  public Boolean @default(false)
+  isPublic Boolean @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   geoData Json?

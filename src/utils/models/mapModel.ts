@@ -69,7 +69,7 @@ const createPublicMap = async(userId:string) => {
                 endTimeZone:data.endTimeZone,
                 description:data.description,
                 duration:data.duration,
-                public:true,
+                isPublic:true,
             },
             select:{
                 id: true,
@@ -107,7 +107,7 @@ const createPublicMap = async(userId:string) => {
 //                 memberTypeId: true,
 //                 zoom:true,
 //                 center:true,
-//                 public:true,
+//                 isPublic:true,
 //                 geoData: true,
 //             },
 //             include:{
@@ -140,7 +140,7 @@ const createPublicMap = async(userId:string) => {
 //                 memberTypeId: mapInfo.member_type_id  || null,
 //                 zoom:mapInfo.zoom,
 //                 center:mapInfo.center,
-//                 public:mapInfo.public,
+//                 isPublic:mapInfo.public,
 //                 geoData: mapInfo.geoData,
 //             }
 //         })
@@ -163,6 +163,7 @@ const getMapGeoInfoById = async(mapId:string) => {
                 zoom:true,
                 center:true,
                 geoData: true,
+                isPublic: true
             },
         })
         return {"data": mapGeoInfo}
@@ -181,6 +182,7 @@ const getMapGeoDataById = async(mapId:string) => {
             select:{
                 zoom:true,
                 center:true,
+                isPublic: true,
                 spots:{
                     select:{
                         geoData:true
@@ -245,7 +247,7 @@ const getMapInfoById = async(mapId:string) => {
                 description: true,
                 travelTypeId: true,
                 memberTypeId: true,
-                public:true,
+                isPublic:true,
                 mapImage:{
                     select: {
                         id: true,
@@ -292,7 +294,7 @@ const updateMapInfoById = async (mapId:string, mapInfo:mapInfoType) => {
                 description: description != null ? description : undefined,
                 travelTypeId: travel_type_id != null ? travel_type_id : undefined,
                 memberTypeId: member_type_id != null ? member_type_id : undefined,
-                public: is_public,
+                isPublic: is_public,
             }
         })
         return {"success":true, "message":"Successfully update map information"}
