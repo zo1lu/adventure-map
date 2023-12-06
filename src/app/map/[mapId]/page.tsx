@@ -1,23 +1,21 @@
 import MapContainer from "@/components/map/MapContainer";
-import { getMapGeoInfoById } from "@/utils/models/mapModel";
-import { redirect } from "next/navigation";
-import { useEffect } from "react";
+import { getMapGeoDataById } from "@/utils/models/mapModel";
 //dynamic rendering > render at each request time
 export default async function MapPage({ params }: { params: { mapId: string } }) {
-  // const mapGeoInfoResult = await getMapGeoInfoById(params.mapId)
-  // const data = await Promise.all([mapGeoInfoResult])
-  // if(!mapGeoInfoResult.data){
-  //   redirect("/home")
-  // }
-  //mapGeoInfo={mapGeoInfoResult.data}
-  // useEffect(()=>{
 
-  // },[])
+  const mapGeoInfoResult = await getMapGeoDataById(params.mapId)
+
   return (
     <>
+      {mapGeoInfoResult.data?
       <main className="flex">
-        <MapContainer />
-      </main> 
+        <MapContainer data={mapGeoInfoResult.data}/>
+      </main> :
+      <div className="w-screen h-screen flex">
+        <p className="m-auto">Map not exist!</p>
+      </div>
+      }
+      
     </>
   );
 }

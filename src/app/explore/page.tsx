@@ -78,20 +78,16 @@ const ExplorePage = () => {
   const [isSearchFieldOpen, setIsSearchFieldOpen] = useState(false)
   const searchResultRef = useRef<HTMLDivElement>(null)
   const searchRef = useRef<HTMLDivElement>(null)
-
-  // const changeCountry = (countryName:string)=>{
-  //   setCountryName(()=>countryName)
-  // }
+  const [isLoading, setIsLoading] = useState(true)
   
   const search = () => {
     //get newest data and data count
+    if(keyword==""){
+      return
+    }
     getData(1)
     getDataSize()
     setCurrentPageNum(()=>1)
-    //scroll to result page
-    if(searchResultRef.current!=null){
-      searchResultRef.current.scrollIntoView({behavior:'smooth'})
-    }
   }
   const changeTravelType = (travelTypeId:string)=>{
     const id = travelTypeId
@@ -277,6 +273,7 @@ const ExplorePage = () => {
   }
   
   const getData = async(currentPageNum:number) => {
+    setIsLoading(()=>true)
     try{
       const data = await dataRequest(currentPageNum)
       if(data!=null&&data.data!=undefined&&data.data.length>0){
@@ -285,8 +282,14 @@ const ExplorePage = () => {
           return data.data
         })
       }
+      else{
+        setData(()=>[])
+      }
+      setIsLoading(()=>false)
     }catch(e){
       console.log(e)
+      setData(()=>[])
+      setIsLoading(()=>false)
     }
   }
   const getDataSize = async() => {
@@ -304,7 +307,7 @@ const ExplorePage = () => {
   const logout = async() => {
     try{
       await signOut({redirect:false})
-      // router.replace("/")
+      getData(1)
     }catch(e){
       console.log(e)
     }
@@ -443,7 +446,7 @@ const ExplorePage = () => {
               
             </div>
             <div className='w-full h-screen overflow-y-scroll'>
-              <div ref={searchRef} className='w-3/5 h-[100px] m-auto flex justify-between items-center'>
+              <div ref={searchRef} className='w-3/5 max-w-[1200px] h-[100px] m-auto flex justify-between items-center'>
                 <div className='h-fit w-1/2 flex items-end gap-5'>
                   <h1 className='font-prata text-4xl'>Explore</h1>
                   <h3 className='text-lg mb-1'>Find a travel journal inspired you!</h3>
@@ -489,7 +492,7 @@ const ExplorePage = () => {
         
               </div> 
               {isFilterPageOpen?
-                  <div className='w-3/5 m-auto grid grid-cols-3 grid-rows-3 py-3 gap-3 items-start relative'>
+                  <div className='w-3/5 max-w-[1200px] m-auto grid grid-cols-3 grid-rows-3 py-3 gap-3 items-start relative'>
                     {/* location */}
                     <div className='flex flex-col col-span-2'>
                       <p className='font-bold'>&#10033;Location</p>
@@ -569,20 +572,30 @@ const ExplorePage = () => {
                 :null}  
             
               {/* <hr className='w-3/5 m-auto border-main-70 mt-10'/> */}
-              <div ref={searchResultRef} className='w-3/5 h-[750px] m-auto pt-5 pb-5 flex flex-col gap-5'>
+              <div ref={searchResultRef} className='w-3/5 max-w-[1200px] h-[750px] m-auto pt-5 pb-5 flex flex-col gap-5'>
                 <div className='h-[calc(100%-32px)] flex flex-wrap gap-2'>
-                  {data.map((map, i)=>{
+                  
+                  {isLoading?
+                  <div className='m-auto'>
+                    <svg className="animate-spin h-5 w-5 mr-3 bg-main-70" viewBox="0 0 40 40"></svg>
+                  </div>:
+                  !isLoading&&data.length>0?
+                  data.map((map, i)=>{
                     return <MapItem data={map} key={i} session={session} goToMap={goToMap} checkIsLogin={checkIsLogin}/>
-                  })}
+                  })
+                  :<p className='m-auto'>No result</p>
+                }
                 </div>
+                  {data.length>0?
+                      <div className='w-full h-8 flex justify-center items-center gap-1'>
+                      <button className="font-bold text-xl" onClick={()=>goToPrePage()}>&larr;</button>
+                    {pageArray.map((num,i)=>{
+                      return <div className="w-8 h-8 rounded-full bg-neutral-dark text-main-70 text-center cursor-pointer" style={currentPageNum==num?currentNumberStyle:numberStyle} key={i} onClick={()=>goToPage(num)}><p className='w-8 h-8 leading-8 text-center' >{num}</p></div>
+                    })}
+                    <button className="font-bold text-xl" onClick={()=>goToNextPage()}>&rarr;</button>
+                  </div>:null
+                }
                 
-                <div className='w-full h-8 flex justify-center items-center gap-1'>
-                  <button className="font-bold text-xl" onClick={()=>goToPrePage()}>&larr;</button>
-                {pageArray.map((num,i)=>{
-                  return <div className="w-8 h-8 rounded-full bg-neutral-dark text-main-70 text-center cursor-pointer" style={currentPageNum==num?currentNumberStyle:numberStyle} key={i} onClick={()=>goToPage(num)}><p className='w-8 h-8 leading-8 text-center' >{num}</p></div>
-                })}
-                <button className="font-bold text-xl" onClick={()=>goToNextPage()}>&rarr;</button>
-                </div>
               </div>
               
             </div>
