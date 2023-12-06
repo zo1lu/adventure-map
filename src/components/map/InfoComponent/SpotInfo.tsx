@@ -423,7 +423,7 @@ const SpotInfo = ({id, status, spotImage, setImage, spotLocation, changeSpotLoca
                           />
                       </button>
                       <Image 
-                          src={spotImg.url}
+                          src={spotImage.url}
                           width={300}
                           height={240}
                           quality={100}
