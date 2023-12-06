@@ -54,7 +54,7 @@ const LikedMapItem = ({mapData, userId, unlikeAMap}:LikedMapItemProps) => {
         duration: mapData.duration
     }
   return (
-    <div className='flex gap-3 p-2 my-2 w-full h-[120px] rounded-md border-2 border-black' >
+    <div className='flex gap-3 p-2 w-full h-[120px] rounded-md border-2 border-black' >
         <div className='w-[150px] h-[100px] overflow-hidden rounded-md cursor-pointer' onClick={()=>goToPublicMapPage(data.id)}>
             <Image 
                 src={data.imageUrl}

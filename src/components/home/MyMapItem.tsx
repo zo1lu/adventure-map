@@ -37,7 +37,7 @@ const MyMapItem = ({mapData, userId, deleteMap}:MyMapItemProp) => {
         id: mapData.id,
         title: mapData.title?mapData.title:"Title",
         country: mapData.country?mapData.country:"Country",
-        regionOrDistrict: mapData.regionOrDistrict!=null?mapData.regionOrDistrict:"region",
+        regionOrDistrict: mapData.regionOrDistrict!=null?mapData.regionOrDistrict:"Region",
         description: mapData.description?mapData.description:"write",
         public: mapData.isPublic,
         createdAt: mapData.createdAt,
@@ -48,9 +48,9 @@ const MyMapItem = ({mapData, userId, deleteMap}:MyMapItemProp) => {
         }:null,
         memberType: mapData.memberType?mapData.memberType.name:"",
         travelType: mapData.travelType?mapData.travelType.name:"",
-        startTime: mapData.startTime?mapData.startTime.split("T").join(" "):"",
+        startTime: mapData.startTime?mapData.startTime.split("T").join(" "):"Start Date",
         startTimeZone: `UTC ${mapData.startTimeZone}`,
-        endTime: mapData.endTime?mapData.endTime.split("T").join(" "):"",
+        endTime: mapData.endTime?mapData.endTime.split("T").join(" "):"End Date",
         endTimeZone: `UTC ${mapData.endTimeZone}`,
         duration: mapData.duration
     }
@@ -59,7 +59,7 @@ const MyMapItem = ({mapData, userId, deleteMap}:MyMapItemProp) => {
         router.push(url)
     }
   return (
-    <div className='flex gap-3 p-2 my-2 w-full h-[120px] max-h-[150px] rounded-md border-[2px] border-black items-center' >
+    <div className='flex gap-3 p-2 w-full h-[120px] max-h-[150px] rounded-md border-[2px] border-black items-center' >
         <div className='w-[150px] h-full overflow-hidden rounded-md cursor-pointer' onClick={()=>goToMapPage(data.id)}>
             {data.mapImage?
                 <Image 
