@@ -6,6 +6,7 @@ import { getUser } from "@/utils/models/userModel";
 const authOptions = {
     providers:[
         CredentialsProvider({
+            id:"credentials",
             name:"credentials",
             credentials:{},
             async authorize(credentials){
@@ -41,4 +42,4 @@ const authOptions = {
 }
 const handler = NextAuth(authOptions)
   
-export { handler as GET, handler as POST }
+export { handler as GET, handler as POST , authOptions}
