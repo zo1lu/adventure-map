@@ -2,11 +2,10 @@
 import React, {useState, useRef, useEffect} from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation';
-import { signIn, useSession } from 'next-auth/react';
+import { signIn } from 'next-auth/react';
 
 const LoginPage = () => {
   const router = useRouter()
-  const { status } = useSession()
   const emailRef = useRef<HTMLInputElement>(null)
   const passwordRef = useRef<HTMLInputElement>(null)
   const [message, setMessage] = useState({"error":true,"content":""})
@@ -31,8 +30,14 @@ const LoginPage = () => {
             return{"error":true,"content":"Invalid Credential"}
           })
           return
+        }else{
+          setMessage(()=>{
+            return{"error":false,"content":"Successfully login"}
+          })
+          router.replace('/home');
         }
-        router.replace('/home');
+
+        
       }
     }catch(e){
       setMessage(()=>{
