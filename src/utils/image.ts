@@ -1,5 +1,3 @@
-import { originFilter } from "@/data/image"
-import { resolve } from "path"
 
 const getCroppedImage = (imageSrc:any, crop:cropAreaPixelType, filter:filterStyleType) => {
     const dCanvas = document.createElement('canvas')
@@ -10,8 +8,10 @@ const getCroppedImage = (imageSrc:any, crop:cropAreaPixelType, filter:filterStyl
     const image = document.createElement('img')
     image.setAttribute('src', imageSrc)
     if(dCtx!=null){
-        console.log(filter.filter)
+        
         dCtx.filter = filter.filter
+        dCtx.fillStyle = "white"
+        dCtx.fillRect(0,0,500,400)
         dCtx?.drawImage(
             image,
             crop.x,

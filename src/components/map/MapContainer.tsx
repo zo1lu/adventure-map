@@ -1,9 +1,11 @@
 "use client"
 import { usePathname } from 'next/navigation'
-import React, { useRef, useState, useEffect} from 'react';
+import React, { useRef, useState, useEffect, useMemo} from 'react';
 import MapContext from '@/context/MapContext';
+import { useSession } from 'next-auth/react';
 //module
 import { v4 as uuid } from 'uuid';
+import { JsonValue } from '@prisma/client/runtime/library';
 //Component
 import MapHead from './InfoComponent/MapHead';
 import SpotInfo from './InfoComponent/SpotInfo';
@@ -34,32 +36,32 @@ import { getMapGeoData, renderGeoData, renderGeoDataCollections } from '@/utils/
 import { geoDataType } from '@/data/infoType';
 import { applyStyle } from 'ol-mapbox-style';
 import { userLayerStyle } from '@/utils/map/style';
+import AlertBox_M from '../message/AlertBox_M';
+import SuccessBox from '../message/SuccessBox';
+import FailBox from '../message/FailBox';
+import ProcessBox from '../message/ProcessBox';
+
 ////Not in use
 
-
-
-// const data = require('../../../fake_data/test_geo_data.json');
-
-// type mapGeoInfoOutputType = {
-//   center: number[],
-//   zoom: number,
-//   geoData: geoDataType
-// }
-// interface MapProps {
-//   mapGeoInfo: mapGeoInfoOutputType 
-// }
+type mapGeoInfoOutputType = {
+  center: number[],
+  zoom: number,
+  isPublic: boolean,
+  spots: { geoData: JsonValue; }[],
+  routes: { geoData: JsonValue; }[],
+  geometrys: { geoData: JsonValue; }[],
+}
+interface MapProps {
+  data: mapGeoInfoOutputType 
+}
 //{mapGeoInfo}:MapProps
-const MapContainer = () => {
+const MapContainer = ({data}:MapProps) => {
   // const {center, zoom, geoData} = mapGeoInfo
-  // const apiKey = "yVmiWxcsXKCQXXHSi9xb";
-  // const scale = devicePixelRatio > 1.5 ? "@2x" : "";
-  // const baseUrl = `https://api.maptiler.com/maps/basic-v2/{z}/{x}/{y}${scale}.png?key=${apiKey}`
+  const {data:session} = useSession()
   const mapId = usePathname().split("/")[2]
   const mapBoxRef = useRef<HTMLDivElement>(null)
-  // const mapRef = useRef(null)
-  // const scaleBarRef = useRef<HTMLDivElement>(null)
-  // const zoomControlRef = useRef<HTMLDivElement>(null)
   const [map, setMap] = useState<Map | undefined>()
+  const [mapStatus, setMapStatus] = useState(false)
   const colorRef = useRef("#ffcc33")
   const strokeRef = useRef(5)
   const routeRef = useRef<routeType>("walk")
@@ -72,16 +74,16 @@ const MapContainer = () => {
   const isRenderingDataFromDBRef = useRef(true)
   const [isimagePreviewOpen, setIsImagePreviewOpen] = useState<Boolean>(false)
   const currentImageTargetRef = useRef<curretnImageTargetType>({type:"", id:"", isNew:true})
-  // const [currentItem, setCurrentItem] = useState<currentItemObject>({
-  //   status:"none",
-  //   id:"",
-  //   type:"none",
-  // })
-  
+  const [message, setMessage] = useState({type:"",content:""})
+
   const [currentId, setCurrentId] = useState<string>("")
   const [currentStatus, setCurrentStatus] = useState<currentStatusType>("none")
   const [currentItemType, setCurrentItemType] = useState<currentItemType>("none")
   const [isSeleted, setIsSelected] = useState(false)
+  const [mapImage, setMapImage] = useState({id:"",url:""})
+  const [spotImage, setSpotImage] = useState({id:"",url:""})
+  const [routeImage, setRouteImage] = useState({id:"",url:""})
+
   const changeColorRef = (newColor:string) =>{
     colorRef.current = newColor
     if(drawMode=="LineString" || drawMode=="Polygon"  || drawMode=="Circle" ){
@@ -128,6 +130,25 @@ const MapContainer = () => {
   // const setPreSelectedFeature = (type:selectedFeatureType, id:string) => {
   //   preSelectedFeatureRef.current= {type:type, id:id}
   // }
+  const setCurrentMessage = (type:string, content:string) => {
+    setMessage(()=>{
+      return {
+        type: type,
+        content: content,
+      }
+    })
+  }
+  const closeMessageBox = () => {
+    setMessage(()=>{
+      return {
+        type:"",
+        content:""
+      }
+    })
+  }
+  const toggleMapStatus = (goPublic:boolean) => {
+    setMapStatus(()=>goPublic)
+  }
   const resetCurrentSelectedFeature = () => {
     currentSelectedFeatureRef.current= {type:"none", id:""}
     setIsSelected(()=>false)
@@ -162,16 +183,18 @@ const MapContainer = () => {
     setIsGeometryMoved(()=>false)
   }
   const saveMapData = (map:Map) => {
-    const centerCoor = map.getView().getCenter()
-    const center = centerCoor? toLonLat(centerCoor):[120,24]
+    setMessage(()=>{
+      return {type:"process",content:"Saving the current view..."}
+      })
+    const center = map.getView().getCenter()
+    const lnglatCenter = center?toLonLat(center):[120,24]
     const zoom = map.getView().getZoom()
-    const geoData = getMapGeoData()
     const body = {
       mapId: mapId,
       mapData: {
         zoom: zoom,
-        center: center,
-        geo_data:geoData
+        center: lnglatCenter,
+        geo_data: null
       }
     }
     console.log(body)
@@ -183,37 +206,80 @@ const MapContainer = () => {
       body:JSON.stringify(body)
     })
     .then(res=>res.json())
-    .then(res=>console.log(res))
-    .catch((e)=>console.log(e))
+    .then(result=>{
+      if(result.success){
+        setMessage(()=>{
+        return {type:"success",content:"Successfully save the view!"}
+        })
+      }else{
+        setMessage(()=>{
+          return {type:"fail",content:"Something wrong, please try again"}
+          })
+      }
+    })
+    .catch((e)=>{
+      console.log(e)
+      setMessage(()=>{
+        return {type:"fail",content:"Something wrong, please try again"}
+        })
+    })
+    .finally(()=>{
+      setTimeout(()=>{
+        setMessage(()=>{
+          return {type:"",content:""}
+          })
+      },2000)
+    })
   }
-  // useEffect(()=>{
-  //   console.log(currentSelectedFeatureRef.current)
-  //   addStyleToPreSelectedFeature(preSelectedFeatureRef.current)
-  //   currentSelectedFeatureRef.current={type:"none", id:""}
-  //   console.log("hi")
-  // },[currentItemType])
- 
+  const setImage = (type:string, imageData:{id:string, url:string}) => {
+    type=="map"?setMapImage(()=>{
+      return imageData
+    })
+    :type=="spot"?setSpotImage(()=>{
+      return imageData
+    })
+    :type=="route"?setRouteImage(()=>{
+      return imageData
+    })
+    :null
+  }
+
   useEffect(() => {
-      // const zoom = new Zoom({
-      //   className:'w-10 h-5 flex m-5 p-3'
-      // });
+
       console.log("Map loaded")
-      fetch(`/api/map/${mapId}?type=geodatacollections`)
-      .then((res)=>res.json())
-      .then((data)=>{
-        console.log(data)
-        const {center, zoom, spots, routes, geometrys} = data
+      // fetch(`/api/map/${mapId}?type=geodatacollections`)
+      // .then((res)=>res.json())
+      // .then((data)=>{
+      //   const {center, zoom, isPublic, spots, routes, geometrys} = data
+      //   const geoDataCollections = {
+      //     geometrys:geometrys,
+      //     routes:routes,
+      //     spots:spots,
+      //   }
+      //   setMapStatus(()=>isPublic)
+      //   isRenderingDataFromDBRef.current = true
+      //   renderGeoDataCollections(geoDataCollections)
+      //   view.setCenter(fromLonLat(center))
+      //   view.setZoom(zoom)
+        
+      //   isRenderingDataFromDBRef.current = false
+      // })
+      // .catch((e)=>console.log(e))
+      // console.log(data)
+        const {center, zoom, isPublic, spots, routes, geometrys} = data
         const geoDataCollections = {
           geometrys:geometrys,
           routes:routes,
           spots:spots,
         }
+        setMapStatus(()=>isPublic)
+        isRenderingDataFromDBRef.current = true
         renderGeoDataCollections(geoDataCollections)
         view.setCenter(fromLonLat(center))
         view.setZoom(zoom)
+        
         isRenderingDataFromDBRef.current = false
-      })
-      .catch((e)=>console.log(e))
+
       const scaleLine = new ScaleLine({
         bar:true,
         text:true,
@@ -336,12 +402,10 @@ const MapContainer = () => {
         feature.setId(id)
         feature.setStyle(spotStyle)
         setCurrentId(()=>id)
-        console.log(feature?.get("location"))
         changeSpotLocation(toLonLat(feature.get("location")))
         setCurrentStatus(()=>"new")
         map.un("click", addSpotFeature)
         setDrawMode("hand")
-        console.log("add mark")
       }
     });
     //Select Interaction
@@ -408,48 +472,45 @@ const MapContainer = () => {
         setIsGeometryMoved(()=>true)
       }
     });
-      return ()=>{
-        map.setTarget("")
-        console.log("Map Unload")
-        // document.removeEventListener("keydown",deleteSelectedFeature)
-      }
+
+    return ()=>{
+      map.setTarget("")
+      console.log("Map Unload")
+    }
   },[mapId])
 
-
+  const cursorStyle = drawMode=="hand"?"grab"
+                      :drawMode=="mark"||drawMode=="route"?"crosshair"
+                      :"auto"
   return (
     <MapContext.Provider value={map}>
-        <div className='h-screen w-screen relative'>
-              <ImagePreview target={currentImageTargetRef.current} isShow={isimagePreviewOpen} closeImagePreview={closeImagePreview} />
+        <div className='h-screen w-screen relative' style={{cursor:cursorStyle}}>
+            {message.type=="publicAlert"?<AlertBox_M message={message.content} closeMessageBox={closeMessageBox}/>
+            :message.type=="success"?<SuccessBox message={message.content} />
+            :message.type=="error"?<FailBox message={message.content} />
+            :message.type=="process"?<ProcessBox title={"Saving view"} message={message.content} />
+            :null}
+
+            <ImagePreview target={currentImageTargetRef.current} isShow={isimagePreviewOpen} closeImagePreview={closeImagePreview} setImage={setImage}/>
 
             
 
             <div ref={mapBoxRef} className='h-screen w-full relative'></div>
-            <MapHead openImagePreview={openImagePreview}/>
+            <MapHead openImagePreview={openImagePreview} mapImage={mapImage} setImage={setImage}/>
             <div className='w-[400px] h-[75px] absolute bottom-3 left-[calc(50%-250px)] flex items-center justify-end gap-3'>
               {currentSelectedFeatureRef.current.type!="none"?<OptionToolBox currentSelected={currentSelectedFeatureRef.current} resetCurrentSelectedFeature={resetCurrentSelectedFeature} changeCurrentItemType={changeCurrentItemType}/>:<></>}
               <ToolBox drawMode={drawMode} changeDrawMode={changeDrawMode} changeCurrentItemType={changeCurrentItemType} changeCurrentStatus={changeCurrentStatus} changeCurrentId={changeCurrentId} color={colorRef.current} stroke={strokeRef.current} preSelectedFeature={preSelectedFeatureRef.current}
               resetCurrentSelectedFeature={resetCurrentSelectedFeature}/>
             </div>
             
-            <TopToolBox save={saveMapData}/>
+            <TopToolBox mapStatus={mapStatus} mapId={mapId} setMessage={setCurrentMessage} toggleMapStatus={toggleMapStatus} saveView={saveMapData}/>
             {currentItemType!="none" && (
-              currentItemType=="spot"?<SpotInfo id={currentId} status={currentStatus} spotLocation={spotLocation} changeSpotLocation={changeSpotLocation} setCurrentSelectedFeature={setCurrentSelectedFeature} openImagePreview={openImagePreview} />:
-              currentItemType=="route"?<RouteInfo id={currentId} status={currentStatus} changeRouteRefHandler={changeRouteRef} edgeLocation={routeEdgeLocation} changeRouteEdgeLocation={changeEdgeLocation} setCurrentSelectedFeature={setCurrentSelectedFeature} openImagePreview={openImagePreview} />:
+              currentItemType=="spot"?<SpotInfo id={currentId} status={currentStatus} spotImage={spotImage} setImage={setImage} spotLocation={spotLocation} changeSpotLocation={changeSpotLocation} setCurrentSelectedFeature={setCurrentSelectedFeature} openImagePreview={openImagePreview} />:
+              currentItemType=="route"?<RouteInfo id={currentId} status={currentStatus} routeImage={routeImage} setImage={setImage} changeRouteRefHandler={changeRouteRef} edgeLocation={routeEdgeLocation} changeRouteEdgeLocation={changeEdgeLocation} setCurrentSelectedFeature={setCurrentSelectedFeature} openImagePreview={openImagePreview} />:
               currentItemType=="linestring" || currentItemType=="polygon" || currentItemType=="circle"?<GeometryInfo id={currentId} status={currentStatus} type={currentItemType} color={colorRef.current} stroke={strokeRef.current} changeColorRefHandler={changeColorRef} changeStrokeRefHandler={changeStrokeRef} setCurrentSelectedFeature={setCurrentSelectedFeature} isMoved={isGeometryMoved} resetIsMoved={resetIsGeometryMoved}/>:
               <></>
             )
             }
-            {/* <button className='w-fit h-10 bg-white absolute bottom-3 left-3' onClick={()=>{getMapGeoData()}}>show geo data</button> */}
-
-            {/* {sideInfoStatus=="palette"?
-            <DrawSetting colorChangeHandler={colorChangeHandler} strokeChangeHandler={strokeChangeHandler} defaultColor={colorRef.current} defaultStroke={strokeRef.current.toString()}/>:
-            sideInfoStatus=="spot"?<SpotInfo />:
-            sideInfoStatus=="route"?<RouteInfo />:<GeometrySetting geometry={"Circle"} />} */}
-            {/* <button className='w-fit h-10 bg-white absolute bottom-3 left-3' onClick={()=>{setSideInfoStatus("palette")}}>Pallete</button>
-            <button className='w-fit h-10 bg-white absolute bottom-3 left-20' onClick={()=>{setSideInfoStatus("route")}}>route</button>
-            <button className='w-fit h-10 bg-white absolute bottom-3 left-40' onClick={()=>{setSideInfoStatus("spot")}}>spot</button> */}
-            {/* <div id="scale_bar" className='absolute left-10 bottom-10 w-fit text-xs bg-white'></div> */}
-            {/* <div ref={zoomControlRef} className='w-10 h-5 absolute right-10 bottom-10'></div> */}
             <BottomToolBox currentSelectedFeature={currentSelectedFeatureRef.current}/>
             
         </div>

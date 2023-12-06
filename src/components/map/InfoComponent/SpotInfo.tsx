@@ -12,13 +12,15 @@ import { getFeatureGeoData } from '@/utils/geoData';
 interface SpotInfoProps {
   id: string,
   status: currentStatusType,
+  spotImage: {id:string, url:string},
+  setImage:(type:string,imageData:{id:string, url:string})=>void,
   spotLocation: spotLocationType,
   changeSpotLocation: (newSpotLocation:spotLocationType)=> void
   setCurrentSelectedFeature:(type:selectedFeatureType, id:string)=>void
   openImagePreview:(type:ImageTargetType, id:string, isNew:Boolean)=>void
 }
 
-const SpotInfo = ({id, status, spotLocation, changeSpotLocation, setCurrentSelectedFeature, openImagePreview}:SpotInfoProps) => {
+const SpotInfo = ({id, status, spotImage, setImage, spotLocation, changeSpotLocation, setCurrentSelectedFeature, openImagePreview}:SpotInfoProps) => {
   const map = useContext(MapContext);
   const mapId = usePathname().split("/")[2]
   const [message, setMessage] = useState({type:"normal",content:""})
@@ -33,10 +35,10 @@ const SpotInfo = ({id, status, spotLocation, changeSpotLocation, setCurrentSelec
   // const spotEndTimeZoneRef = useRef("")
   // const spotDurationRef = useRef(0)
   // const spotDescriptionRef = useRef("")
-  const [spotImg, setSpotImg] = useState({
-    id:"",
-    url:""
-  })
+  // const [spotImg, setSpotImg] = useState({
+  //   id:"",
+  //   url:""
+  // })
   const [spotDuration, setSpotDuration] = useState(0)
   const [spotInfo, setSpotInfo] = useState({
     title: "",
@@ -181,7 +183,7 @@ const SpotInfo = ({id, status, spotLocation, changeSpotLocation, setCurrentSelec
   }
   const deleteImage = () => {
     return new Promise((resolve, reject)=>{
-        fetch(`/api/image/${spotImg.id}?type=spot`,{
+        fetch(`/api/image/${spotImage.id}?type=spot`,{
             method:"DELETE"
         })
         .then((res)=>res.json())
@@ -193,19 +195,14 @@ const SpotInfo = ({id, status, spotLocation, changeSpotLocation, setCurrentSelec
 }
   const updateSpotImage = () => {
     setIsDeleteBoxOpen(false)
-    openImagePreview("spot", spotImg.id, false)
+    openImagePreview("spot", spotImage.id, false)
   }
   const deleteSpotImage = async() => {
     setIsDeleteBoxOpen(false)
     try{
           //process message
           await deleteImage()
-          setSpotImg(()=>{
-              return {
-                  id:"",
-                  url:""
-              }
-          })
+          setImage("spot",{id:"",url:""})
           
       }catch(e){
           //error message
@@ -233,12 +230,7 @@ const SpotInfo = ({id, status, spotLocation, changeSpotLocation, setCurrentSelec
       // spotEndTimeZoneRef.current = getLocalTimeZone()
       // spotDescriptionRef.current = ""
       changeSpotLocation([0,0])
-      setSpotImg(()=>{
-        return {
-          id:"",
-          url:""
-        }
-      })
+      setImage("spot",{id:"",url:""})
       setSpotDuration(()=>0)
       setSpotInfo(()=>{
         return {
@@ -304,7 +296,7 @@ const SpotInfo = ({id, status, spotLocation, changeSpotLocation, setCurrentSelec
       
     }else if (status == "old"){
       console.log("load spot Info")
-      setMessage(()=>{return {type:"normal",content:"getting data..."}})
+      setMessage(()=>{return {type:"normal",content:"Getting data..."}})
       fetch(`/api/spot/${id}`)
       .then((res)=>{
         return res.json()
@@ -321,15 +313,14 @@ const SpotInfo = ({id, status, spotLocation, changeSpotLocation, setCurrentSelec
         // spotEndTimeZoneRef.current = newInfo.endTimeZone || getLocalTimeZone()
         changeSpotLocation(newInfo.location)
         setSpotDuration(()=>(newInfo.duration || 0))
-        setSpotImg(()=>{
-          return newInfo.spotImage?{
-            id:newInfo.spotImage.id,
-            url:newInfo.spotImage.url
-          }:{
-            id:"",
-            url:""
-        }
-        })
+        const newImageData = newInfo.spotImage?{
+                                  id:newInfo.spotImage.id,
+                                  url:newInfo.spotImage.url
+                                }:{
+                                  id:"",
+                                  url:""
+                              }
+        setImage("spot", newImageData)
         setSpotInfo((current)=>{
           return {
             ...current,
@@ -401,7 +392,7 @@ const SpotInfo = ({id, status, spotLocation, changeSpotLocation, setCurrentSelec
       <div className='overflow-y-scroll'>
         <div className='w-full flex mb-2 justify-between'>
           <input value={spotInfo.title} className="w-[calc(100%-48px)] h-8 outline-none focus:border-b-[1px] focus:border-black text-xl font-bold uppercase" placeholder='Spot Title' onChange={(e)=>handleSpotState("title",e.target.value)}/>
-          {id&&spotImg.id==""?
+          {id&&spotImage.id==""?
               <button className='w-fit h-8 text-xs' onClick={()=>{openImagePreview("spot", id, true)}}>
                 <Image 
                     src={'/icons/camera-30.png'}
@@ -416,7 +407,7 @@ const SpotInfo = ({id, status, spotLocation, changeSpotLocation, setCurrentSelec
           <p className='w-1/2 text-xs'><span>Long: {spotLocation[0].toFixed(3)}</span></p>
           <p className='w-1/2 text-xs'><span>Lat: {spotLocation[1].toFixed(3)}</span></p>
         </div>
-        {id&&spotImg.id?<div className='w-full h-[240px] min-h-[240px] overflow-hidden relative'>
+        {id&&spotImage.id?<div className='w-full h-[240px] min-h-[240px] overflow-hidden relative'>
                       {isDeleteBoxOpen?
                       <div className='absolute top-3 right-10 w-20 h-20 py-3 bg-white z-10'>
                           <p className="hover:font-bold text-center" onClick={()=>{deleteSpotImage()}}>Delete</p>

@@ -13,6 +13,8 @@ import { getFeatureGeoData } from '@/utils/geoData';
 interface RouteInfoProps {
   id: string,
   status: currentStatusType,
+  routeImage: {id:string, url:string},
+  setImage:(type:string,imageData:{id:string, url:string})=>void,
   changeRouteRefHandler: (routeType: routeType)=> void,
   edgeLocation: number[][],
   changeRouteEdgeLocation: (edgeLocation:edgeLocationType)=>void
@@ -20,7 +22,7 @@ interface RouteInfoProps {
   openImagePreview:(type:ImageTargetType, id:string, isNew:Boolean)=>void
 }
 
-const RouteInfo = ({id, status, changeRouteRefHandler, edgeLocation, changeRouteEdgeLocation, setCurrentSelectedFeature, openImagePreview}:RouteInfoProps) => {
+const RouteInfo = ({id, status, routeImage, setImage, changeRouteRefHandler, edgeLocation, changeRouteEdgeLocation, setCurrentSelectedFeature, openImagePreview}:RouteInfoProps) => {
     const map = useContext(MapContext);
     const mapId = usePathname().split("/")[2]
     const [message, setMessage] = useState({type:"normal",content:""})
@@ -47,10 +49,10 @@ const RouteInfo = ({id, status, changeRouteRefHandler, edgeLocation, changeRoute
         end_time_zone:"",
         duration:0,
     })
-    const [routeImg, setRouteImg] = useState({
-      id:"",
-      url:""
-    })
+    // const [routeImg, setRouteImg] = useState({
+    //   id:"",
+    //   url:""
+    // })
     const [routeDuration, setRouteDuration] = useState(0)
     const [routeTypeId, setRouteTypeId] = useState("RT01")
     const [isDeleteBoxOpen, setIsDeleteBoxOpen] = useState(false)
@@ -187,7 +189,7 @@ const RouteInfo = ({id, status, changeRouteRefHandler, edgeLocation, changeRoute
     }
     const deleteImage = () => {
       return new Promise((resolve, reject)=>{
-          fetch(`/api/image/${routeImg.id}?type=route`,{
+          fetch(`/api/image/${routeImage.id}?type=route`,{
               method:"DELETE"
           })
           .then((res)=>res.json())
@@ -199,19 +201,14 @@ const RouteInfo = ({id, status, changeRouteRefHandler, edgeLocation, changeRoute
     }
     const updateRouteImage = () => {
       setIsDeleteBoxOpen(false)
-      openImagePreview("route", routeImg.id, false)
+      openImagePreview("route", routeImage.id, false)
     }
     const deleteRouteImage = async() => {
       setIsDeleteBoxOpen(false)
       try{
             //process message
             await deleteImage()
-            setRouteImg(()=>{
-                return {
-                    id:"",
-                    url:""
-                }
-            })
+            setImage("route",{id:"",url:""})
         }catch(e){
             //error message
         }
@@ -248,12 +245,7 @@ const RouteInfo = ({id, status, changeRouteRefHandler, edgeLocation, changeRoute
         //routeEdgeLocationRef.current = ([[0,0],[0,0]])
         changeRouteRefHandler("walk")
         changeRouteEdgeLocation([[0,0],[0,0]])
-        setRouteImg(()=>{
-          return {
-            id:"",
-            url:""
-          }
-        })
+        setImage("route",{id:"",url:""})
         setRouteDuration(()=>0)
         setRouteTypeId(()=>"RT01")
         setRouteInfo(()=>{
@@ -338,15 +330,14 @@ const RouteInfo = ({id, status, changeRouteRefHandler, edgeLocation, changeRoute
           const newInfo = data
           // routeTypeIdRef.current = newInfo.routeTypeId
           changeRouteEdgeLocation([newInfo.depart || [0,0],newInfo.destination || [0,0]])
-          setRouteImg(()=>{
-            return newInfo.routeImage?{
-              id:newInfo.routeImage.id,
-              url:newInfo.routeImage.url
-            }:{
-              id:"",
-              url:""
-          }
-          })
+          const newImageData = newInfo.routeImage?{
+                                  id:newInfo.routeImage.id,
+                                  url:newInfo.routeImage.url
+                                }:{
+                                  id:"",
+                                  url:""
+                              }
+          setImage("route", newImageData)
           setRouteDuration(()=>(newInfo.duration || 0))
           setRouteTypeId(()=>(newInfo.routeTypeId))
           setRouteInfo((current)=>{
@@ -419,7 +410,7 @@ const RouteInfo = ({id, status, changeRouteRefHandler, edgeLocation, changeRoute
       <div className='overflow-y-scroll'>
         <div className='w-full flex mb-2 justify-between'>
           <input className="h-8 outline-none focus:border-b-[1px] focus:border-black text-xl font-bold uppercase" placeholder='Title' value={routeInfo.title} onChange={e=>handleRouteState("title",e.target.value)}/>
-          {id&&routeImg.id==""?
+          {id&&routeImage.id==""?
               <button className='w-fit h-8 text-xs' onClick={()=>{openImagePreview("route", id, true)}}>
                 <Image 
                     src={'/icons/camera-30.png'}
@@ -437,7 +428,7 @@ const RouteInfo = ({id, status, changeRouteRefHandler, edgeLocation, changeRoute
           <span className='text-xs'>&harr;</span>
           <p className='w-[32px] text-xs'>Destination:<span className='pl-3'>long_{edgeLocation[1][0].toFixed(3)},&nbsp;&nbsp;lat_{edgeLocation[1][1].toFixed(3)}</span></p>
         </div>
-        {id&&routeImg.id?<div className='w-full h-[240px] min-h-[240px] overflow-hidden relative'>
+        {id&&routeImage.id?<div className='w-full h-[240px] min-h-[240px] overflow-hidden relative'>
                       {isDeleteBoxOpen?
                       <div className='absolute top-3 right-10 w-20 h-20 py-3 bg-white z-10'>
                           <p className="hover:font-bold text-center" onClick={()=>{deleteRouteImage()}}>Delete</p>
@@ -453,7 +444,7 @@ const RouteInfo = ({id, status, changeRouteRefHandler, edgeLocation, changeRoute
                           />
                       </button>
                       <Image 
-                          src={routeImg.url}
+                          src={routeImage.url}
                           width={300}
                           height={240}
                           quality={100}

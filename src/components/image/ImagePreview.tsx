@@ -16,10 +16,11 @@ interface ImagePreviewProps {
         isNew: Boolean
     },
     isShow:Boolean,
-    closeImagePreview:()=>void
+    closeImagePreview:()=>void,
+    setImage:(type:string, imageData:{id:string,url:string})=>void
 }
 
-const ImagePreview = ({target, isShow, closeImagePreview}:ImagePreviewProps) => {
+const ImagePreview = ({target, isShow, closeImagePreview, setImage}:ImagePreviewProps) => {
     const type = target.type
     const id = target.id
     const isNew = target.isNew
@@ -56,10 +57,6 @@ const ImagePreview = ({target, isShow, closeImagePreview}:ImagePreviewProps) => 
 
     const onCropAreaChange = (croppedArea:cropAreaPercentageType, croppedAreaPixels:cropAreaPixelType) => {
         setCroppedArea(croppedAreaPixels)
-        console.log(croppedAreaPixels)
-        //console.log(croppedArea)
-        //const croppedImg = await getCroppedImage(currentImage, croppedArea)
-        //setCurrentImage(croppedImg)
     }
 
     const onSelectFile = (e:React.ChangeEvent<HTMLInputElement>) => {
@@ -150,7 +147,6 @@ const ImagePreview = ({target, isShow, closeImagePreview}:ImagePreviewProps) => 
         })
         try{
             let finalImage = await getCroppedImage(newestImage, croppedArea, imageFilter)  
-            console.log(finalImage)
             let result = await uploadImage(finalImage)
             setMessage(()=>{
                 return {
@@ -160,8 +156,8 @@ const ImagePreview = ({target, isShow, closeImagePreview}:ImagePreviewProps) => 
             })
             //close image preview page
             closeImagePreviewPage()
-            //show image with return data          
-            console.log(result)  
+            //show image with return data           
+            setImage(type, result.data)
         }catch(e){
             setMessage(()=>{
                 return {
@@ -280,6 +276,14 @@ const ImagePreview = ({target, isShow, closeImagePreview}:ImagePreviewProps) => 
                 width:newCanvasWidth,
                 height:newCanvasHeight
             }
+            setCroppedArea(()=>{
+                return {
+                        width:newCanvasWidth, 
+                        height:newCanvasHeight,
+                        x:0,
+                        y:0, 
+                    }
+            })
             const startX = (newCanvasWidth-width)/2
             newCtx?.drawImage(image,0,0,width,height, startX,0, width, height)
             return newCanvas.toDataURL()
@@ -292,10 +296,26 @@ const ImagePreview = ({target, isShow, closeImagePreview}:ImagePreviewProps) => 
                 width:newCanvasWidth,
                 height:newCanvasHeight
             }
+            setCroppedArea(()=>{
+                    return {
+                            width:newCanvasWidth, 
+                            height:newCanvasHeight,
+                            x:0,
+                            y:0, 
+                        }
+            })
             const startY = (newCanvasHeight-height)/2
             newCtx?.drawImage(image,0,0,width,height,0, startY, width, height)
             return newCanvas.toDataURL()
         }else{
+            setCroppedArea(()=>{
+                return {
+                        width: width, 
+                        height: height,
+                        x:0,
+                        y:0, 
+                    }
+        })
             return imageDataUrl
         }
     }
