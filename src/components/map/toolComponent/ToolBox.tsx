@@ -19,12 +19,7 @@ interface ToolBoxProps {
 
 const ToolBox = ({color, stroke, drawMode, changeDrawMode, changeCurrentItemType, changeCurrentStatus, changeCurrentId, preSelectedFeature, resetCurrentSelectedFeature}:ToolBoxProps) => {
   const map = useContext(MapContext);
-  //>>delete event
-  const deleteFeature = (e) => {
-    if(e.code == "46"){
-      console.log("delete feature")
-    }
-  }
+
   //set draw mode
   const drawModeController = (drawType:drawModeType) => {
     let activeMode: drawModeType
@@ -40,6 +35,7 @@ const ToolBox = ({color, stroke, drawMode, changeDrawMode, changeCurrentItemType
     //organize interaction
     //delete pre interaction
     changeCurrentId("")
+    changeCurrentItemType("none")
     if(drawMode == "mark"){
       map.un("click",addSpotFeature)
       // changeCurrentItem({status:"none", id:"", type:"none"})
@@ -49,7 +45,7 @@ const ToolBox = ({color, stroke, drawMode, changeDrawMode, changeCurrentItemType
       toggleHandMapInteraction(map, false)
       changeCurrentItemType("none")
       addStyleToPreSelectedFeature(preSelectedFeature)
-      resetCurrentSelectedFeature()
+      //resetCurrentSelectedFeature()
       selectedSource.clear()
       //remove delete action
     }else{

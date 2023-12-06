@@ -175,6 +175,7 @@ const BottomToolBox = ({currentSelectedFeature}:BottomToolBoxProps) => {
             fill
             sizes='64px'
             alt={`${mapStyleRef.current}_base`}
+            priority={true}
           />
       </button>
     </div>

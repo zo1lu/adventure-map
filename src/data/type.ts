@@ -54,3 +54,74 @@ type cropAreaPixelType = {
 type filterStyleType = {
   filter:string
 }
+
+
+type myMapDataType = {
+    id:string,
+    title:string,
+    country:string,
+    regionOrDistrict:string,
+    description:string,
+    isPublic:Boolean,
+    createdAt:string,
+    updatedAt:string,
+    mapImage?:{
+        id:string,
+        url:string,
+    },
+    memberType?:{
+        name:string
+    },
+    travelType?:{
+        name:string
+    },
+    startTime:string,
+    startTimeZone:string,
+    endTime:string,
+    endTimeZone:string,
+    duration:number
+}
+
+type likeMapDataType = {
+  id:string,
+  title:string,
+  country:string,
+  regionOrDistrict:string,
+  startTime:string,
+  startTimeZone:string,
+  endTime:string,
+  endTimeZone:string,
+  duration:number,
+  author:{
+      username:string,
+  },
+  description:string,
+  mapImage?:{
+      id:string,
+      url:string,
+  },
+  memberType?:{
+      name:string
+  },
+  travelType?:{
+      name:string
+  },
+}
+
+type mapDataType = {
+  title:string,
+  country:string,
+  regionOrDistrict:string,
+  memberTypeId?:string,
+  travelTypeId?:string,
+  description:string,
+  startTime:string,
+  startTimeZone:string,
+  endTime:string,
+  endTimeZone:string,
+  duration:number,
+  mapImage?:{
+    id:string,
+    url:string
+  }
+}

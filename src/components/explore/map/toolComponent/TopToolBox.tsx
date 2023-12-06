@@ -53,7 +53,7 @@ const TopToolBox = ({isLiked, mapId, userId, setMessage, toggleIsLiked}:TopToolB
       },3000)
     })
   }
-
+  const likeImageUrl = isLiked?'/icons/star-50-fill.png':'/icons/star-50.png'
   
   return (
     <div className="w-fit h-10 z-10 absolute top-5 right-8 flex gap-5 items-center">
@@ -82,10 +82,10 @@ const TopToolBox = ({isLiked, mapId, userId, setMessage, toggleIsLiked}:TopToolB
         <div className='w-[30px] h-[30px]'>
           <Image 
             onClick={()=>{mapLikedToggle()}}
-            src={isLiked?'/icons/star-50-fill.png':'/icons/star-50.png'}
+            src={likeImageUrl}
             width={30}
             height={30}
-            alt="edit_button"
+            alt="like_button"
           />
         </div>
         
