@@ -28,8 +28,18 @@ import SpotInfo from './infoComponent/SpotInfo';
 import RouteInfo from './infoComponent/RouteInfo';
 import GeometryInfo from './infoComponent/GeometryInfo';
 
-
-const PublicMapContainer = () => {
+interface PublicMapProps{
+    geoData:{
+        center:number[],
+        zoom:number,
+        spots:{ geoData: string }[],
+        routes:{ geoData: string }[],
+        geometrys:{ geoData: string }[],
+        isLiked:boolean
+    },
+    mapData:mapDataType,
+}
+const PublicMapContainer = ({geoData, mapData}: PublicMapProps) => {
     const {data:session} = useSession()
     const userId = session?session.user.id:""
     const mapId = usePathname().split("/")[3]
@@ -69,23 +79,32 @@ const PublicMapContainer = () => {
 
     useEffect(()=>{
         console.log("Map loaded")
-        fetch(`/api/public/map/${mapId}?user=${userId}`)
-        .then((res)=>res.json())
-        .then((data)=>{
-            console.log(data)
-            const {center, zoom, spots, routes, geometrys, isLiked} = data
-            const geoDataCollections = {
-            geometrys:geometrys,
-            routes:routes,
-            spots:spots,
-            }
-            setIsLiked(()=>isLiked)
-            renderGeoDataCollections(geoDataCollections)
-            view.setCenter(fromLonLat(center))
-            view.setZoom(zoom)
-        })
-        .catch((e)=>console.log(e))
-
+        // fetch(`/api/public/map/${mapId}?user=${userId}`)
+        // .then((res)=>res.json())
+        // .then((data)=>{
+        //     console.log(data)
+        //     const {center, zoom, spots, routes, geometrys, isLiked} = data
+        //     const geoDataCollections = {
+        //     geometrys:geometrys,
+        //     routes:routes,
+        //     spots:spots,
+        //     }
+        //     setIsLiked(()=>isLiked)
+        //     renderGeoDataCollections(geoDataCollections)
+        //     view.setCenter(fromLonLat(center))
+        //     view.setZoom(zoom)
+        // })
+        // .catch((e)=>console.log(e))
+        const {center, zoom, spots, routes, geometrys, isLiked} = geoData
+        const geoDataCollections = {
+        geometrys:geometrys,
+        routes:routes,
+        spots:spots,
+        }
+        setIsLiked(()=>isLiked)
+        renderGeoDataCollections(geoDataCollections)
+        view.setCenter(fromLonLat(center))
+        view.setZoom(zoom)
         const scaleLine = new ScaleLine({
             bar:true,
             text:true,
@@ -175,7 +194,7 @@ const PublicMapContainer = () => {
             :message.type=="error"?<FailBox message={message.content} />
             :null}
             <div ref={mapBoxRef} className='h-screen w-full relative'></div>
-            <MapHead />
+            <MapHead mapData={mapData}/>
             <TopToolBox isLiked={isLiked} mapId={mapId} userId={userId} setMessage={setCurrentMessage} toggleIsLiked={toggleIsLiked}/>
             <BottomToolBox currentSelectedFeature={currentSelectedFeatureRef.current}/>
 
