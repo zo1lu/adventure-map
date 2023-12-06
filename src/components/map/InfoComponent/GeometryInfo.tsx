@@ -2,6 +2,7 @@ import { createGeometryStyle } from '@/utils/map/feature'
 import { vectorSource } from '@/utils/map/layer'
 import { usePathname } from 'next/navigation'
 import React, { useEffect, useState, useContext, useMemo } from 'react'
+import Image from 'next/image'
 import MapContext from '@/context/MapContext';
 import { geometryTypes as geometryTypeData } from '@/data/geometry';
 import { setFeatureSelectedById, setSelectedFeatureBoundary, toggleHandMapInteraction } from '@/utils/map/Interaction';
@@ -39,41 +40,11 @@ const GeometryInfo = ({id, status, type, color, stroke, changeColorRefHandler, c
   })
   const colorChangeHandler = (e: React.ChangeEvent<HTMLInputElement>):void =>{
     changeColorRefHandler(e.target.value)
-    handleGeometryInfo("color",e.target.value)
-    // if(status=="queue"){
-    //   //the feature not been drawn
-      
-
-    // }else{
-    //   //the feature was created in database
-    //   //get feature info from database
-    //   changeColorRefHandler(e.target.value)
-    //   const feature = vectorSource.getFeatureById(id)
-    //   feature?.set("color", e.target.value)
-    //   const newStyle = createGeometryStyle(e.target.value, feature?.get("stroke"))
-    //   feature?.setStyle(newStyle)
-    //   console.log(feature?.getProperties())
-    // }
-    
+    handleGeometryInfo("color",e.target.value)  
   }
   const strokeChangeHandler = (e: React.ChangeEvent<HTMLInputElement>):void =>{
     changeStrokeRefHandler(parseInt(e.target.value))
     handleGeometryInfo("stroke",e.target.value)
-    // if(status=="queue"){
-    //   //the feature not been drawn
-      
-
-    // }else{
-    //   //the feature was created in database
-    //   //get feature info from database
-    //   changeStrokeRefHandler(parseInt(e.target.value))
-    //   const feature = vectorSource.getFeatureById(id)
-      
-    //   feature?.set("stroke", parseInt(e.target.value))
-    //   const newStyle = createGeometryStyle(feature?.get("color"), parseInt(e.target.value))
-    //   feature?.setStyle(newStyle)
-    //   console.log(feature?.getProperties())
-    // }
   }
   const dataUpdateHandler = () => {
     console.log("update current data")
@@ -295,9 +266,38 @@ const GeometryInfo = ({id, status, type, color, stroke, changeColorRefHandler, c
   },[id, type])
 
   return (
-    <div className="w-[220px] h-fit absolute flex flex-col p-5 top-24 right-8 bg-white rounded-md">
-        <p className='text-xs mb-1'>{type} info</p>
-        <hr className='border-1 mb-2'/>
+    <div className="w-[260px] h-fit absolute flex flex-col p-5 top-24 right-8 bg-white rounded-md">
+        <div className='flex items-center justify-between'>
+          <p className='w-20 text-xs'>{type} info</p>
+          <div className='w-[calc(100%-80px)] flex justify-end items-center'>
+            {message.content!=""?<div className='w-full flex text-xs text-end' style={message.type=="success"?{color:'green'}:message.type=="error"?{color:'red'}:{color:'black'}}>{message.content}</div>:<></>}
+            {status!="queue"&&isChanged&&message.content==""?
+            <div className='flex gap-3'>
+              <button className='w-fit h-5 px-2 text-xs' onClick={()=>{}}>
+                <Image 
+                    src={'/icons/return-30.png'}
+                    width={20}
+                    height={20}
+                    alt="return_button"
+                />
+              </button>
+              <button className='w-fit h-5 px-2 text-xs' onClick={()=>{dataUpdateHandler()}}>
+                <Image 
+                    src={'/icons/save-30.png'}
+                    width={20}
+                    height={20}
+                    alt="save_button"
+                />
+              </button>
+            </div>:null
+            }
+          </div>
+        </div>
+        
+        <hr className='border-1 my-2'/>
+        <div className='overflow-y-scroll'>
+
+        </div>
         <input value={geometryInfo.title} className="h-12 py-3 outline-none focus:border-b-[1px] focus:border-black text-xl font-bold uppercase" placeholder='Title' onChange={(e)=>{handleGeometryInfo("title",e.target.value)}}/>
         <div className='w-[calc(100%-20px)] flex h-10 items-center'>
           <label className='text-xs min-w-20 w-20'>Brush Width: </label>
@@ -322,10 +322,7 @@ const GeometryInfo = ({id, status, type, color, stroke, changeColorRefHandler, c
         </div>
         
         <textarea value={geometryInfo.description} className="py-3 outline-none min-h-[120px] text-xs" placeholder="description" onChange={(e)=>{handleGeometryInfo("description",e.target.value)}}></textarea>
-        {message.content!=""?<div className='w-full h-10 flex justify-center text-xs' style={message.type=="success"?{color:'green'}:message.type=="error"?{color:'red'}:{color:'black'}}>{message.content}</div>:<></>}
-        {status!="queue"&&isChanged&&message.content==""?
-        <button className='w-full h-fit border-black border-2 rounded-md disabled:border-gray-200 disabled:text-gray-200' onClick={()=>{dataUpdateHandler()}}>Save Change</button>
-      :<></>}
+        
     </div>
   )
 }
