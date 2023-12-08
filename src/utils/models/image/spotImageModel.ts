@@ -12,7 +12,7 @@ const createSpotImageById = async(spotId:string,  imageData:Buffer) => {
         await s3.send(command)
         const getParams = getGetParams("spot",name)
         const getCommand = new GetObjectCommand(getParams)
-        const presignedUrl = await getSignedUrl(s3, getCommand, {expiresIn:600})
+        const presignedUrl = await getSignedUrl(s3, getCommand, {expiresIn:3600})
         const newImageInfo = await prisma.spotImage.create({
             data:{
                 id: name,
@@ -39,7 +39,7 @@ const updateSpotImageById = async(imageId:string,  imageData:Buffer) => {
         await s3.send(command)
         const getParams = getGetParams("spot", imageId)
         const getCommend = new GetObjectCommand(getParams)
-        const presignedUrl = await getSignedUrl(s3, getCommend, {expiresIn:600})
+        const presignedUrl = await getSignedUrl(s3, getCommend, {expiresIn:3600})
         const newImageData = {
             id:imageId,
             url:presignedUrl

@@ -77,7 +77,7 @@ const getRouteById = async (routeId:string) => {
             const name = routeInfo.routeImage.id
             const params = getGetParams("route", name)
             const command = new GetObjectCommand(params)
-            const presignedUrl = await getSignedUrl(s3, command, {expiresIn:600})
+            const presignedUrl = await getSignedUrl(s3, command, {expiresIn:3600})
             const newRouteInfo = {...routeInfo, routeImage:{
                 ...routeInfo.routeImage,
                 url:presignedUrl

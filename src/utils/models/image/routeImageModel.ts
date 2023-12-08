@@ -13,7 +13,7 @@ const createRouteImageById = async(routeId:string, imageData:Buffer) => {
         await s3.send(command)
         const getParams = getGetParams("route",name)
         const getCommand = new GetObjectCommand(getParams)
-        const presignedUrl = await getSignedUrl(s3, getCommand, {expiresIn:600})
+        const presignedUrl = await getSignedUrl(s3, getCommand, {expiresIn:3600})
         const newImageInfo = await prisma.routeImage.create({
             data:{
                 id: name,
@@ -40,7 +40,7 @@ const updateRouteImageById = async(imageId:string, imageData:Buffer) => {
         await s3.send(command)
         const getParams = getGetParams("route", imageId)
         const getCommend = new GetObjectCommand(getParams)
-        const presignedUrl = await getSignedUrl(s3, getCommend, {expiresIn:600})
+        const presignedUrl = await getSignedUrl(s3, getCommend, {expiresIn:3600})
         const newImageData = {
             id:imageId,
             url:presignedUrl

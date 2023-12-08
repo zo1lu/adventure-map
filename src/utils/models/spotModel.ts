@@ -73,7 +73,7 @@ const getSpotById = async (spotId:string) => {
             const name = spotInfo.spotImage.id
             const params = getGetParams("spot", name)
             const command = new GetObjectCommand(params)
-            const presignedUrl = await getSignedUrl(s3, command, {expiresIn:600})
+            const presignedUrl = await getSignedUrl(s3, command, {expiresIn:3600})
             const newSpotInfo = {...spotInfo, spotImage:{
                 ...spotInfo.spotImage,
                 url:presignedUrl

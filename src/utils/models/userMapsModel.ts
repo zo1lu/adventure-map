@@ -45,7 +45,7 @@ const getUserMaps = async(userId:string) => {
                 const name = map.mapImage?.id
                 const params = getGetParams("map", name)
                 const command = new GetObjectCommand(params)
-                const presignedUrl = await getSignedUrl(s3, command, {expiresIn:600})
+                const presignedUrl = await getSignedUrl(s3, command, {expiresIn:3600})
                 const newMapInfo = {...map, mapImage:{...map.mapImage, url:presignedUrl}}
                 return newMapInfo
             }else{
@@ -109,7 +109,7 @@ const getLikedMaps = async (userId:string) => {
                     const name = map.mapImage?.id
                     const params = getGetParams("map", name)
                     const command = new GetObjectCommand(params)
-                    const presignedUrl = await getSignedUrl(s3, command, {expiresIn:600})
+                    const presignedUrl = await getSignedUrl(s3, command, {expiresIn:3600})
                     const newMapInfo = {...map, mapImage:{...map.mapImage, url:presignedUrl}}
                     return newMapInfo
                 }else{

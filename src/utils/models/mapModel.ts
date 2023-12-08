@@ -259,7 +259,7 @@ const getMapInfoById = async(mapId:string) => {
             const name = mapInfo.mapImage.id
             const params = getGetParams("map", name)
             const command = new GetObjectCommand(params)
-            const presignedUrl = await getSignedUrl(s3, command, {expiresIn:600})
+            const presignedUrl = await getSignedUrl(s3, command, {expiresIn:3600})
             const newMapInfo = {...mapInfo, mapImage:{
                 ...mapInfo.mapImage,
                 url:presignedUrl

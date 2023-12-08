@@ -54,7 +54,7 @@ const getPublicMaps = async(pageNum:number, numPerPage:number, userId?:string) =
                 const name = mapInfo.mapImage.id
                 const params = getGetParams("map", name)
                 const command = new GetObjectCommand(params)
-                const presignedUrl = await getSignedUrl(s3, command, {expiresIn:600})
+                const presignedUrl = await getSignedUrl(s3, command, {expiresIn:3600})
                 return {...mapInfo, 
                     isLiked:isLiked, 
                     mapImage:{
@@ -154,7 +154,7 @@ const getPublicMapsWithKeyword = async(pageNum:number, numPerPage:number, keywor
                     const name = mapInfo.mapImage.id
                     const params = getGetParams("map", name)
                     const command = new GetObjectCommand(params)
-                    const presignedUrl = await getSignedUrl(s3, command, {expiresIn:600})
+                    const presignedUrl = await getSignedUrl(s3, command, {expiresIn:3600})
                     return {...mapInfo, 
                         isLiked:isLiked, 
                         mapImage:{
@@ -252,7 +252,7 @@ const getPublicMapsWithFilter = async(pageNum:number, numPerPage:number, userId?
                 const name = mapInfo.mapImage.id
                 const params = getGetParams("map", name)
                 const command = new GetObjectCommand(params)
-                const presignedUrl = await getSignedUrl(s3, command, {expiresIn:600})
+                const presignedUrl = await getSignedUrl(s3, command, {expiresIn:3600})
                 return {...mapInfo, 
                     isLiked:isLiked, 
                     mapImage:{
