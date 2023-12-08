@@ -19,7 +19,7 @@ import { toLonLat, fromLonLat } from 'ol/proj';
 import { Style, Fill, Stroke, Icon } from "ol/style.js";
 ////my module
 import view from '@/utils/map/view';
-import { tileLayer, vectorSource, vectorLayer, markLayer, markSource, routeLayer, routeSource, selectedLayer, selectedSource, userLayer} from '@/utils/map/layer';
+import { tileLayer, vectorSource, vectorLayer, markLayer, markSource, routeLayer, routeSource, selectedLayer, selectedSource, userLayer, searchLayer} from '@/utils/map/layer';
 import { createGeometryStyle, createRouteStyle } from '@/utils/map/feature';
 import { userLayerStyle } from '@/utils/map/style';
 import { setSelectedFeatureBoundary } from '@/utils/map/Interaction';
@@ -143,7 +143,8 @@ const PublicMapContainer = ({geoData, mapData}: PublicMapProps) => {
                 markLayer,
                 routeLayer,
                 selectedLayer,
-                userLayer
+                userLayer,
+                searchLayer
             ],
             controls:[scaleLine],
             interactions:[new DragPan, new MouseWheelZoom, select],
