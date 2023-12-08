@@ -1,7 +1,11 @@
-import React, { useState, useContext, useEffect } from 'react'
+import React, { useState, useContext, useEffect, useRef } from 'react'
 import Image from 'next/image'
 import MapContext from '@/context/MapContext';
 import { Map } from 'ol';
+import { fromLonLat, toLonLat } from 'ol/proj';
+import { getCenterOfGeoFeature, renderSearchGeoFeature } from '@/utils/geoData';
+import { GeoJSONFeature } from 'ol/format/GeoJSON';
+import { searchSource } from '@/utils/map/layer';
 interface TopToolBoxProps {
   mapStatus:boolean,
   mapId:string,
@@ -12,7 +16,8 @@ interface TopToolBoxProps {
 const TopToolBox = ({mapStatus, mapId, setMessage, toggleMapStatus, saveView}:TopToolBoxProps) => {
   const map = useContext(MapContext);
   const [isSearchOpen, setIsSearchOpen] = useState(false)
-  
+  const [keyword, setKeyword] = useState("")
+  const [searchList, setSearchList] = useState([])
 
   const mapStatusToggle = () => {
     const body={
@@ -52,11 +57,53 @@ const TopToolBox = ({mapStatus, mapId, setMessage, toggleMapStatus, saveView}:To
       },3000)
     })
   }
+  const searchToggle = () => {
+    setIsSearchOpen(!isSearchOpen)
+    if(isSearchOpen){
+      setKeyword(()=>"")
+      setSearchList(()=>[])
+      searchSource.clear()
+    }
+  }
+  const lookForLocation = (key:string) => {
+    setKeyword(()=>key)
+  }
+  const goToPlace = (coordinate:[number,number],bbox:[number,number,number,number], geoData:GeoJSONFeature) => {
+    renderSearchGeoFeature(geoData)
+    const coor = fromLonLat(coordinate)   
+    const boxHeight = bbox[1]-bbox[0]
+    // const zoomValue = Math.log2(4096/boxHeight)>18?18:Math.log2(4096/boxHeight)
+    const zoomValue = Math.log2(2400/boxHeight)>18?18:Math.log2(2400/boxHeight)
+    map.getView().setCenter(coor)
+    map.getView().setZoom(zoomValue)
+  }
+  useEffect(()=>{
+    let t:ReturnType<typeof setTimeout>
+    t = setTimeout(()=>{
+      if(keyword!=""){
+        const url = `https://nominatim.openstreetmap.org/search?q=${keyword}&format=json&polygon_geojson=1&limit=5`
+        fetch(url)
+        .then((res)=>res.json())
+        .then((data)=>{
+          setSearchList(()=>data)
+        })
+        .catch((e)=>{
+          console.log(e)
+          setSearchList(()=>[])
+        })
+      }else{
+        setSearchList(()=>[])
+      }
+    },500)
+    
+    return ()=>{
+      clearTimeout(t)
+    }
+  },[keyword])
 
-  
   return (
     <div className="w-fit h-10 z-10 absolute top-5 right-5 flex gap-3">
-      <button onClick={()=>{setIsSearchOpen(!isSearchOpen)}}>
+      <button onClick={()=>{searchToggle()}}>
           <Image 
             src={'/icons/search-48.png'}
             width={30}
@@ -65,12 +112,23 @@ const TopToolBox = ({mapStatus, mapId, setMessage, toggleMapStatus, saveView}:To
           />
         </button>
       {isSearchOpen?
-        <div>
+        <div className="w-48 h-fit overflow-hidden">
           <input
-          className="w-50 h-10 z-10 p-3 rounded-md"
+          value={keyword}
+          className="w-48 h-10 z-10 p-3 rounded-md focus:border-2"
           type="text"
           placeholder="Where are you?"
+          onChange={(e)=>{lookForLocation(e.target.value)}}
           />
+          <div className='max-w-48 flex flex-col'>
+            {searchList&&searchList.length>0?searchList.map((result,i)=>{
+              return <div key={i} className='w-48 h-fit p-3 bg-white overflow-hidden hover:bg-neutral-light cursor-pointer' onClick={()=>goToPlace([result.lon,result.lat], result.boundingbox, result.geojson)}>
+                <p className='w-full text-xs font-bold whitespace-nowrap text-ellipsis overflow-hidden'>{result.name}</p>
+                <p className='w-full text-xs gray-600 whitespace-nowrap text-ellipsis overflow-hidden'>{result.display_name}</p>
+              </div>
+            }):null}
+          </div>
+          
         </div>
         :<></>}
       

@@ -1,8 +1,9 @@
-import GeoJSON from 'ol/format/GeoJSON.js';
-import { markSource, vectorSource, routeSource } from "./map/layer";
+import GeoJSON, { GeoJSONFeature, GeoJSONGeometry } from 'ol/format/GeoJSON.js';
+import { markSource, vectorSource, routeSource, searchSource } from "./map/layer";
 import { createGeometryStyle, createRouteStyle, spotStyle } from "./map/feature";
 import { Circle } from 'ol/geom';
 import { geoDataCollectionName, geoDataCollectionType, geoDataType } from '@/data/infoType';
+import { fromLonLat, toLonLat } from 'ol/proj';
 //vectorlayer for geometry
 //markLyaer
 //routelayer
@@ -149,7 +150,26 @@ const getFeatureGeoData = (featureId:string, type:sourceType) => {
         return vectorJson ? vectorJson : null 
     }
 }
-export {getMapGeoData, renderGeoData, getFeatureGeoData, renderGeoDataCollections}
+
+const renderSearchGeoFeature = (geoData:GeoJSONFeature) => {
+    searchSource.clear()
+    const featureGeoJson = {type:"Feature",geometry:geoData}
+    const format = new GeoJSON({featureProjection: 'EPSG:3857'});
+    const feature = format.readFeature(featureGeoJson)
+    searchSource.addFeature(feature)
+}
+
+const getCenterOfGeoFeature = (geoData:GeoJSONFeature) => {
+    const format = new GeoJSON({featureProjection: 'EPSG:3857'});
+    const geometry = format.readGeometry(geoData)
+    const box = geometry.getExtent()
+    const min = toLonLat([box[0],box[1]])
+    const max = toLonLat([box[2],box[3]])
+    const center = fromLonLat([(max[0]+min[0])/2,(max[1]+min[1])/2])
+    return center
+}
+
+export {getMapGeoData, renderGeoData, getFeatureGeoData, renderGeoDataCollections, renderSearchGeoFeature, getCenterOfGeoFeature}
 
 //markJson
 // {"type":"FeatureCollection",

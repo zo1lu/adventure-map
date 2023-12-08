@@ -30,5 +30,9 @@ const userLayer = new VectorLayer({
   source:userSource
 })
 
+const searchSource = new VectorSource();
+const searchLayer = new VectorLayer({
+  source:searchSource
+})
 
-export { tileLayer, vectorLayer, vectorSource, markLayer, markSource , routeLayer, routeSource, selectedLayer, selectedSource , userSource, userLayer}
+export { tileLayer, vectorLayer, vectorSource, markLayer, markSource , routeLayer, routeSource, selectedLayer, selectedSource , userSource, userLayer, searchSource, searchLayer}

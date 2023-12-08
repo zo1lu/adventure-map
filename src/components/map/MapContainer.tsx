@@ -2,7 +2,6 @@
 import { usePathname } from 'next/navigation'
 import React, { useRef, useState, useEffect, useMemo} from 'react';
 import MapContext from '@/context/MapContext';
-import { useSession } from 'next-auth/react';
 //module
 import { v4 as uuid } from 'uuid';
 import { JsonValue } from '@prisma/client/runtime/library';
@@ -29,12 +28,10 @@ import { Point, LineString, Polygon, Circle} from "ol/geom";
 import { toLonLat, fromLonLat } from 'ol/proj';
 ////my module
 import view from '@/utils/map/view';
-import { tileLayer, vectorSource, vectorLayer, markLayer, markSource, routeLayer, routeSource, selectedLayer, selectedSource, userLayer} from '@/utils/map/layer';
+import { tileLayer, vectorSource, vectorLayer, markLayer, markSource, routeLayer, routeSource, selectedLayer, selectedSource, userLayer, searchLayer, searchSource} from '@/utils/map/layer';
 import { createGeometryStyle, createRouteStyle, addSpotFeature, spotStyle, addStyleToPreSelectedFeature } from '@/utils/map/feature';
-import { removeDrawAndSnapInteractions, addDrawAndSnapInteractions, toggleHandMapInteraction, setFeatureSelectedById, setSelectedFeatureBoundary, addDrawRouteAndSnapInteractions } from '@/utils/map/Interaction';
-import { getMapGeoData, renderGeoData, renderGeoDataCollections } from '@/utils/geoData';
-import { geoDataType } from '@/data/infoType';
-import { applyStyle } from 'ol-mapbox-style';
+import { removeDrawAndSnapInteractions, addDrawAndSnapInteractions, setSelectedFeatureBoundary, addDrawRouteAndSnapInteractions } from '@/utils/map/Interaction';
+import { renderGeoDataCollections } from '@/utils/geoData';
 import { userLayerStyle } from '@/utils/map/style';
 import AlertBox_M from '../message/AlertBox_M';
 import SuccessBox from '../message/SuccessBox';
@@ -54,10 +51,7 @@ type mapGeoInfoOutputType = {
 interface MapProps {
   data: mapGeoInfoOutputType 
 }
-//{mapGeoInfo}:MapProps
 const MapContainer = ({data}:MapProps) => {
-  // const {center, zoom, geoData} = mapGeoInfo
-  const {data:session} = useSession()
   const mapId = usePathname().split("/")[2]
   const mapBoxRef = useRef<HTMLDivElement>(null)
   const [map, setMap] = useState<Map | undefined>()
@@ -323,7 +317,8 @@ const MapContainer = ({data}:MapProps) => {
             markLayer,
             routeLayer,
             selectedLayer,
-            userLayer
+            userLayer,
+            searchLayer
           ],
         controls:[scaleLine],
         interactions:[new DragPan, new MouseWheelZoom, select, translate],
