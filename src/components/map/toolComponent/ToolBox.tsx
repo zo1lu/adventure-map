@@ -87,13 +87,16 @@ const ToolBox = ({color, stroke, drawMode, changeDrawMode, changeCurrentItemType
   },[ drawMode ])
 
   return (
-    <div className="w-[400px] h-[75px] rounded-md bg-white gap-3 flex items-center justify-center p-5">
+    <div className="w-[400px] h-[75px] rounded-md bg-white gap-3 flex items-center justify-center p-5 relative">
       <button className="w-10 h-10" style={
           drawMode == "hand"
             ? { transform: "translateY(-10px)", scale: "1.1" }
             : {}
         } onClick={()=>drawModeController("hand")}>
         <Image src="/icons/hand-50.png" width={40} height={40} alt="handBtn"  />
+        <div className='w-10 h-24 bg-trasparent absolute bottom-0 opacity-0 hover:opacity-100' style={{paddingTop:drawMode=="hand"?"32px":"0"}}>
+          <p className='w-10 h-fit text-xs text-center bg-white'>Select</p>
+        </div>
       </button>
       <button className="w-10 h-10" style={
           drawMode == "mark"
@@ -101,6 +104,9 @@ const ToolBox = ({color, stroke, drawMode, changeDrawMode, changeCurrentItemType
             : {}
         } onClick={()=>drawModeController("mark")}>
         <Image src="/icons/010-location-2.png" width={40} height={40} alt="markBtn"  />
+        <div className='w-10 h-24 bg-trasparent absolute bottom-0 opacity-0 hover:opacity-100' style={{paddingTop:drawMode=="mark"?"32px":"0"}}>
+          <p className='w-10 h-fit text-xs text-center bg-white'>Spot</p>
+        </div>
       </button>
       <button className="w-10 h-10" style={
           drawMode == "route"
@@ -108,6 +114,9 @@ const ToolBox = ({color, stroke, drawMode, changeDrawMode, changeCurrentItemType
             : {}
         } onClick={()=>drawModeController("route")}>
         <Image src="/icons/route.png" width={30} height={30} alt="routeBtn" />
+        <div className='w-10 h-24 bg-trasparent absolute bottom-0 opacity-0 hover:opacity-100' style={{paddingTop:drawMode=="route"?"32px":"0"}}>
+          <p className='w-10 h-fit text-xs text-center bg-white'>Route</p>
+        </div>
       </button>
       <button className="w-10 h-10" style={
           drawMode == "LineString"
@@ -115,6 +124,9 @@ const ToolBox = ({color, stroke, drawMode, changeDrawMode, changeCurrentItemType
             : {}
         } onClick={()=>drawModeController("LineString")}>
         <Image src="/icons/line.png" width={30} height={30} alt="lineBtn" />
+        <div className='w-10 h-24 bg-trasparent absolute bottom-0 opacity-0 hover:opacity-100' style={{paddingTop:drawMode=="LineString"?"32px":"0"}}>
+          <p className='w-10 h-fit text-xs text-center bg-white'>Line</p>
+        </div>
       </button>
       <button className="w-10 h-10" style={
           drawMode == "Polygon"
@@ -122,6 +134,9 @@ const ToolBox = ({color, stroke, drawMode, changeDrawMode, changeCurrentItemType
             : {}
         } onClick={()=>drawModeController("Polygon")}>
         <Image src="/icons/polyline.png" width={30} height={30} alt="polygonBtn"/>
+        <div className='w-12 h-24 bg-trasparent absolute bottom-0 opacity-0 hover:opacity-100' style={{paddingTop:drawMode=="Polygon"?"32px":"0"}}>
+          <p className='w-12 h-fit text-xs text-center bg-white'>Polygon</p>
+        </div>
       </button>
       <button className="w-10 h-10" style={
           drawMode == "Circle"
@@ -129,14 +144,17 @@ const ToolBox = ({color, stroke, drawMode, changeDrawMode, changeCurrentItemType
             : {}
         } onClick={()=>drawModeController("Circle")}>
         <Image src="/icons/circle.png" width={30} height={30} alt="circleBtn"/>
+        <div className='w-10 h-24 bg-trasparent absolute bottom-0 opacity-0 hover:opacity-100' style={{paddingTop:drawMode=="Circle"?"32px":"0"}}>
+          <p className='w-10 h-fit text-xs text-center bg-white'>Circle</p>
+        </div>
       </button>
-      <button className="w-10 h-10" style={
+      {/* <button className="w-10 h-10" style={
           drawMode == "brush"
             ? { transform: "translateY(-10px)", scale: "1.1" }
             : {}
         } onClick={()=>drawModeController("brush")}>
         <Image src="/icons/brush.png" width={30} height={30} alt="brushBtn" />
-      </button>
+      </button> */}
     </div>
   )
 }
