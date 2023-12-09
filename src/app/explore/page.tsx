@@ -428,7 +428,7 @@ const ExplorePage = () => {
             {message.type=="confirm"?<LoginBox message={message.content} closeMessageBox={closeMessageBox} />:null}
             <div className='top-0 w-full h-20 sticky bg-main-70'>
               <div className='w-4/5 h-full mx-auto flex items-center justify-between'>
-                <Link className='w-fit h-fit text-3xl text-neutral-light font-yeseva_one' href="/">Adventue Map</Link>
+                <Link className='w-fit h-fit text-3xl text-neutral-light font-yeseva_one' href="/">Adventure Map</Link>
                 <div className='flex gap-5 items-center'>
                   {session?
                   <>
