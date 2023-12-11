@@ -49,11 +49,11 @@ const ListFolder = ({userId}:ListFolderProps) => {
         .then((res)=>res.json())
         .then((data)=>{
           data.success?setMessage(()=>{ return {type:"success",content:"Successfully delete map!"}})
-          :setMessage(()=>{ return {type:"error",content:"Delet map fail!"}})
+          :setMessage(()=>{ return {type:"error",content:"Delete map fail!"}})
         return data.success?resolve(data):reject(data)
         })
         .catch((e)=>{
-          setMessage(()=>{ return {type:"error",content:"Delet map fail!"}})
+          setMessage(()=>{ return {type:"error",content:"Delete map fail!"}})
         return reject(e)
         })
         .finally(()=>{
@@ -65,24 +65,24 @@ const ListFolder = ({userId}:ListFolderProps) => {
     }
     const getMaps = async(userId:string) => {
     const result = await getMapRequest(userId)
-    if(result&&result.data&&result.data.length>0){
-        setMapList(()=>{
-        return result.data
-        })
-        
-    }
-    setIsLoading(()=>false)
+      if(result&&result.data&&result.data.length>0){
+          setMapList(()=>{
+          return result.data
+          })
+          
+      }
+      setIsLoading(()=>false)
     }
     const getLikedMaps = async(userId:string) => {
     const result = await getLikedMapRequest(userId)
-    if(result&&result.data&&result.data.length>0){
-        setLikedList(()=>{
-        return result.data
-        })
-    }else{
-        setLikedList(()=>[])
-    }
-    setIsLoading(()=>false)
+      if(result&&result.data&&result.data.length>0){
+          setLikedList(()=>{
+          return result.data
+          })
+      }else{
+          setLikedList(()=>[])
+      }
+      setIsLoading(()=>false)
     }
     const deleteMap = async(mapId:string, userId:string) => {
         setMessage(()=>{ return {type:"normal",content:"Deleting map..."}})
@@ -130,7 +130,7 @@ const ListFolder = ({userId}:ListFolderProps) => {
         getLikedMaps(userId)
     },[])
   return (
-    <div className='relative flex flex-col col-span-3 overflow-hidden pt-10 pb-10'>
+    <div className='flex relative flex-col col-span-3 overflow-hidden pt-10 pb-10'>
         {message.type?<MessageBox type={message.type} message={message.content}/>:null}
         <div className='w-[124px] h-1 bg-white absolute top-[80px] left-[22px]' style={tab=="maps"?{left:'22px'}:{left:'154px'}}></div>
         <div className='flex gap-1 px-5'>
