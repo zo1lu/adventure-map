@@ -1,7 +1,8 @@
 'use client'
-import React from 'react'
+import React,{useState} from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
+import { ConfirmBox } from '../message/ConfirmBox'
 interface LikedMapItemProps{
     mapData:{
         id:string,
@@ -30,9 +31,11 @@ interface LikedMapItemProps{
     },
     userId:string,
     unlikeAMap:(mapId:string, userId:string)=>void
+    setCurrentMessage:(type:string, message:string)=>void
 }
-const LikedMapItem = ({mapData, userId, unlikeAMap}:LikedMapItemProps) => {
+const LikedMapItem = ({mapData, userId, unlikeAMap, setCurrentMessage}:LikedMapItemProps) => {
     const router = useRouter()
+    const [message, setMessage] = useState({type:"",content:""})
     const goToPublicMapPage = (mapId:string) => {
         const url = `/explore/map/${mapId}`
         router.push(url)
@@ -53,8 +56,30 @@ const LikedMapItem = ({mapData, userId, unlikeAMap}:LikedMapItemProps) => {
         endTimeZone: `UTC ${mapData.endTimeZone}`,
         duration: mapData.duration
     }
+    const unlikeConfirm = () => {
+        setMessage(()=>{
+            return {
+                type:"unlikeConfirm",
+                content:"Do you really want to unlike this map?"
+            }
+        })
+    }
+    const confirmAction = () => {
+        unlikeAMap(data.id, userId)
+    }
+    const closeMessageBox = () => {
+        setMessage(()=>{
+            return {
+                type:"",
+                content:""
+            }
+        })
+    }
   return (
-    <div className='flex gap-3 p-2 w-full h-[120px] rounded-md border-2 border-black' >
+    <>  
+        {message.type=="unlikeConfirm"?<ConfirmBox message={message.content} closeMessageBox={closeMessageBox} confirmAction={confirmAction}/>:null}
+        {/* <ConfirmBox message={message.content} closeMessageBox={closeMessageBox} confirmAction={a}/> */}
+        <div className='flex gap-3 p-2 w-full h-[120px] rounded-md border-2 border-black' >
         <div className='w-[150px] h-[100px] overflow-hidden rounded-md cursor-pointer' onClick={()=>goToPublicMapPage(data.id)}>
             <Image 
                 src={data.imageUrl}
@@ -86,7 +111,7 @@ const LikedMapItem = ({mapData, userId, unlikeAMap}:LikedMapItemProps) => {
                 <p className='text-xs text-gray-400 text-center'>author: {data.author}</p>
             </div>
         </div>
-        <button onClick={()=>{unlikeAMap(data.id, userId)}}>
+        <button onClick={()=>{unlikeConfirm()}}>
             <Image 
                 src='/icons/star-50-fill.png'
                 width={25}
@@ -95,6 +120,8 @@ const LikedMapItem = ({mapData, userId, unlikeAMap}:LikedMapItemProps) => {
             />
         </button>
     </div>
+    </>
+    
   )
 }
 

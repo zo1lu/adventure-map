@@ -11,7 +11,7 @@ const ProcessBox = ({title, message}:ProcessBoxProps) => {
             <div className='flex flex-col py-3'>
                 
                 <div className='w-full h-20 flex'>
-                    <svg className="animate-spin h-5 w-5 bg-main-70 m-auto" viewBox="0 0 40 40"></svg>
+                    <svg className="animate-spin h-5 w-5 bg-main-70 m-auto" fill="none" viewBox="0 0 40 40"></svg>
                 </div>
                 <p className='text-xs'>{message}</p>
             </div>

@@ -1,7 +1,8 @@
 'use client'
-import React from 'react'
+import React,{useState} from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
+import { ConfirmBox } from '../message/ConfirmBox'
 interface MyMapItemProp{
     mapData:{
         id:string,
@@ -30,8 +31,10 @@ interface MyMapItemProp{
     },
     userId:string,
     deleteMap:(mapId:string,userId:string)=>void
+    setCurrentMessage:(type:string, message:string)=>void
 }
-const MyMapItem = ({mapData, userId, deleteMap}:MyMapItemProp) => {
+const MyMapItem = ({mapData, userId, deleteMap, setCurrentMessage}:MyMapItemProp) => {
+    const [message, setMessage] = useState({type:"",content:""})
     const router = useRouter()
     const data = {
         id: mapData.id,
@@ -58,25 +61,50 @@ const MyMapItem = ({mapData, userId, deleteMap}:MyMapItemProp) => {
         const url = `/map/${mapId}`
         router.push(url)
     }
+    const closeMessageBox = () => {
+        setMessage(()=>{
+            return {
+                type:"",
+                content:""
+            }
+        })
+    }
+    const confirmAction = () => {
+        deleteMap(data.id, userId)
+    }
+    const deleteConfirm = () => {
+        setMessage(()=>{
+            return{
+                type:"confirm",
+                content:"Do you want to delete this map?"
+            }
+        })
+    }
   return (
+    <>
+    {message.type=="confirm"?<ConfirmBox message={message.content} closeMessageBox={closeMessageBox} confirmAction={confirmAction} />:null}
     <div className='flex gap-3 p-2 w-full h-[120px] max-h-[150px] rounded-md border-[2px] border-black items-center' >
         <div className='w-[150px] h-full overflow-hidden rounded-md cursor-pointer' onClick={()=>goToMapPage(data.id)}>
             {data.mapImage?
                 <Image 
+                    placeholder="blur"
+                    blurDataURL={'/placeholder/placeHolder0.5.jpg'}
                     src={data.mapImage.url}
                     width={300}
                     height={300}
                     quality={100}
                     alt="map-image"
-                    className='w-[200px] h-[100px] object-cover'
+                    className='w-[150px] h-[100px] object-cover'
                 />
                 :<Image 
-                src={"/placeholder/mapThumb.jpg"}
+                placeholder="blur"
+                blurDataURL={'/placeholder/placeHolder0.5.jpg'}
+                src={"/placeholder/placeHolder0.5-thumbnail.jpg"}
                 width={300}
                 height={300}
                 quality={100}
                 alt="thumb"
-                className='w-[200px] h-[100px] object-cover'
+                className='w-[150px] h-[100px] object-cover'
             />
             }
             
@@ -104,7 +132,7 @@ const MyMapItem = ({mapData, userId, deleteMap}:MyMapItemProp) => {
                 <p className='text-xs text-gray-400'>Updated: {data.updatedAt}</p>
             </div>
         </div>
-        <button onClick={()=>deleteMap(data.id, userId)}>
+        <button onClick={()=>deleteConfirm()}>
             <Image 
             src='/icons/remove-32.png'
             width={25}
@@ -113,6 +141,8 @@ const MyMapItem = ({mapData, userId, deleteMap}:MyMapItemProp) => {
             />
         </button>
     </div>
+    </>
+    
   )
 }
 
