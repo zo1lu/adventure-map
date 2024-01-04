@@ -92,7 +92,7 @@ const LikedMapItem = ({mapData, userId, unlikeAMap, setCurrentMessage}:LikedMapI
         </div>
         
         <div className='flex items-center gap-5 px-2 w-4/5 cursor-pointer' onClick={()=>goToPublicMapPage(data.id)}>
-            <div className='w-4/5 flex flex-col gap-1'>
+            <div className='xl:w-4/5 w-full flex flex-col gap-1'>
                 <h3 className='text-lg font-bold font-roboto'>{data.title}</h3>
                 <p className='text-sm font-roboto'>{data.country}</p>
                 <div className='flex gap-1 items-center'>
@@ -107,7 +107,7 @@ const LikedMapItem = ({mapData, userId, unlikeAMap, setCurrentMessage}:LikedMapI
                 </div>
                 
             </div>
-            <div className='w-1/5 min-w-[240px] '>
+            <div className='xl:w-1/5 hidden min-w-[240px] '>
                 <p className='text-xs text-gray-400 text-center'>author: {data.author}</p>
             </div>
         </div>

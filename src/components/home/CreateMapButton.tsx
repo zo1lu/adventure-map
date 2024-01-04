@@ -45,7 +45,7 @@ const CreateMapButton = ({userId}:CreateMapButtonProps) => {
   return (
     <>
     {message.type=="createMapProcess"?<ProcessBox title={"Creating New Map..."} message={message.content} />:null}
-    <button className='col-span-1 absolute right-10 top-5 p-3 w-fit h-fit text-xs bg-emerald-950 text-white rounded-md'
+    <button className='col-span-1 absolute right-0 lg:right-10 top-5 p-3 w-fit h-fit text-xs bg-emerald-950 text-white rounded-md'
       onClick={()=>createNewMap(userId)}>Create New</button>
     </>
   )

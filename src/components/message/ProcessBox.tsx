@@ -5,8 +5,8 @@ interface ProcessBoxProps {
 }
 const ProcessBox = ({title, message}:ProcessBoxProps) => {
     return (
-        <div className='w-screen h-screen bg-gray-900 bg-opacity-30 overflow-hidden absolute top-0 z-40'>
-            <div className='rounded-md w-[300px] h-[200px] p-3 flex flex-col items-center justify-center absolute top-[calc(50%-100px)] left-[calc(50%-150px)] shadow-2xl bg-white '>
+        <div className='w-screen h-screen bg-transparent bg-opacity-30 overflow-hidden absolute top-0 z-40'>
+            <div className='rounded-md border-main-70 border-2 w-[300px] h-[200px] p-3 flex flex-col items-center justify-center absolute top-[calc(50%-100px)] left-[calc(50%-150px)] shadow-2xl bg-white '>
             <h3 className='text-2xl'>{title}</h3>
             <div className='flex flex-col py-3'>
                 

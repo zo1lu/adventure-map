@@ -133,15 +133,16 @@ const ListFolder = ({userId}:ListFolderProps) => {
     },[])   
   return (
     <>    
-    <div className='flex relative flex-col col-span-3 overflow-hidden pt-10 pb-10'>
+    <div className='flex relative flex-col col-span-3 row-span-2 overflow-hidden pt-0 lg:pt-10 pb-10'>
         {message.type=="success"||message.type=="error"||message.type=="normal"?<MessageBox type={message.type} message={message.content}/>:null}
-        <div className='w-[124px] h-2 bg-white absolute top-[78px] left-[22px]' style={tab=="maps"?{left:'22px'}:{left:'154px'}}></div>
+        <div className='w-[124px] h-2 bg-white absolute top-[38px] lg:top-[78px] left-[22px]' style={tab=="maps"?{left:'22px'}:{left:'154px'}}></div>
         <div className='flex gap-1 px-5'>
           <button className='w-32 h-10 text-base px-5 font-roboto border-x-2 border-t-2 rounded-t-md' onClick={()=>setTab("maps")} style={tab=="maps"?{borderColor:"#022C22"}:{borderColor:"#f2eeed"}}>My Maps</button>
           <button className='w-32 h-10 text-base px-5 font-roboto border-x-2 border-t-2 rounded-t-md' onClick={()=>setTab("liked")} style={tab=="liked"?{borderColor:"#022C22"}:{borderColor:"#f2eeed"}}>Like Maps</button>
         </div>
+        <div className='w-full h-[calc(100%-20px)] border-2 rounded-md border-main-70 py-5 '>
         {tab=="maps"?
-            <div className='w-full h-full overflow-y-scroll p-5 border-2 rounded-md border-main-70 flex flex-col gap-1' > 
+            <div className='w-full h-full overflow-y-scroll overflow-x-hidden px-5 flex flex-col gap-1' > 
                 {isLoading?<div className='m-auto'>
                     <svg className="animate-spin h-5 w-5 mr-3 bg-main-70 fill-none" viewBox="0 0 40 40"></svg>
                   </div>:
@@ -157,7 +158,7 @@ const ListFolder = ({userId}:ListFolderProps) => {
             </div>
 
           :tab=="liked"?
-              <div className='w-full h-full overflow-y-scroll p-5 border-2 rounded-md border-main-70 flex flex-col gap-1'> 
+              <div className='w-full h-full overflow-y-scroll overflow-x-hidden px-5 flex flex-col gap-1'> 
                 {isLoading?<div className='m-auto'>
                     <svg className="animate-spin h-5 w-5 mr-3 bg-main-70" viewBox="0 0 40 40"></svg>
                   </div>:
@@ -171,6 +172,8 @@ const ListFolder = ({userId}:ListFolderProps) => {
               </div>
           :null
         }          
+        </div>
+        
       </div>
     </>
     

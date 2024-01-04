@@ -109,16 +109,14 @@ const MyMapItem = ({mapData, userId, deleteMap, setCurrentMessage}:MyMapItemProp
             }
             
         </div>
-        <div className='grid grid-cols-8 items-center gap-5 px-2 w-4/5 cursor-pointer' onClick={()=>goToMapPage(data.id)}>
-            <div className='w-full col-span-4 flex flex-col gap-1 items-start'>
+        <div className='grid xl:grid-cols-8 grid-cols-6 items-center gap-1 px-2 w-4/5 cursor-pointer overflow-hidden' onClick={()=>goToMapPage(data.id)}>
+            <div className='w-full min-w-[300px] col-span-4 flex flex-col gap-1 items-start'>
                 <h3 className='text-lg font-bold font-roboto'>{data.title}</h3>
                 <p className='text-sm font-roboto'>{data.country}, {data.regionOrDistrict}</p>
                 <div className='flex gap-1 items-center'>
                     <p className='text-xs font-roboto'>{data.startTime}</p>
-                    {/* <p className='text-xs font-roboto'>{data.startTimeZone}</p> */}
                     <span className='text-xs font-roboto'>&harr;</span>
                     <p className='text-xs font-roboto'>{data.endTime}</p>
-                    {/* <p className='text-xs font-roboto'>{data.endTimeZone}</p> */}
                     <p className='text-xs font-roboto font-bold'>{Math.floor(data.duration/24)} Days {data.duration % 24}Hours</p>
                 </div>
                 
@@ -127,12 +125,12 @@ const MyMapItem = ({mapData, userId, deleteMap, setCurrentMessage}:MyMapItemProp
                 <div className='w-2 h-2 rounded-full' style={{backgroundColor:data.public?"green":"red"}}></div>
                 <label className='text-xs'>{data.public?"Public":"Private"}</label>
             </div>
-            <div className='col-span-2 min-w-[200px]'>
-                <p className='text-xs text-gray-400'>Created: {data.createdAt}</p>
-                <p className='text-xs text-gray-400'>Updated: {data.updatedAt}</p>
+            <div className='hidden xl:block col-span-2 min-w-[200px]'>
+                <p className='text-xs text-gray-400'>Created: {data.createdAt.split(".")[0]}</p>
+                <p className='text-xs text-gray-400'>Updated: {data.updatedAt.split(".")[0]}</p>
             </div>
         </div>
-        <button onClick={()=>deleteConfirm()}>
+        <button className='w-10' onClick={()=>deleteConfirm()}>
             <Image 
             src='/icons/remove-32.png'
             width={25}

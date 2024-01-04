@@ -26,6 +26,9 @@ const config: Config = {
         'error':'#EE1C1C',
         'success':'#03AE17'
       },
+      gridTemplateRows: {
+        'layout': '80px auto',
+      }
     },
   },
   plugins: [],

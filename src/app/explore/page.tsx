@@ -424,10 +424,14 @@ const ExplorePage = () => {
   }
   return (
     <>
-        <div className='w-full h-screen flex flex-col items-center justify-center relative'>
+        <div className='w-screen h-screen sm:hidden flex bg-main-70 justify-center items-center'>
+            <p className='text-white m-auto'>View in landscape mode</p>
+        </div>
+        <div className='w-full h-screen hidden sm:flex flex-col items-center justify-center relative'>
             {message.type=="confirm"?<LoginBox message={message.content} closeMessageBox={closeMessageBox} />:null}
+            
             <div className='top-0 w-full h-20 sticky bg-main-70'>
-              <div className='w-4/5 h-full mx-auto flex items-center justify-between'>
+              <div className='sm:w-[90%] md:w-4/5 h-full mx-auto flex items-center justify-between'>
                 <Link className='w-fit h-fit text-3xl text-neutral-light font-yeseva_one' href="/">Adventure Map</Link>
                 <div className='flex gap-5 items-center'>
                   {session?
@@ -446,12 +450,12 @@ const ExplorePage = () => {
               
             </div>
             <div className='w-full h-screen overflow-y-scroll'>
-              <div ref={searchRef} className='w-3/5 max-w-[1200px] h-[100px] m-auto flex justify-between items-center'>
-                <div className='h-fit w-1/2 flex items-end gap-5'>
+              <div ref={searchRef} className='sm:w-[90%] md:w-4/5 max-w-[1200px] h-[100px] m-auto mt-3 flex justify-between items-center'>
+                <div className='h-fit w-7/12 flex xl:flex-row flex-col xl:items-end xl:gap-5 gap-1'>
                   <h1 className='font-prata text-4xl'>Explore</h1>
                   <h3 className='text-lg mb-1'>Find a travel journal inspired you!</h3>
                 </div>
-                <div className='w-1/2 h-fit'>
+                <div className='w-5/12 h-fit'>
                     {/* search */}
                   <div className='w-full flex items-center gap-3 justify-end'>
                       {isSearchFieldOpen?
@@ -492,7 +496,7 @@ const ExplorePage = () => {
         
               </div> 
               {isFilterPageOpen?
-                  <div className='w-3/5 max-w-[1200px] m-auto grid grid-cols-3 grid-rows-3 py-3 gap-3 items-start relative'>
+                  <div className='sm:w-[90%] md:w-4/5 max-w-[1200px] m-auto grid grid-cols-3 grid-rows-3 py-3 gap-3 items-start relative'>
                     {/* location */}
                     <div className='flex flex-col col-span-2'>
                       <p className='font-bold'>&#10033;Location</p>
@@ -572,7 +576,7 @@ const ExplorePage = () => {
                 :null}  
             
               {/* <hr className='w-3/5 m-auto border-main-70 mt-10'/> */}
-              <div ref={searchResultRef} className='w-3/5 max-w-[1200px] h-[750px] m-auto pt-5 pb-5 flex flex-col gap-5'>
+              <div ref={searchResultRef} className='sm:w-[90%] md:w-4/5 max-w-[1200px] h-fit xl:h-[calc(95%-80px)] m-auto pt-5 pb-5 flex flex-col gap-5'>
                 <div className='h-[calc(100%-32px)] flex flex-wrap gap-2'>
                   
                   {isLoading?
