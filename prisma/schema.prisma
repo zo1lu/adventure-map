@@ -1,0 +1,151 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  username String @unique
+  email String @unique
+  hashedPassword String?
+  profileImage ProfileImage?
+  about String?
+  ownedMaps Map[] @relation("ownedMaps")
+  likedMapIds String[] @db.ObjectId
+  likedMaps Map[] @relation(fields: [likedMapIds], references: [id])
+}
+
+model Map {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  title String?
+  country String?
+  regionOrDistrict String?
+  mapImage MapImage?
+  startTime String?
+  startTimeZone String?
+  endTime String?
+  endTimeZone String?
+  duration Int?
+  description String?
+  travelType TravelType? @relation(fields: [travelTypeId], references: [id])
+  travelTypeId String?
+  memberType MemberType? @relation(fields: [memberTypeId], references: [id])
+  memberTypeId String?
+  author User @relation("ownedMaps", fields: [authorId], references: [id])
+  authorId String @db.ObjectId
+  likedUserIds String[] @db.ObjectId
+  likedUser User[] @relation(fields: [likedUserIds], references: [id])
+  spots Spot[]
+  routes Route[]
+  geometrys Geometry[]
+  zoom Int @default(8)
+  center Float[] @default([120.00,24.00])
+  isPublic Boolean @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  geoData Json?
+}
+
+model Spot {
+  id String @id @map("_id") 
+  title String?
+  location Float[]
+  spotType SpotType? @relation(fields: [spotTypeId], references: [id])
+  spotTypeId String? 
+  spotImage SpotImage?
+  startTime String?
+  startTimeZone String?
+  endTime String?
+  endTimeZone String?
+  duration Int?
+  description String?
+  map Map @relation(fields: [mapId], references: [id])
+  mapId String @db.ObjectId
+  geoData Json?
+}
+
+model Route {
+  id String @id @map("_id") 
+  title String?
+  depart Float[]
+  destination Float[]
+  routeType RouteType? @relation(fields: [routeTypeId], references: [id])
+  routeTypeId String
+  routeImage RouteImage?
+  startTime String?
+  startTimeZone String?
+  endTime String?
+  endTimeZone String?
+  duration Int?
+  description String?
+  map Map @relation(fields: [mapId], references: [id])
+  mapId String @db.ObjectId
+  geoData Json?
+}
+
+model Geometry {
+  id String @id @map("_id") 
+  title String?
+  geometryType GeometryType? @relation(fields: [geometryTypeId], references: [id])
+  geometryTypeId String? 
+  color String
+  stroke Int
+  description String?
+  map Map @relation(fields: [mapId], references: [id])
+  mapId String @db.ObjectId
+  geoData Json?
+}
+//Type collection
+model TravelType {
+  id   String @id @map("_id")
+  name String @unique
+  map Map[]
+}
+model MemberType {
+  id   String @id @map("_id")
+  name String @unique
+  map Map[]
+}
+model SpotType {
+  id   String @id @map("_id")
+  name String @unique
+  spot Spot[]
+}
+model RouteType {
+  id   String @id @map("_id")
+  name String @unique
+  route Route[]
+}
+model GeometryType {
+  id   String @id @map("_id")
+  name String @unique
+  geometry Geometry[]
+}
+//Image collection
+model ProfileImage {
+  id String @id @map("_id")
+  user User @relation(fields: [userId], references: [id])
+  userId String @unique @db.ObjectId
+}
+model MapImage {
+  id String @id @map("_id")
+  map Map @relation(fields: [mapId], references: [id])
+  mapId String @unique @db.ObjectId
+}
+model SpotImage {
+  id String @id @map("_id")
+  spot Spot @relation(fields: [spotId], references: [id])
+  spotId String @unique
+}
+model RouteImage {
+  id String @id @map("_id")
+  route Route @relation(fields: [routeId], references: [id])
+  routeId String @unique
+}

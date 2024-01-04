@@ -1,13 +1,21 @@
-"use client"
 import MapContainer from "@/components/map/MapContainer";
+import { getMapGeoDataById } from "@/utils/models/mapModel";
+//dynamic rendering > render at each request time
+export default async function MapPage({ params }: { params: { mapId: string } }) {
 
+  const mapGeoInfoResult = await getMapGeoDataById(params.mapId)
 
-export default function Home() {
   return (
     <>
+      {mapGeoInfoResult.data?
       <main className="flex">
-        <MapContainer />
-      </main> 
+        <MapContainer data={mapGeoInfoResult.data}/>
+      </main> :
+      <div className="w-screen h-screen flex">
+        <p className="m-auto">Map not exist!</p>
+      </div>
+      }
+      
     </>
   );
 }
