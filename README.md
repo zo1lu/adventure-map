@@ -12,7 +12,7 @@ Let’s go check it out!
 
 ## Intro
 
-#### Adventure Map is an app for creating travel journal on the map.
+>Adventure Map is an app for creating travel journal on the map.
 
 -The main feature is that user can add spot, route on the map. Besides document for the travel details, for each element on the map can also document like date time period, location, description of the travel and also upload image for that spot or route.
 
@@ -24,6 +24,7 @@ Let’s go check it out!
 ![architecture of AM](./public/readme/technical/am-technique-architecture.jpg)
 ### Map Component Structure
 ![map component structure of AM](./public/readme/technical/am-technique-componentStructure.jpg)
+[Components position in view](./public/readme/technical/am-technique-componentInView.jpg)
 ### Map Layers
 ![map layers](./public/readme/technical/am-technique-mapLayers.jpg)
 ### Related document( Updated soon! )
