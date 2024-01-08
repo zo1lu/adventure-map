@@ -1,6 +1,7 @@
 'use client'
-import React, {useState} from 'react'
+import React, {MouseEvent, useState} from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 interface MapItemProps {
     data:{
         id:string,
@@ -26,7 +27,9 @@ const MapItem = ({data, session, goToMap, checkIsLogin}:MapItemProps) => {
   const {id, title, country, regionOrDistrict, travelType, memberType, author, duration, mapImage, description, startTime, endTime, isLiked} = data
     
     const [liked, setLiked] = useState(isLiked)
-    const likeMap = () => {
+    const likeMap = (e:MouseEvent) => {
+        e.preventDefault()
+        e.stopPropagation()
         const isLogin = checkIsLogin()
         if(isLogin&&session!=null&&session.user!=null){
             const userId = session.user.id
@@ -55,8 +58,7 @@ const MapItem = ({data, session, goToMap, checkIsLogin}:MapItemProps) => {
         }    
     }
     return (
-        <div className='sm:w-[calc(50%-6px)] lg:w-[calc(33.3%-6px)]  xl:w-[calc(25%-6px)] h-[330px] cursor-pointer' >
-        
+        <Link className='sm:w-[calc(50%-6px)] lg:w-[calc(33.3%-6px)]  xl:w-[calc(25%-6px)] h-[330px] cursor-pointer' href={`/explore/map/${id}`} >   
             <div className='w-full h-[150px] overflow-hidden' >
                 <Image
                     onClick={()=>{goToMap(id)}}
@@ -67,7 +69,7 @@ const MapItem = ({data, session, goToMap, checkIsLogin}:MapItemProps) => {
                 />
             </div>
             <div className='w-full flex flex-col p-2 gap-2' >
-                <div className='flex flex-col gap-1' onClick={()=>{goToMap(id)}}>
+                <div className='flex flex-col gap-1'>
                     <p className='font-bold text-xl overflow-hidden h-8'>{title}</p>
                     <div className='w-full flex justify-between'>
                         <p>📍{country}</p>
@@ -93,8 +95,7 @@ const MapItem = ({data, session, goToMap, checkIsLogin}:MapItemProps) => {
                 
                 <div className='flex justify-between'>
                 <div className='text-xs text-left'>{author.username}</div>
-                <button onClick={()=>{likeMap()}}>
-                    
+                <button onClick={(e)=>{likeMap(e)}}>
                     <Image 
                     src={liked?'/icons/star-50-fill.png':'/icons/star-50.png'}
                     width={20}
@@ -105,7 +106,7 @@ const MapItem = ({data, session, goToMap, checkIsLogin}:MapItemProps) => {
                 </div>
                 
             </div>
-        </div>
+        </Link>
   )
 }
 

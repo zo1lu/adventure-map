@@ -261,6 +261,8 @@ const MapContainer = ({data}:MapProps) => {
       // .catch((e)=>console.log(e))
       // console.log(data)
         const {center, zoom, isPublic, spots, routes, geometrys} = data
+        console.log(data)
+        console.log("From DB?",isRenderingDataFromDBRef.current)
         const geoDataCollections = {
           geometrys:geometrys,
           routes:routes,
@@ -329,6 +331,7 @@ const MapContainer = ({data}:MapProps) => {
     //set feature style and id when add feature into source
     vectorSource.on("addfeature",(e)=>{
       if(!isRenderingDataFromDBRef.current){
+        
         const style = createGeometryStyle(colorRef.current, strokeRef.current)
         const color = colorRef.current
         const stroke = strokeRef.current
@@ -369,6 +372,7 @@ const MapContainer = ({data}:MapProps) => {
     });
     routeSource.on("addfeature",(e)=>{
       if(!isRenderingDataFromDBRef.current){
+        console.log("NNNNNNN Route")
         const coordinates = e.feature?.getGeometry().flatCoordinates
         const coorLength = coordinates.length
         const departCoor = toLonLat([coordinates[0],coordinates[1]])
@@ -392,6 +396,7 @@ const MapContainer = ({data}:MapProps) => {
     })
     markSource.on("addfeature",(e)=>{
       if(!isRenderingDataFromDBRef.current){
+        console.log("NNNNNNN Spot")
         const feature = e.feature
         const id = uuid()
         feature.setId(id)
@@ -469,6 +474,8 @@ const MapContainer = ({data}:MapProps) => {
     });
 
     return ()=>{
+      isRenderingDataFromDBRef.current = true
+
       map.setTarget("")
       console.log("Map Unload")
     }

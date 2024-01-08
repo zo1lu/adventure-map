@@ -1,8 +1,10 @@
 'use client'
-import React,{useState} from 'react'
+import React,{MouseEvent, useState} from 'react'
 import Image from 'next/image'
+import { redirect } from 'next/navigation'
 import { useRouter } from 'next/navigation'
 import { ConfirmBox } from '../message/ConfirmBox'
+import Link from 'next/link'
 interface MyMapItemProp{
     mapData:{
         id:string,
@@ -57,10 +59,11 @@ const MyMapItem = ({mapData, userId, deleteMap, setCurrentMessage}:MyMapItemProp
         endTimeZone: `UTC ${mapData.endTimeZone}`,
         duration: mapData.duration
     }
-    const goToMapPage = (mapId:string) => {
-        const url = `/map/${mapId}`
-        router.push(url)
-    }
+    // const goToMapPage = (mapId:string) => {
+    //     const url = `/map/${mapId}`
+    //     console.log(url)
+    //     redirect(url)
+    // }
     const closeMessageBox = () => {
         setMessage(()=>{
             return {
@@ -72,7 +75,9 @@ const MyMapItem = ({mapData, userId, deleteMap, setCurrentMessage}:MyMapItemProp
     const confirmAction = () => {
         deleteMap(data.id, userId)
     }
-    const deleteConfirm = () => {
+    const deleteConfirm = (e:MouseEvent) => {
+        e.preventDefault()
+        e.stopPropagation()
         setMessage(()=>{
             return{
                 type:"confirm",
@@ -83,8 +88,8 @@ const MyMapItem = ({mapData, userId, deleteMap, setCurrentMessage}:MyMapItemProp
   return (
     <>
     {message.type=="confirm"?<ConfirmBox message={message.content} closeMessageBox={closeMessageBox} confirmAction={confirmAction} />:null}
-    <div className='flex gap-3 p-2 w-full h-[120px] max-h-[150px] rounded-md border-[2px] border-black items-center' >
-        <div className='w-[150px] h-full overflow-hidden rounded-md cursor-pointer' onClick={()=>goToMapPage(data.id)}>
+    <Link className='flex gap-3 p-2 w-full h-[120px] max-h-[150px] rounded-md border-[2px] border-black items-center' href={`/map/${data.id}`}>
+        <div className='w-[150px] h-full overflow-hidden rounded-md cursor-pointer' >
             {data.mapImage?
                 <Image 
                     placeholder="blur"
@@ -109,7 +114,7 @@ const MyMapItem = ({mapData, userId, deleteMap, setCurrentMessage}:MyMapItemProp
             }
             
         </div>
-        <div className='grid xl:grid-cols-8 grid-cols-6 items-center gap-1 px-2 w-4/5 cursor-pointer overflow-hidden' onClick={()=>goToMapPage(data.id)}>
+        <div className='grid xl:grid-cols-8 grid-cols-6 items-center gap-1 px-2 w-4/5 cursor-pointer overflow-hidden'>
             <div className='w-full min-w-[300px] col-span-4 flex flex-col gap-1 items-start'>
                 <h3 className='text-lg font-bold font-roboto'>{data.title}</h3>
                 <p className='text-sm font-roboto'>{data.country}, {data.regionOrDistrict}</p>
@@ -130,7 +135,7 @@ const MyMapItem = ({mapData, userId, deleteMap, setCurrentMessage}:MyMapItemProp
                 <p className='text-xs text-gray-400'>Updated: {data.updatedAt.split(".")[0]}</p>
             </div>
         </div>
-        <button className='w-10' onClick={()=>deleteConfirm()}>
+        <button className='w-10' onClick={(e)=>deleteConfirm(e)}>
             <Image 
             src='/icons/remove-32.png'
             width={25}
@@ -138,7 +143,7 @@ const MyMapItem = ({mapData, userId, deleteMap, setCurrentMessage}:MyMapItemProp
             alt='delete_btn'
             />
         </button>
-    </div>
+    </Link>
     </>
     
   )
