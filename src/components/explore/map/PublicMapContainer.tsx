@@ -12,14 +12,14 @@ import SuccessBox from '@/components/message/SuccessBox';
 import FailBox from '@/components/message/FailBox';
 ////ol
 import Map from 'ol/Map.js';
-import { Zoom, ScaleLine }  from "ol/control";
-import { DragPan, MouseWheelZoom, defaults as defaultInteraction } from "ol/interaction";
+import { ScaleLine }  from "ol/control";
+import { DragPan, MouseWheelZoom } from "ol/interaction";
 import { Select } from 'ol/interaction.js';
-import { toLonLat, fromLonLat } from 'ol/proj';
-import { Style, Fill, Stroke, Icon } from "ol/style.js";
+import { fromLonLat } from 'ol/proj';
+import { Style, Icon } from "ol/style.js";
 ////my module
 import view from '@/utils/map/view';
-import { tileLayer, vectorSource, vectorLayer, markLayer, markSource, routeLayer, routeSource, selectedLayer, selectedSource, userLayer, searchLayer} from '@/utils/map/layer';
+import { tileLayer, vectorLayer, markLayer, routeLayer, selectedLayer, selectedSource, userLayer, searchLayer} from '@/utils/map/layer';
 import { createGeometryStyle, createRouteStyle } from '@/utils/map/feature';
 import { userLayerStyle } from '@/utils/map/style';
 import { setSelectedFeatureBoundary } from '@/utils/map/Interaction';
@@ -50,9 +50,7 @@ const PublicMapContainer = ({geoData, mapData}: PublicMapProps) => {
     const [message, setMessage] = useState({type:"",content:""})
 
     const [currentId, setCurrentId] = useState<string>("")
-    const [currentStatus, setCurrentStatus] = useState<currentStatusType>("none")
     const [currentItemType, setCurrentItemType] = useState<currentItemType>("none")
-    const [isSeleted, setIsSelected] = useState(false)
 
     const toggleIsLiked = (like:boolean) => {
         like?setIsLiked(()=>true):setIsLiked(()=>false)
@@ -78,23 +76,6 @@ const PublicMapContainer = ({geoData, mapData}: PublicMapProps) => {
     }
 
     useEffect(()=>{
-        console.log("Map loaded")
-        // fetch(`/api/public/map/${mapId}?user=${userId}`)
-        // .then((res)=>res.json())
-        // .then((data)=>{
-        //     console.log(data)
-        //     const {center, zoom, spots, routes, geometrys, isLiked} = data
-        //     const geoDataCollections = {
-        //     geometrys:geometrys,
-        //     routes:routes,
-        //     spots:spots,
-        //     }
-        //     setIsLiked(()=>isLiked)
-        //     renderGeoDataCollections(geoDataCollections)
-        //     view.setCenter(fromLonLat(center))
-        //     view.setZoom(zoom)
-        // })
-        // .catch((e)=>console.log(e))
         const {center, zoom, spots, routes, geometrys, isLiked} = geoData
         const geoDataCollections = {
         geometrys:geometrys,
@@ -154,17 +135,11 @@ const PublicMapContainer = ({geoData, mapData}: PublicMapProps) => {
             if(e.selected.length>0){
               const id = e.selected[0].getId()
               const type = e.selected[0].getProperties().type
-              //preSelectedFeatureRef.current={type:type, id:id}
               if(id){
                 currentSelectedFeatureRef.current={type:type, id:id.toString()}
-                setIsSelected(()=>true)
                 setCurrentId(()=>id.toString())
-                //console.log(currentSelectedFeatureRef.current)
-                setCurrentStatus(()=>"old")
                 setCurrentItemType(()=>type)
-                //add squere to current shape
               }
-              
               if (type!="spot"){
                 const extent = e.selected[0].getGeometry()?.getExtent()
                 setSelectedFeatureBoundary(extent)
@@ -174,12 +149,8 @@ const PublicMapContainer = ({geoData, mapData}: PublicMapProps) => {
             }else{
               selectedSource.clear()
               changeCurrentItemType("none")
-              //addStyleToPreSelectedFeature(preSelectedFeatureRef.current)
-              //addStyleToPreSelectedFeature(currentSelectedFeatureRef.current)
               currentSelectedFeatureRef.current={type:"none", id:""}
-              setIsSelected(()=>false)
             }
-            // console.log("SELECT")
           });
         map.setTarget(mapBoxRef.current || "")
         setMap(map)
@@ -206,7 +177,6 @@ const PublicMapContainer = ({geoData, mapData}: PublicMapProps) => {
             )}
         </div>
     </MapContext.Provider>
-    
   )
 }
 

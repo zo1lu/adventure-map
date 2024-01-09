@@ -19,11 +19,10 @@ interface MapItemProps {
         isLiked:Boolean
     },
     session:{user:{id:string,username:string,email:string}}|null,
-    goToMap:(mapId:string)=>void
     checkIsLogin:()=>Boolean
 }
 
-const MapItem = ({data, session, goToMap, checkIsLogin}:MapItemProps) => {
+const MapItem = ({data, session, checkIsLogin}:MapItemProps) => {
   const {id, title, country, regionOrDistrict, travelType, memberType, author, duration, mapImage, description, startTime, endTime, isLiked} = data
     
     const [liked, setLiked] = useState(isLiked)
@@ -61,7 +60,6 @@ const MapItem = ({data, session, goToMap, checkIsLogin}:MapItemProps) => {
         <Link className='sm:w-[calc(50%-6px)] lg:w-[calc(33.3%-6px)]  xl:w-[calc(25%-6px)] h-[330px] cursor-pointer' href={`/explore/map/${id}`} >   
             <div className='w-full h-[150px] overflow-hidden' >
                 <Image
-                    onClick={()=>{goToMap(id)}}
                     src={mapImage?mapImage.url:"/placeholder/mapThumb.jpg"}
                     width={400}
                     height={200}

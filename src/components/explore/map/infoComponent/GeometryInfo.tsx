@@ -1,20 +1,12 @@
-import { createGeometryStyle } from '@/utils/map/feature'
-import { vectorSource } from '@/utils/map/layer'
-import { usePathname } from 'next/navigation'
-import React, { useEffect, useState, useContext, useMemo } from 'react'
-import MapContext from '@/context/MapContext';
-import { geometryTypes as geometryTypeData } from '@/data/geometry';
-import { setFeatureSelectedById, setSelectedFeatureBoundary, toggleHandMapInteraction } from '@/utils/map/Interaction';
-import { getFeatureGeoData } from '@/utils/geoData';
+import React, { useEffect, useState } from 'react'
+
 interface GeometryInfoProps {
   id: string,
   type: currentItemType,
 }
-const GeometryInfo = ({id, type }:GeometryInfoProps) => {
-  const map = useContext(MapContext);
-  const mapId = usePathname().split("/")[3]
-  const [message, setMessage] = useState({type:"normal",content:""})
 
+const GeometryInfo = ({id, type }:GeometryInfoProps) => {
+  const [message, setMessage] = useState({type:"normal",content:""})
   const [geometryInfo, setGeometryInfo] = useState({
       id:"",
       title:"",
@@ -30,9 +22,7 @@ const GeometryInfo = ({id, type }:GeometryInfoProps) => {
           return res.json()
         })
         .then((data)=>{
-          console.log(data)
           const newInfo = data
-          // routeTypeIdRef.current = newInfo.routeTypeId
           setGeometryInfo((current)=>{
             return {
               ...current,
@@ -43,9 +33,6 @@ const GeometryInfo = ({id, type }:GeometryInfoProps) => {
               description: newInfo.description || "",
             }
           })
-          //changeColorRefHandler(newInfo.color)
-          //changeStrokeRefHandler(newInfo.stroke)
-          //setIsInitialLoad(()=>true)
         })
         .catch((e)=>{
           console.log(e)
@@ -53,7 +40,6 @@ const GeometryInfo = ({id, type }:GeometryInfoProps) => {
         })
         .finally(()=>{
           setMessage(()=>{return {type:"normal",content:""}})
-          //setIsChanged(()=>false)
         })
   },[id, type])
 
@@ -70,10 +56,7 @@ const GeometryInfo = ({id, type }:GeometryInfoProps) => {
           <div className='rounded-full w-4 h-4 mr-3' style={{backgroundColor:geometryInfo.color}}></div>
           <label className='text-xs leading-10 w-fit'>Stroke-{geometryInfo.stroke}</label>
         </div>
-        
         <textarea value={geometryInfo.description} className="py-3 outline-none min-h-[120px] text-xs" placeholder="description" readOnly></textarea>
-        
-        
     </div>
   )
 }

@@ -35,8 +35,6 @@ const BottomToolBox = ({currentSelectedFeature}:BottomToolBoxProps) => {
       }else if(currentType=="route"){
         const extend = routeSource.getFeatureById(currentId)?.getGeometry()?.getExtent()
         if(extend!=null){
-          console.log(extend)
-          console.log(getExtendCenter(extend))
           return getExtendCenter(extend)
         }
       }else if(currentType=="linestring"||currentType=="polygon"){
@@ -82,7 +80,6 @@ const BottomToolBox = ({currentSelectedFeature}:BottomToolBoxProps) => {
   const zoomIn = () => {
     const center = getCurrentSelectedCenter()
     center!=null?map.getView().setCenter(center):null
-
     const zoom = map.getView().getZoom()
     map.getView().setZoom(zoom+1)
   }
@@ -90,7 +87,6 @@ const BottomToolBox = ({currentSelectedFeature}:BottomToolBoxProps) => {
   const zoomOut = () => {
     const center = getCurrentSelectedCenter()
     center!=null?map.getView().setCenter(center):null
-
     const zoom = map.getView().getZoom()
     map.getView().setZoom(zoom-1)
   }

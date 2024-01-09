@@ -1,21 +1,14 @@
-import { usePathname } from 'next/navigation'
 import Image from 'next/image'
-import React, {useEffect, useState, useContext, useRef, useMemo} from 'react'
+import React, {useEffect, useState} from 'react'
 import { routeTypes } from '@/data/route'
 import { timeZoneArray } from '@/data/dateAndTime'
-import { routeSource } from '@/utils/map/layer'
-import MapContext from '@/context/MapContext';
-import { setFeatureSelectedById, setSelectedFeatureBoundary, toggleHandMapInteraction } from '@/utils/map/Interaction';
-import { getDurationInHour, getLocalDateTime, getLocalTimeZone } from '@/utils/calculation';
-import { getFeatureGeoData } from '@/utils/geoData';
+import { getLocalDateTime, getLocalTimeZone } from '@/utils/calculation';
 
 interface RouteInfoProps {
   id: string,
 }
 
 const RouteInfo = ({id}:RouteInfoProps) => {
-    const map = useContext(MapContext);
-    const mapId = usePathname().split("/")[2]
     const [message, setMessage] = useState({type:"normal",content:""})
     const [routeInfo, setRouteInfo] = useState({
         id:"",
@@ -33,7 +26,6 @@ const RouteInfo = ({id}:RouteInfoProps) => {
       id:"",
       url:""
     })
-    //const [routeDuration, setRouteDuration] = useState(0)
     const [routeTypeId, setRouteTypeId] = useState("RT01")
 
     useEffect(()=>{
@@ -42,10 +34,7 @@ const RouteInfo = ({id}:RouteInfoProps) => {
           return res.json()
         })
         .then((data)=>{
-          console.log(data)
           const newInfo = data
-          // routeTypeIdRef.current = newInfo.routeTypeId
-          //changeRouteEdgeLocation([newInfo.depart || [0,0],newInfo.destination || [0,0]])
           setRouteImg(()=>{
             return newInfo.routeImage?{
               id:newInfo.routeImage.id,
@@ -55,7 +44,6 @@ const RouteInfo = ({id}:RouteInfoProps) => {
               url:""
           }
           })
-          //setRouteDuration(()=>(newInfo.duration || 0))
           setRouteTypeId(()=>(newInfo.routeTypeId))
           setRouteInfo((current)=>{
             return {
@@ -72,7 +60,6 @@ const RouteInfo = ({id}:RouteInfoProps) => {
             }
             
           })
-          //setIsInitialLoad(()=>true)
         })
         .catch((e)=>{
           console.log(e)
@@ -80,7 +67,6 @@ const RouteInfo = ({id}:RouteInfoProps) => {
         })
         .finally(()=>{
           setMessage(()=>{return {type:"normal",content:""}})
-          //setIsChanged(()=>false)
         })
     },[id])
     const startTimeZoneArray = timeZoneArray.filter(timeZone=>timeZone.offset==routeInfo.start_time_zone)
@@ -101,7 +87,7 @@ const RouteInfo = ({id}:RouteInfoProps) => {
       <hr className='border-1 my-2'/>
       <div className='overflow-y-scroll'>
         <div className='w-full flex mb-2 justify-between'>
-          <input className="h-8 outline-none focus:border-b-[1px] focus:border-black text-xl font-bold uppercase" placeholder='Title' value={routeInfo.title} />
+          <input className="h-8 outline-none focus:border-b-[1px] focus:border-black text-xl font-bold uppercase" placeholder='Title' value={routeInfo.title} readOnly/>
         </div>
         <div className='flex items-center gap-3 mb-2'>
           <p className='w-[32px] text-xs '>Departure:<span className='pl-3'>long_{routeInfo.depart[0].toFixed(3)},&nbsp;&nbsp;lat_{routeInfo.depart[1].toFixed(3)}</span></p>
@@ -124,7 +110,7 @@ const RouteInfo = ({id}:RouteInfoProps) => {
         <div className='h-fit w-fit py-3 flex gap-1 flex-wrap'>
           {routeTypes.map((routeType, i)=>{
           return <div className='flex gap-3 items-center h-8 w-fit px-3 rounded-md' style={routeTypeId=== routeType.id?{border:'solid 2px #052e16'}:{border:'solid 1px #10b981'}} key={i}>
-                      <input id={routeType.id} value={routeType.value} type='radio' name='routeType' className='hidden' checked={routeTypeId=== routeType.id}/>
+                      <input id={routeType.id} value={routeType.value} type='radio' name='routeType' className='hidden' checked={routeTypeId=== routeType.id} readOnly/>
                       <label className="text-xs cursor-pointer" htmlFor={routeType.id} >{routeType.name}</label>
                   </div>
           })}
@@ -137,7 +123,6 @@ const RouteInfo = ({id}:RouteInfoProps) => {
               className='h-full w-1/3 py-3 px-3 text-xs outline-1 outline-gray-100 flex-grow'
               type="datetime-local"
               name="start-date"
-              // defaultValue={getLocalDateTime()}
               min="2020-06-30T00:00"
               max="2050-06-30T00:00"
               readOnly
@@ -152,7 +137,6 @@ const RouteInfo = ({id}:RouteInfoProps) => {
               className='h-full w-1/3 py-3 px-3 text-xs outline-1 outline-gray-100 flex-grow'
               type="datetime-local"
               name="end-date"
-              // defaultValue={getLocalDateTime()}
               min="2020-06-30T00:00"
               max="2050-06-30T00:00"
               readOnly
