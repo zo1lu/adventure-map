@@ -1,8 +1,6 @@
 'use client'
 import React,{MouseEvent, useState} from 'react'
 import Image from 'next/image'
-import { redirect } from 'next/navigation'
-import { useRouter } from 'next/navigation'
 import { ConfirmBox } from '../message/ConfirmBox'
 import Link from 'next/link'
 interface MyMapItemProp{
@@ -33,11 +31,9 @@ interface MyMapItemProp{
     },
     userId:string,
     deleteMap:(mapId:string,userId:string)=>void
-    setCurrentMessage:(type:string, message:string)=>void
 }
-const MyMapItem = ({mapData, userId, deleteMap, setCurrentMessage}:MyMapItemProp) => {
+const MyMapItem = ({mapData, userId, deleteMap}:MyMapItemProp) => {
     const [message, setMessage] = useState({type:"",content:""})
-    const router = useRouter()
     const data = {
         id: mapData.id,
         title: mapData.title?mapData.title:"Title",
@@ -59,11 +55,6 @@ const MyMapItem = ({mapData, userId, deleteMap, setCurrentMessage}:MyMapItemProp
         endTimeZone: `UTC ${mapData.endTimeZone}`,
         duration: mapData.duration
     }
-    // const goToMapPage = (mapId:string) => {
-    //     const url = `/map/${mapId}`
-    //     console.log(url)
-    //     redirect(url)
-    // }
     const closeMessageBox = () => {
         setMessage(()=>{
             return {

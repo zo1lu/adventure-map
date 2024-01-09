@@ -14,86 +14,74 @@ const ListFolder = ({userId}:ListFolderProps) => {
     const [tab,setTab] = useState("maps")
     const [isLoading, setIsLoading] = useState(true)
     const [message, setMessage] = useState({type:"",content:""})
-    const getMapRequest = (userId:string) => {
-        return new Promise<{"data":object[]}>((resolve, reject)=>{
-          fetch(`/api/user?user=${userId}&type=maps`)
-          .then((res)=>res.json())
-          .then(data=>{
-            resolve(data)
-          })
-          .catch(e=>{
-            reject({"error":true, message:e})
-          })
-        })
-    }
-    const getLikedMapRequest = (userId:string) => {
-    return new Promise<{"data":object[]}>((resolve, reject)=>{
-        fetch(`/api/user?user=${userId}&type=liked`)
-        .then((res)=>res.json())
-        .then(data=>{
-          resolve(data)
-        })
-        .catch(e=>{
-          reject({"error":true, message:e})
-        })
-    })
-    }
     
     const getMaps = async(userId:string) => {
-      const result = await getMapRequest(userId)
-        if(result&&result.data&&result.data.length>0){
-            setMapList(()=>{
+      fetch(`/api/user?user=${userId}&type=maps`)
+      .then((res)=>res.json())
+      .then(result=>{
+        if(result.data&&result.data.length>0){
+          setMapList(()=>{
             return result.data
-            })
-            
-        }
-        setIsLoading(()=>false)
-    }
-    const getLikedMaps = async(userId:string) => {
-      const result = await getLikedMapRequest(userId)
-        if(result&&result.data&&result.data.length>0){
-            setLikedList(()=>{
-            return result.data
-            })
+          })  
         }else{
-            setLikedList(()=>[])
+          setMapList(()=>[])
         }
-        setIsLoading(()=>false)
-    }
-    const deleteMapRequest = (mapId:string) => {
-      return new Promise<{"success"?:true,"error":true}>((resolve, reject) => {
-          fetch("/api/map",{
-          method:"DELETE",
-          headers:{
-              "Content-Type":"application/json"
-          },
-          body:JSON.stringify({mapId:mapId})
-          })
-          .then((res)=>res.json())
-          .then((data)=>{
-            data.success?setMessage(()=>{ return {type:"success",content:"Successfully delete map!"}})
-            :setMessage(()=>{ return {type:"error",content:"Delete map fail!"}})
-          return data.success?resolve(data):reject(data)
-          })
-          .catch((e)=>{
-            setMessage(()=>{ return {type:"error",content:"Delete map fail!"}})
-          return reject(e)
-          })
-          .finally(()=>{
-            setTimeout(()=>{
-              setMessage(()=>{ return {type:"",content:""}})
-            },3000)
-          })
       })
+      .catch(e=>{
+        console.log(e)
+        setMapList(()=>[])
+      })
+      setIsLoading(()=>false)
     }
+    
+    const getLikedMaps = async(userId:string) => {
+      fetch(`/api/user?user=${userId}&type=liked`)
+      .then((res)=>res.json())
+      .then(result=>{
+        if(result.data&&result.data.length>0){
+          setLikedList(()=>{
+            return result.data
+          })
+        }else{
+          setLikedList(()=>[])
+        }
+      })
+      .catch(e=>{
+        console.log(e)
+        setLikedList(()=>[])
+      })
+      setIsLoading(()=>false)
+    }
+
     const deleteMap = async(mapId:string, userId:string) => {
       setMessage(()=>{ return {type:"normal",content:"Deleting map..."}})
-      const result = await deleteMapRequest(mapId)
-      if(result&&result.success){
-          getMaps(userId)
-      }
-      
+      fetch("/api/map",{
+        method:"DELETE",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body:JSON.stringify({mapId:mapId})
+        })
+        .then((res)=>res.json())
+        .then((data)=>{
+          if(data.success){
+            setMessage(()=>{ return {type:"success",content:"Successfully delete map!"}})
+            getMaps(userId)
+          }else{
+            setMessage(()=>{ return {type:"error",content:"Delete map fail!"}})
+          }
+        })
+        .catch((e)=>{
+          console.log(e)
+          setMessage(()=>{ return {type:"error",content:"Delete map fail!"}})
+        })
+        .finally(()=>{
+          setTimeout(()=>{
+            setMessage(()=>{ return {type:"",content:""}})
+          },3000)
+        })
     }
+
     const unlikeAMap = async(mapId:string, userId:string) => {
       setMessage(()=>{ return {type:"normal",content:"Unlike map..."}})
         const body = {
@@ -127,10 +115,12 @@ const ListFolder = ({userId}:ListFolderProps) => {
           },3000)
         })
     }
+
     useEffect(()=>{
         getMaps(userId)
         getLikedMaps(userId)
-    },[])   
+    },[userId])   
+
   return (
     <>    
     <div className='flex relative flex-col col-span-3 row-span-2 overflow-hidden pt-0 lg:pt-10 pb-10'>
@@ -173,7 +163,6 @@ const ListFolder = ({userId}:ListFolderProps) => {
           :null
         }          
         </div>
-        
       </div>
     </>
     

@@ -12,7 +12,6 @@ const CreateMapButton = ({userId}:CreateMapButtonProps) => {
       content:""
     })
     const createNewMap = async(userId:string) => {
-        //create map in database and redirect to map page
         setMessage(()=>{
           return {
             type:"createMapProcess",
@@ -41,7 +40,6 @@ const CreateMapButton = ({userId}:CreateMapButtonProps) => {
           })
         })
       }
-      //message.type=="createMapProcess"?
   return (
     <>
     {message.type=="createMapProcess"?<ProcessBox title={"Creating New Map..."} message={message.content} />:null}

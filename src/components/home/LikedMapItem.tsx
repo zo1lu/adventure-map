@@ -2,7 +2,6 @@
 import React,{MouseEvent, useState} from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import { ConfirmBox } from '../message/ConfirmBox'
 interface LikedMapItemProps{
     mapData:{
@@ -32,16 +31,9 @@ interface LikedMapItemProps{
     },
     userId:string,
     unlikeAMap:(mapId:string, userId:string)=>void
-    setCurrentMessage:(type:string, message:string)=>void
 }
-const LikedMapItem = ({mapData, userId, unlikeAMap, setCurrentMessage}:LikedMapItemProps) => {
-    const router = useRouter()
+const LikedMapItem = ({mapData, userId, unlikeAMap}:LikedMapItemProps) => {
     const [message, setMessage] = useState({type:"",content:""})
-    // const goToPublicMapPage = (mapId:string) => {
-    //     const url = `/explore/map/${mapId}`
-    //     router.push(url)
-    // }
-
     const data = {
         id: mapData.id,
         title: mapData.title,
@@ -81,7 +73,7 @@ const LikedMapItem = ({mapData, userId, unlikeAMap, setCurrentMessage}:LikedMapI
   return (
     <>  
         {message.type=="unlikeConfirm"?<ConfirmBox message={message.content} closeMessageBox={closeMessageBox} confirmAction={confirmAction}/>:null}
-        {/* <ConfirmBox message={message.content} closeMessageBox={closeMessageBox} confirmAction={a}/> */}
+
         <Link className='flex gap-3 p-2 w-full h-[120px] rounded-md border-2 border-black' href={`/explore/map/${data.id}`}>
             <div className='w-[150px] h-[100px] overflow-hidden rounded-md cursor-pointer' >
                 <Image 

@@ -1,9 +1,9 @@
 'use client'
-import React,{useState} from 'react'
+import React,{ useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { useSession, signOut } from 'next-auth/react'
+import { signOut } from 'next-auth/react'
 
 interface SideNavProps{
     username:string
@@ -18,7 +18,8 @@ const SideNav = ({username}:SideNavProps) => {
         }catch(e){
           console.log(e)
         }
-      }
+    }
+
   return (
     <>
     {isMenuOpen?<div className='h-screen w-[300px] bg-[rgba(255,255,255,0.95)] z-20 absolute top-0 left-0 flex flex-col p-5 justify-start items-start gap-5'>
@@ -33,14 +34,12 @@ const SideNav = ({username}:SideNavProps) => {
         <div className='text-2xl col-span-1 font-yeseva_one'>ADVENTURE MAP</div>
         <div className='text-roboto text-xl'>Hi! {username}</div>
         <Link className="hover:underline" href="/explore">Explore</Link>
-        <Link className="hover:underline" href="/profile">Profile</Link>
         <button className="hover:underline" onClick={()=>logout()}>Logout</button>
       </div>:null}
       <div className='hidden lg:flex flex-col gap-3 px-5 py-5 items-start'>
           <div className='text-2xl col-span-1 font-yeseva_one'>ADVENTURE MAP</div>
           <div className='text-roboto text-xl'>Hi! {username}</div>
           <Link className="hover:underline" href="/explore">Explore</Link>
-          <Link className="hover:underline" href="/profile">Profile</Link>
           <button className="hover:underline" onClick={()=>logout()}>Logout</button>
       </div>
       <div className='flex lg:hidden col-span-1 row-span-1 h-[80px] items-center gap-5'>
@@ -58,10 +57,8 @@ const SideNav = ({username}:SideNavProps) => {
           <div className='text-2xl col-span-1 font-yeseva_one w-fit'>ADVENTURE MAP</div>
         </div>
         :null}
-        
       </div>
     </>
-    
   )
 }
 
