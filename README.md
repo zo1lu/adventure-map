@@ -1,5 +1,13 @@
 Adventure Map is a solo project, independently developed from end to end over the course of approximately two months, spanning from November to December of 2023.
 
+>View Adventure Map [here](https://adventure-map-rho.vercel.app/) 
+
+>Testing Account:
+
+- email: zoey1111@gmail.com 
+
+- password: 123456
+
 ## About
 
 >The initial concept behind the project was to create an application enabling users to document every moment of their journeys on a map, essentially crafting a travel journal in map form. Users is able to explore public journals, gaining inspiration for their own travels.
@@ -14,9 +22,9 @@ Let’s go check it out!
 
 >Adventure Map is an app for creating travel journal on the map.
 
--The main feature is that user can add spot, route on the map. Besides document for the travel details, for each element on the map can also document like date time period, location, description of the travel and also upload image for that spot or route.
+- The main feature is that user can add spot, route on the map. Besides document for the travel details, for each element on the map can also document like date time period, location, description of the travel and also upload image for that spot or route.
 
--The other two features are exploring other’s public map and user can manage their own maps and liked maps in thier home page.
+- The other two features are exploring other’s public map and user can manage their own maps and liked maps in thier home page.
 
 ## Techniques
 
