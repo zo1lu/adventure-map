@@ -1,12 +1,12 @@
-import { createGeometryStyle } from '@/utils/map/feature'
 import { vectorSource } from '@/utils/map/layer'
 import { usePathname } from 'next/navigation'
-import React, { useEffect, useState, useContext, useMemo } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import Image from 'next/image'
 import MapContext from '@/context/MapContext';
 import { geometryTypes as geometryTypeData } from '@/data/geometry';
 import { setFeatureSelectedById, setSelectedFeatureBoundary, toggleHandMapInteraction } from '@/utils/map/Interaction';
 import { getFeatureGeoData } from '@/utils/geoData';
+
 interface GeometryInfoProps {
   id: string,
   status: currentStatusType,
@@ -25,11 +25,6 @@ const GeometryInfo = ({id, status, type, color, stroke, changeColorRefHandler, c
   const [message, setMessage] = useState({type:"normal",content:""})
   const [isChanged, setIsChanged] = useState(false)
   const [isInitialLoad, setIsInitialLoad] = useState(true)
-  // const geometryTitleRef = useRef<HTMLInputElement>(null)
-  // const geometryDescriptionRef = useRef<HTMLTextAreaElement>(null)
-  // const geometryColorRef = useRef(null)
-  // const geometryStrokeRef = useRef(null)
-  // const feature = vectorSource.getFeatureById(id)
   const [geometryInfo, setGeometryInfo] = useState({
       id:"",
       title:"",
@@ -47,9 +42,6 @@ const GeometryInfo = ({id, status, type, color, stroke, changeColorRefHandler, c
     handleGeometryInfo("stroke",e.target.value)
   }
   const dataUpdateHandler = () => {
-    console.log("update current data")
-    // if(status!="queue" && status!="none"){
-    //   console.log("update route Info to Database...")
       const geometryTypeId = geometryTypeData.filter((geo)=>geo.value==type)[0].id
       const geometryLatestInfo = {
         id: id,
@@ -69,8 +61,7 @@ const GeometryInfo = ({id, status, type, color, stroke, changeColorRefHandler, c
         body:JSON.stringify(geometryLatestInfo)
       })
       .then(res=>res.json())
-      .then(res=>{
-        console.log(res)
+      .then(()=>{
         setMessage(()=>{return {type:"success",content:"successfully updated!"}})
       })
       .catch((e)=>{
@@ -85,7 +76,6 @@ const GeometryInfo = ({id, status, type, color, stroke, changeColorRefHandler, c
         resetIsMoved()
       }
       )
-    // }
   }
   const handleGeometryInfo = (type:string, newValue:any) => {
     switch (type){
@@ -144,11 +134,6 @@ const GeometryInfo = ({id, status, type, color, stroke, changeColorRefHandler, c
   useEffect(()=>{
     const geometryTypeId = geometryTypeData.filter((geo)=>geo.value==type)[0].id
     if(status=="queue"){
-      //clear local data
-      // geometryTitleRef.current.value = ""
-      // geometryDescriptionRef.current.value = ""
-      // geometryColorRef.current.value = "#ffcc33"
-      // geometryStrokeRef.current.value = "5"
       setGeometryInfo((current)=>{
         return {
           ...current,
@@ -163,17 +148,6 @@ const GeometryInfo = ({id, status, type, color, stroke, changeColorRefHandler, c
       changeStrokeRefHandler(5)
       
     }else if(status == "new"){
-      //add geometry into database
-      //get geometry from database
-      //set data to the geometry page
-      // const feature = vectorSource.getFeatureById(id)
-      // const currentColor = feature?.get("color")
-      // const currentStroke = feature?.get("stroke")
-      // geometryColorRef.current.value = currentColor
-      // geometryStrokeRef.current.value = currentStroke.toString()
-      // changeColorRefHandler(currentColor)
-      // changeStrokeRefHandler(currentStroke)
-      console.log(id)
       const aboutToCreateData = {
         id: id,
         title: geometryInfo.title,
@@ -183,8 +157,6 @@ const GeometryInfo = ({id, status, type, color, stroke, changeColorRefHandler, c
         description: geometryInfo.description,
         geo_data: getFeatureGeoData(id, "vector")
       }
-      console.log(aboutToCreateData)
-      //if create data successfully make feature selected else remove it
       setMessage(()=>{return {type:"normal",content:"creating..."}})
       fetch("/api/geometry",{
         method:"POST",
@@ -199,9 +171,6 @@ const GeometryInfo = ({id, status, type, color, stroke, changeColorRefHandler, c
       .then((res)=>{
         return res.json()})
       .then((data)=>{
-        console.log(data)
-        //do we need to reassign data? no!
-        console.log("Add data into route collection")
         toggleHandMapInteraction(map, true)
         setFeatureSelectedById(map, "vector", id)
         const currentGeometryExtent = vectorSource.getFeatureById(id)?.getGeometry()?.getExtent()
@@ -211,7 +180,6 @@ const GeometryInfo = ({id, status, type, color, stroke, changeColorRefHandler, c
       })
       .catch((e)=>{
         console.log(e)
-        // console.log("On no, something wrong when creating route")
         setMessage(()=>{return {type:"error",content:"create fail, removing..."}})
       })
       .finally(()=>{
@@ -221,23 +189,12 @@ const GeometryInfo = ({id, status, type, color, stroke, changeColorRefHandler, c
         setIsChanged(()=>false)
       })
     }else if(status == "old"){
-      //get geometry from database
-      //set data to the geometry page
-      // const feature = vectorSource.getFeatureById(id)
-      // const currentColor = feature?.get("color")
-      // const currentStroke = feature?.get("stroke")
-      // geometryColorRef.current.value = currentColor
-      // geometryStrokeRef.current.value = currentStroke.toString()
-      // changeColorRefHandler(currentColor)
-      // changeStrokeRefHandler(currentStroke)
       fetch(`/api/geometry/${id}`)
         .then((res)=>{
           return res.json()
         })
         .then((data)=>{
-          console.log(data)
           const newInfo = data
-          // routeTypeIdRef.current = newInfo.routeTypeId
           setGeometryInfo((current)=>{
             return {
               ...current,
@@ -260,8 +217,6 @@ const GeometryInfo = ({id, status, type, color, stroke, changeColorRefHandler, c
           setMessage(()=>{return {type:"normal",content:""}})
           setIsChanged(()=>false)
         })
-    }
-    return ()=>{
     }
   },[id, type])
 
@@ -307,7 +262,6 @@ const GeometryInfo = ({id, status, type, color, stroke, changeColorRefHandler, c
               type="range"
               min="1"
               max="8"
-              // defaultValue="5"
               onChange={(e)=>strokeChangeHandler(e)}
           />
         </div>
@@ -316,7 +270,6 @@ const GeometryInfo = ({id, status, type, color, stroke, changeColorRefHandler, c
           <input
               value={geometryInfo.color}
               type="color"
-              // defaultValue="#ffcc33"
               onChange={(e)=>colorChangeHandler(e)}
           />
         </div>

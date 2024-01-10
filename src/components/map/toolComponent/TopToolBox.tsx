@@ -1,11 +1,12 @@
-import React, { useState, useContext, useEffect, useRef } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import Image from 'next/image'
 import MapContext from '@/context/MapContext';
 import { Map } from 'ol';
-import { fromLonLat, toLonLat } from 'ol/proj';
-import { getCenterOfGeoFeature, renderSearchGeoFeature } from '@/utils/geoData';
+import { fromLonLat } from 'ol/proj';
+import { renderSearchGeoFeature } from '@/utils/geoData';
 import { GeoJSONFeature } from 'ol/format/GeoJSON';
 import { searchSource } from '@/utils/map/layer';
+
 interface TopToolBoxProps {
   mapStatus:boolean,
   mapId:string,
@@ -13,6 +14,7 @@ interface TopToolBoxProps {
   toggleMapStatus:(goPublic:boolean)=>void
   saveView:(map:Map)=>void
 }
+
 const TopToolBox = ({mapStatus, mapId, setMessage, toggleMapStatus, saveView}:TopToolBoxProps) => {
   const map = useContext(MapContext);
   const [isSearchOpen, setIsSearchOpen] = useState(false)
@@ -72,7 +74,6 @@ const TopToolBox = ({mapStatus, mapId, setMessage, toggleMapStatus, saveView}:To
     renderSearchGeoFeature(geoData)
     const coor = fromLonLat(coordinate)   
     const boxHeight = bbox[1]-bbox[0]
-    // const zoomValue = Math.log2(4096/boxHeight)>18?18:Math.log2(4096/boxHeight)
     const zoomValue = Math.log2(2400/boxHeight)>18?18:Math.log2(2400/boxHeight)
     map.getView().setCenter(coor)
     map.getView().setZoom(zoomValue)
@@ -151,9 +152,6 @@ const TopToolBox = ({mapStatus, mapId, setMessage, toggleMapStatus, saveView}:To
               <span className="ml-2 text-sm font-medium text-gray-900">
                   {mapStatus?"Public":"Private"}
               </span>
-                {/* <label class="inline-flex relative items-center mr-5 cursor-pointer">
-                    
-                </label> */}
             </div>
         </div>
     </div>

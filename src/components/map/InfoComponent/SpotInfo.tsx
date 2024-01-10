@@ -1,12 +1,11 @@
 import { usePathname } from 'next/navigation'
-import React, { useState, useRef, useEffect, useContext, useMemo } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import Image from 'next/image'
 import MapContext from '@/context/MapContext';
 import { spotTypes } from '@/data/spot'
 import { timeZoneArray } from '@/data/dateAndTime'
 import { getLocalDateTime, getLocalTimeZone, getDurationInHour } from '@/utils/calculation'
 import { setFeatureSelectedById,toggleHandMapInteraction } from '@/utils/map/Interaction';
-import { spotInfo_fake } from '../../../../deprecate/fake_data';
 import { getFeatureGeoData } from '@/utils/geoData';
 
 interface SpotInfoProps {
@@ -26,19 +25,6 @@ const SpotInfo = ({id, status, spotImage, setImage, spotLocation, changeSpotLoca
   const [message, setMessage] = useState({type:"normal",content:""})
   const [isChanged, setIsChanged] = useState(false)
   const [isInitialLoad, setIsInitialLoad] = useState(true)
-  // const spotTitleRef = useRef("")
-  // const spotLocationRef = useRef([0,0])
-  // const spotTypeIdRef = useRef("")
-  // const spotStartDateRef = useRef("")
-  // const spotStartTimeZoneRef = useRef("")
-  // const spotEndDateRef = useRef("")
-  // const spotEndTimeZoneRef = useRef("")
-  // const spotDurationRef = useRef(0)
-  // const spotDescriptionRef = useRef("")
-  // const [spotImg, setSpotImg] = useState({
-  //   id:"",
-  //   url:""
-  // })
   const [spotDuration, setSpotDuration] = useState(0)
   const [spotInfo, setSpotInfo] = useState({
     title: "",
@@ -53,12 +39,7 @@ const SpotInfo = ({id, status, spotImage, setImage, spotLocation, changeSpotLoca
   })
   const [isDeleteBoxOpen, setIsDeleteBoxOpen] = useState(false)
 
-  // const spotTypeChangeHandler = (e:React.ChangeEvent<HTMLSelectElement>) => {
-  //   let spotType = e.target.value
-  //   //
-  // }
   const dataUpdateHandler = () => {
-    console.log("update route Info to Database...")
         const spotLatestInfo = {
           id: id,
           title: spotInfo.title == "" ? null : spotInfo.title,
@@ -81,8 +62,7 @@ const SpotInfo = ({id, status, spotImage, setImage, spotLocation, changeSpotLoca
           body:JSON.stringify(spotLatestInfo)
         })
         .then(res=>res.json())
-        .then(res=>{
-          console.log(res)
+        .then(()=>{
           setMessage(()=>{return {type:"success",content:"successfully updated"}})
         })
         .catch((e)=>{
@@ -95,8 +75,6 @@ const SpotInfo = ({id, status, spotImage, setImage, spotLocation, changeSpotLoca
             setIsChanged(()=>false)
           },3000)
         })
-      
-
   }
   const handleSpotState = (type:string, newValue:any) => {
     switch(type){
@@ -104,43 +82,36 @@ const SpotInfo = ({id, status, spotImage, setImage, spotLocation, changeSpotLoca
           setSpotInfo((current)=>{
             return {...current, title:newValue}
           })
-          // spotTitleRef.current = newValue
           return
       case "spotType":
           setSpotInfo((current)=>{
             return {...current, spot_type_id:newValue}
           })
-          // spotTypeIdRef.current = newValue
           return
       case "description":
           setSpotInfo((current)=>{
               return {...current, description:newValue}
           })
-          // spotDescriptionRef.current=newValue
           return
       case "startDate":
           setSpotInfo((current)=>{
               return {...current, start_date:newValue}
           })
-          // spotStartDateRef.current=newValue
           return
       case "startTimeZone":
           setSpotInfo((current)=>{
               return {...current, start_time_zone:newValue}
           })
-          // spotStartTimeZoneRef.current=newValue
           return
       case "endDate":
           setSpotInfo((current)=>{
               return {...current, end_date:newValue}
           })
-          // spotEndDateRef.current=newValue
           return
       case "endTimeZone":
           setSpotInfo((current)=>{
               return {...current, end_time_zone:newValue}
           })
-          // spotEndTimeZoneRef.current=newValue
           return
     }
   }
@@ -151,13 +122,11 @@ const SpotInfo = ({id, status, spotImage, setImage, spotLocation, changeSpotLoca
       case "start-date":
         const durationFromStartTimeChange = getDurationInHour(dateTimeValue, spotInfo.end_date, spotInfo.start_time_zone, spotInfo.end_time_zone)
         setSpotDuration(()=>durationFromStartTimeChange);
-        // spotDurationRef.current = durationFromStartTimeChange;
         handleSpotState("startDate" ,dateTimeValue)
         return 
       case "end-date":
         const durationFromEndTimeChange = getDurationInHour(spotInfo.start_date, dateTimeValue, spotInfo.start_time_zone, spotInfo.end_time_zone)
         setSpotDuration(()=>durationFromEndTimeChange);
-        // spotDurationRef.current = durationFromEndTimeChange
         handleSpotState("endDate" , dateTimeValue)
         return 
     };
@@ -169,13 +138,11 @@ const SpotInfo = ({id, status, spotImage, setImage, spotLocation, changeSpotLoca
     switch(name){
       case "start-time-zone":
         const durationFromStartTimeZoneChange = getDurationInHour(spotInfo.start_date, spotInfo.end_date, timeZoneValue, spotInfo.end_time_zone)
-        // spotDurationRef.current = durationFromStartTimeZoneChange
         setSpotDuration(()=> durationFromStartTimeZoneChange);
         handleSpotState("startTimeZone" , timeZoneValue)
         return 
       case "end-time-zone":
         const durationFromEndTimeZoneChange = getDurationInHour(spotInfo.start_date, spotInfo.end_date, spotInfo.start_time_zone, timeZoneValue)
-        // spotDurationRef.current = durationFromEndTimeZoneChange
         setSpotDuration(()=> durationFromEndTimeZoneChange);
         handleSpotState("endTimeZone" , timeZoneValue)
         return 
@@ -192,20 +159,19 @@ const SpotInfo = ({id, status, spotImage, setImage, spotLocation, changeSpotLoca
         })
         .catch((e)=>reject({"error":true, "message":e}))
     })
-}
+  }
   const updateSpotImage = () => {
     setIsDeleteBoxOpen(false)
     openImagePreview("spot", spotImage.id, false)
   }
+
   const deleteSpotImage = async() => {
     setIsDeleteBoxOpen(false)
     try{
-          //process message
           await deleteImage()
           setImage("spot",{id:"",url:""})
-          
       }catch(e){
-          //error message
+          console.log(e)
       }
   }
   useEffect(()=>{
@@ -219,16 +185,6 @@ const SpotInfo = ({id, status, spotImage, setImage, spotLocation, changeSpotLoca
 
   useEffect(()=>{
     if(status=="queue"){
-      //just show this type page not create any feature in the map
-      console.log(`About to create spot feature`)
-      //setup the blank spot page
-      // spotTitleRef.current = ""
-      // spotTypeIdRef.current = ""
-      // spotStartDateRef.current = getLocalDateTime()
-      // spotEndDateRef.current = getLocalDateTime()
-      // spotStartTimeZoneRef.current = getLocalTimeZone()
-      // spotEndTimeZoneRef.current = getLocalTimeZone()
-      // spotDescriptionRef.current = ""
       changeSpotLocation([0,0])
       setImage("spot",{id:"",url:""})
       setSpotDuration(()=>0)
@@ -262,7 +218,6 @@ const SpotInfo = ({id, status, spotImage, setImage, spotLocation, changeSpotLoca
         description: spotInfo.description == "" ? null : spotInfo.description,
         geo_data: getFeatureGeoData(id, "mark")
       }
-      console.log(aboutToCreateData)
       fetch("/api/spot",{
         method:"POST",
         headers:{
@@ -277,8 +232,6 @@ const SpotInfo = ({id, status, spotImage, setImage, spotLocation, changeSpotLoca
         return res.json()
       })
       .then((data)=>{
-        console.log(data)
-        console.log("Add data into spot collection")
         toggleHandMapInteraction(map, true)
         setFeatureSelectedById(map, "mark", id)
         setCurrentSelectedFeature("spot", id)
@@ -286,7 +239,6 @@ const SpotInfo = ({id, status, spotImage, setImage, spotLocation, changeSpotLoca
       })
       .catch((e)=>{
         console.log(e)
-        // console.log("On no, something wrong when creating route")
         setMessage(()=>{return {type:"error",content:"create fail, removing..."}})
       })
       .finally(()=>{
@@ -295,22 +247,13 @@ const SpotInfo = ({id, status, spotImage, setImage, spotLocation, changeSpotLoca
       })
       
     }else if (status == "old"){
-      console.log("load spot Info")
       setMessage(()=>{return {type:"normal",content:"Getting data..."}})
       fetch(`/api/spot/${id}`)
       .then((res)=>{
         return res.json()
       })
       .then((data)=>{
-        console.log(data)
         const newInfo = data
-        // spotTitleRef.current = newInfo.title || ""
-        // spotTypeIdRef.current = newInfo.spotTypeId || ""
-        // spotDescriptionRef.current = newInfo.description || ""
-        // spotStartDateRef.current = newInfo.startTime || getLocalDateTime()
-        // spotStartTimeZoneRef.current = newInfo.startTimeZone || getLocalTimeZone()
-        // spotEndDateRef.current = newInfo.endTime || getLocalDateTime()
-        // spotEndTimeZoneRef.current = newInfo.endTimeZone || getLocalTimeZone()
         changeSpotLocation(newInfo.location)
         setSpotDuration(()=>(newInfo.duration || 0))
         const newImageData = newInfo.spotImage?{
@@ -344,17 +287,8 @@ const SpotInfo = ({id, status, spotImage, setImage, spotLocation, changeSpotLoca
       .finally(()=>{
         setMessage(()=>{return {type:"normal",content:""}})
         setIsChanged(()=>false)
-        
       })
-  
-      
     }
-
-    
-    return ()=>{
-      
-    }
-
   },[id])
 
   return (
@@ -363,7 +297,6 @@ const SpotInfo = ({id, status, spotImage, setImage, spotLocation, changeSpotLoca
         <p className='w-20 text-xs'>Spot Info</p>
         <div className='w-[calc(100%-80px)] flex justify-end items-center'>
           {message.content!=""?<div className='w-full text-xs text-end' style={message.type=="success"?{color:'green'}:message.type=="error"?{color:'red'}:{color:'black'}}>{message.content}</div>:null}
-
           {status!="queue"&&isChanged&&message.content==""?
           <div className='flex gap-3'>
             <button className='w-fit h-5 px-2 text-xs' onClick={()=>{}}>
@@ -384,7 +317,6 @@ const SpotInfo = ({id, status, spotImage, setImage, spotLocation, changeSpotLoca
             </button>
           </div>:null
           }
-          
         </div>
       </div>
       
@@ -432,8 +364,6 @@ const SpotInfo = ({id, status, spotImage, setImage, spotLocation, changeSpotLoca
                       />
                   </div>
         :null}
-        
-        
         <select value={spotInfo.spot_type_id} className='h-10 w-[calc(100%-10px)] py-3 mt-1 text-xs outline-1 outline-gray-100' onChange={(e)=>{handleSpotState("spotType",e.target.value)}}>
           <option className='text-xs' value={""}>❓ Spot Type</option>
           {spotTypes.map(((spotType,i)=>{
@@ -448,7 +378,6 @@ const SpotInfo = ({id, status, spotImage, setImage, spotLocation, changeSpotLoca
               className='h-full w-1/3 py-3 px-3 text-xs outline-1 outline-gray-100 flex-grow'
               type="datetime-local"
               name="start-date"
-              // defaultValue={getLocalDateTime()}
               min="2020-06-30T00:00"
               max="2050-06-30T00:00"
               onChange={(e)=>{updateDurationFromDateTimeChange(e)}}
@@ -468,7 +397,6 @@ const SpotInfo = ({id, status, spotImage, setImage, spotLocation, changeSpotLoca
               className='h-full w-1/3 py-3 px-3 text-xs outline-1 outline-gray-100 flex-grow'
               type="datetime-local"
               name="end-date"
-              // defaultValue={getLocalDateTime()}
               min="2020-06-30T00:00"
               max="2050-06-30T00:00"
               onChange={(e)=>{updateDurationFromDateTimeChange(e)}}
@@ -488,8 +416,6 @@ const SpotInfo = ({id, status, spotImage, setImage, spotLocation, changeSpotLoca
         </div>
         <textarea value={spotInfo.description} className="w-full py-3 outline-none min-h-[120px] text-xs" placeholder="How's this location?" onChange={(e)=>handleSpotState("description",e.target.value)}></textarea>
       </div>
-      
-      
     </div>
   )
 }

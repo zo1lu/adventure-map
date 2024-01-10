@@ -1,12 +1,11 @@
 import { usePathname } from 'next/navigation'
 import Image from 'next/image'
-import React, {useEffect, useState, useContext, useRef, useMemo} from 'react'
+import React, {useEffect, useState, useContext} from 'react'
 import { routeTypes } from '@/data/route'
 import { timeZoneArray } from '@/data/dateAndTime'
 import { routeSource } from '@/utils/map/layer'
 import MapContext from '@/context/MapContext';
 import { setFeatureSelectedById, setSelectedFeatureBoundary, toggleHandMapInteraction } from '@/utils/map/Interaction';
-import { routeInfo_fake } from '../../../../deprecate/fake_data';
 import { getDurationInHour, getLocalDateTime, getLocalTimeZone } from '@/utils/calculation';
 import { getFeatureGeoData } from '@/utils/geoData';
 
@@ -28,15 +27,6 @@ const RouteInfo = ({id, status, routeImage, setImage, changeRouteRefHandler, edg
     const [message, setMessage] = useState({type:"normal",content:""})
     const [isChanged, setIsChanged] = useState(false)
     const [isInitialLoad, setIsInitialLoad] = useState(true)
-    // const routeTitleRef = useRef("")
-    // const routeEdgeLocationRef = useRef([[0,0],[0,0]])
-    //const routeTypeIdRef = useRef("RT01")
-    // const routeDescriptionRef = useRef("")
-    // const routeStartDateRef = useRef("")
-    // const routeStartTimeZoneRef = useRef("")
-    // const routeEndDateRef = useRef("")
-    // const routeEndTimeZoneRef = useRef("")
-    // const routeDurationRef = useRef(0)
     const [routeInfo, setRouteInfo] = useState({
         id:"",
         title:"",
@@ -49,10 +39,6 @@ const RouteInfo = ({id, status, routeImage, setImage, changeRouteRefHandler, edg
         end_time_zone:"",
         duration:0,
     })
-    // const [routeImg, setRouteImg] = useState({
-    //   id:"",
-    //   url:""
-    // })
     const [routeDuration, setRouteDuration] = useState(0)
     const [routeTypeId, setRouteTypeId] = useState("RT01")
     const [isDeleteBoxOpen, setIsDeleteBoxOpen] = useState(false)
@@ -61,16 +47,10 @@ const RouteInfo = ({id, status, routeImage, setImage, changeRouteRefHandler, edg
 
         let type = e.target.value
         let typeId = e.target.id
-        //?
-        //routeTypeIdRef.current = typeId
         setRouteTypeId(()=>typeId)       
-        //set routeType
         changeRouteRefHandler(type)
     }
     const dataUpdateHandler = () => {
-      console.log("update current data")
-      // if(status!="queue" && status!="none"){
-      //   console.log("update route Info to Database...")
         const routeLatestInfo = {
           id: id,
           title: routeInfo.title,
@@ -109,7 +89,6 @@ const RouteInfo = ({id, status, routeImage, setImage, changeRouteRefHandler, edg
           setIsChanged(()=>false)
         }
         )
-      // }
     }
     const handleRouteState = (type:string, newValue:any) => {
       switch(type){
@@ -117,37 +96,31 @@ const RouteInfo = ({id, status, routeImage, setImage, changeRouteRefHandler, edg
             setRouteInfo((current)=>{
                 return {...current, title:newValue}
             })
-            // routeTitleRef.current=newValue
             return
         case "description":
             setRouteInfo((current)=>{
                 return {...current, description:newValue}
             })
-            // routeDescriptionRef.current=newValue
             return
         case "startDate":
             setRouteInfo((current)=>{
                 return {...current, start_date:newValue}
             })
-            // routeStartDateRef.current=newValue
             return
         case "startTimeZone":
             setRouteInfo((current)=>{
                 return {...current, start_time_zone:newValue}
             })
-            // routeStartTimeZoneRef.current=newValue
             return
         case "endDate":
             setRouteInfo((current)=>{
                 return {...current, end_date:newValue}
             })
-            // routeEndDateRef.current=newValue
             return
         case "endTimeZone":
             setRouteInfo((current)=>{
                 return {...current, end_time_zone:newValue}
             })
-            // routeEndTimeZoneRef.current=newValue
             return
       }
     }
@@ -158,13 +131,11 @@ const RouteInfo = ({id, status, routeImage, setImage, changeRouteRefHandler, edg
         case "start-date":
           const durationFromStartTimeChange = getDurationInHour(dateTimeValue, routeInfo.end_date, routeInfo.start_time_zone, routeInfo.end_time_zone)
           setRouteDuration(()=>durationFromStartTimeChange);
-          // routeDurationRef.current = durationFromStartTimeChange;
           handleRouteState("startDate", dateTimeValue)
           break
         case "end-date":
           const durationFromEndTimeChange = getDurationInHour(routeInfo.start_date, dateTimeValue, routeInfo.start_time_zone, routeInfo.end_time_zone)
           setRouteDuration(()=>durationFromEndTimeChange);
-          // routeDurationRef.current = durationFromEndTimeChange
           handleRouteState("endDate", dateTimeValue)
           break
       };
@@ -176,13 +147,11 @@ const RouteInfo = ({id, status, routeImage, setImage, changeRouteRefHandler, edg
         case "start-time-zone":
           const durationFromStartTimeZoneChange = getDurationInHour(routeInfo.start_date, routeInfo.end_date, timeZoneValue, routeInfo.end_time_zone)
           setRouteDuration(()=> durationFromStartTimeZoneChange);
-          // routeDurationRef.current = durationFromStartTimeZoneChange
           handleRouteState("startTimeZone", timeZoneValue)
           break
         case "end-time-zone":
           const durationFromEndTimeZoneChange = getDurationInHour(routeInfo.start_date, routeInfo.end_date, routeInfo.start_time_zone, timeZoneValue)
           setRouteDuration(()=> durationFromEndTimeZoneChange);
-          // routeDurationRef.current = durationFromEndTimeZoneChange
           handleRouteState("endTimeZone", timeZoneValue)
           break
       }
@@ -206,11 +175,10 @@ const RouteInfo = ({id, status, routeImage, setImage, changeRouteRefHandler, edg
     const deleteRouteImage = async() => {
       setIsDeleteBoxOpen(false)
       try{
-            //process message
             await deleteImage()
             setImage("route",{id:"",url:""})
         }catch(e){
-            //error message
+            console.log(e)
         }
     }
 
@@ -226,23 +194,8 @@ const RouteInfo = ({id, status, routeImage, setImage, changeRouteRefHandler, edg
 
 
     useEffect(()=>{
-      //>>get data from database or create route data
-      //>>if id not in route collection create new one
-      console.log("route page reload")
-      console.log("current state", status)
       if(status=="queue"){
         //just show this type page not create any feature in the map
-        console.log(`About to create route feature`)
-        //setup the blank route page
-        // routeTitleRef.current = ""
-        // routeStartDateRef.current = getLocalDateTime()
-        // routeEndDateRef.current = getLocalDateTime()
-        // routeStartTimeZoneRef.current = getLocalTimeZone()
-        // routeEndTimeZoneRef.current = getLocalTimeZone()
-        // routeDescriptionRef.current = ""
-        //???
-        //routeTypeIdRef.current = "walk" or "RT01"
-        //routeEdgeLocationRef.current = ([[0,0],[0,0]])
         changeRouteRefHandler("walk")
         changeRouteEdgeLocation([[0,0],[0,0]])
         setImage("route",{id:"",url:""})
@@ -264,8 +217,6 @@ const RouteInfo = ({id, status, routeImage, setImage, changeRouteRefHandler, edg
         })
         setIsChanged(()=>false)
       }else if (status == "new"){
-        //create data into database
-        //save id, route_type, dpt, dst, geoJson into database
         const aboutToCreateData = {
           id: id,
           title: routeInfo.title,
@@ -280,9 +231,7 @@ const RouteInfo = ({id, status, routeImage, setImage, changeRouteRefHandler, edg
           description: routeInfo.description,
           geo_data: getFeatureGeoData(id, "route")
         }
-        console.log(aboutToCreateData)
-        //if create data successfully make feature selected else remove it
-        setMessage(()=>{return {type:"normal",content:"creating..."}})
+        setMessage(()=>{return {type:"normal",content:"Creating..."}})
         fetch("/api/route",{
           method:"POST",
           headers:{
@@ -296,20 +245,16 @@ const RouteInfo = ({id, status, routeImage, setImage, changeRouteRefHandler, edg
         .then((res)=>{
           return res.json()})
         .then((data)=>{
-          console.log(data)
-          //do we need to reassign data? no!
-          console.log("Add data into route collection")
           toggleHandMapInteraction(map, true)
           setFeatureSelectedById(map, "route", id)
           const currentRouteExtent = routeSource.getFeatureById(id)?.getGeometry()?.getExtent()
           setSelectedFeatureBoundary(currentRouteExtent)
           setCurrentSelectedFeature("route", id)
-          setMessage(()=>{return {type:"success",content:"create successfully"}})
+          setMessage(()=>{return {type:"success",content:"Create successfully"}})
         })
         .catch((e)=>{
           console.log(e)
-          // console.log("On no, something wrong when creating route")
-          setMessage(()=>{return {type:"error",content:"create fail, removing..."}})
+          setMessage(()=>{return {type:"error",content:"Create fail, removing..."}})
         })
         .finally(()=>{
           setTimeout(()=>{
@@ -319,16 +264,12 @@ const RouteInfo = ({id, status, routeImage, setImage, changeRouteRefHandler, edg
         })
         }else if (status == "old"){
         //get data from database and set route info state
-        console.log("Get route Info from db")
-        console.log("current Id >>>",id)
         fetch(`/api/route/${id}`)
         .then((res)=>{
           return res.json()
         })
         .then((data)=>{
-          console.log(data)
           const newInfo = data
-          // routeTypeIdRef.current = newInfo.routeTypeId
           changeRouteEdgeLocation([newInfo.depart || [0,0],newInfo.destination || [0,0]])
           const newImageData = newInfo.routeImage?{
                                   id:newInfo.routeImage.id,
@@ -359,18 +300,13 @@ const RouteInfo = ({id, status, routeImage, setImage, changeRouteRefHandler, edg
         })
         .catch((e)=>{
           console.log(e)
-          setMessage(()=>{return {type:"error",content:"no data in database, removing..."}})
+          setMessage(()=>{return {type:"error",content:"No data in database, removing..."}})
         })
         .finally(()=>{
           setMessage(()=>{return {type:"normal",content:""}})
           setIsChanged(()=>false)
         })
       }
-        
-        return ()=>{
-          console.log(id)
-          
-        }
     },[id])
 
 
@@ -469,7 +405,6 @@ const RouteInfo = ({id, status, routeImage, setImage, changeRouteRefHandler, edg
               className='h-full w-1/3 py-3 px-3 text-xs outline-1 outline-gray-100 flex-grow'
               type="datetime-local"
               name="start-date"
-              // defaultValue={getLocalDateTime()}
               min="2020-06-30T00:00"
               max="2050-06-30T00:00"
               onChange={(e)=>{updateDurationFromDateTimeChange(e)}}
@@ -489,7 +424,6 @@ const RouteInfo = ({id, status, routeImage, setImage, changeRouteRefHandler, edg
               className='h-full w-1/3 py-3 px-3 text-xs outline-1 outline-gray-100 flex-grow'
               type="datetime-local"
               name="end-date"
-              // defaultValue={getLocalDateTime()}
               min="2020-06-30T00:00"
               max="2050-06-30T00:00"
               onChange={(e)=>{updateDurationFromDateTimeChange(e)}}
