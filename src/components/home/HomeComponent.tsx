@@ -1,5 +1,5 @@
-'use client'
-import React,{useState} from 'react'
+
+import React from 'react'
 import SideNav from '@/components/home/SideNav'
 import CreateMapButton from '@/components/home/CreateMapButton'
 import ListFolder from '@/components/home/ListFolder'

@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import MapInfo from './MapInfo'
+
 interface MapHeadProps {
     openImagePreview:(type:ImageTargetType, id:string, isNew:Boolean)=>void
     mapImage:{id:string, url:string},
@@ -11,6 +12,7 @@ interface MapHeadProps {
 const MapHead = ({openImagePreview, mapImage, setImage}: MapHeadProps) => {
     const [isNavOpen, setIsNavOpen] = useState(false)
     const [isMapInfoOpen, setIsMapInfoOpen] = useState(false)
+
     const navToggle = () => {
         setIsNavOpen(()=>!isNavOpen)
         if(!isNavOpen){

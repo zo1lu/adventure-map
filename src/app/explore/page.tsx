@@ -9,7 +9,6 @@ import continents from '@/data/countryOfRegion.json'
 import regions from '@/data/citiesObject.json'
 import MapItem from '@/components/explore/mapItem'
 import LoginBox from '@/components/message/LoginBox'
-// import { fakeMaps } from '../../../fake_data/fake_mapItem'
 import { arrayRange } from '@/utils/calculation'
 const dayRangeName = {
   1:"1-2 Days",
@@ -176,11 +175,6 @@ const ExplorePage = () => {
   const toggleFilterPage = () => {
     setIsFilterPageOpen(()=>!isFilterPageOpen)
   }
-  const backToSearch = () => {
-    if(searchRef.current!=null){
-      searchRef.current.scrollIntoView({behavior:'smooth'})
-    }
-  }
   const goToPage = (num:number) => {
     if(num<=pageNum){
       setCurrentPageNum(()=>num)
@@ -277,7 +271,6 @@ const ExplorePage = () => {
     try{
       const data = await dataRequest(currentPageNum)
       if(data!=null&&data.data!=undefined&&data.data.length>0){
-        console.log(data)
         setData(()=>{
           return data.data
         })
@@ -348,11 +341,11 @@ const ExplorePage = () => {
     }
   },[countryName])
 
-  const goToMap = (mapId:string) => {
-    //check id member login
-    router.push(`/explore/map/${mapId}`)
-    //if login redirect to map page else
-  }
+  // const goToMap = (mapId:string) => {
+  //   //check id member login
+  //   router.push(`/explore/map/${mapId}`)
+  //   //if login redirect to map page else
+  // }
   
   const checkIsLogin = () => {
     if(session==null){
@@ -578,14 +571,13 @@ const ExplorePage = () => {
               {/* <hr className='w-3/5 m-auto border-main-70 mt-10'/> */}
               <div ref={searchResultRef} className='sm:w-[90%] md:w-4/5 max-w-[1200px] h-fit xl:h-[calc(95%-80px)] m-auto pt-5 pb-5 flex flex-col gap-5'>
                 <div className='h-[calc(100%-32px)] flex flex-wrap gap-2'>
-                  
                   {isLoading?
                   <div className='m-auto'>
                     <svg className="animate-spin h-5 w-5 mr-3 bg-main-70" viewBox="0 0 40 40"></svg>
                   </div>:
                   !isLoading&&data.length>0?
                   data.map((map, i)=>{
-                    return <MapItem data={map} key={i} session={session} goToMap={goToMap} checkIsLogin={checkIsLogin}/>
+                    return <MapItem data={map} key={i} session={session} checkIsLogin={checkIsLogin}/>
                   })
                   :<p className='m-auto'>No result</p>
                 }

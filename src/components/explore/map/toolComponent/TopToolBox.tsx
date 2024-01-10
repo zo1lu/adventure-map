@@ -5,6 +5,7 @@ import { fromLonLat } from 'ol/proj';
 import { renderSearchGeoFeature } from '@/utils/geoData';
 import { GeoJSONFeature } from 'ol/format/GeoJSON';
 import { searchSource } from '@/utils/map/layer';
+
 interface TopToolBoxProps {
   isLiked:boolean,
   mapId:string,
@@ -12,14 +13,14 @@ interface TopToolBoxProps {
   setMessage:(type:string, content:string)=>void,
   toggleIsLiked:(like:boolean)=>void
 }
+
 const TopToolBox = ({isLiked, mapId, userId, setMessage, toggleIsLiked}:TopToolBoxProps) => {
   const map = useContext(MapContext);
   const [isSearchOpen, setIsSearchOpen] = useState(false)
   const [keyword, setKeyword] = useState("")
   const [searchList, setSearchList] = useState([])
-
+  
   const mapLikedToggle = () => {
-    // console.log("hiiii")
     if(userId==""){
       setMessage("alert","Please login to like the map")
       return 
@@ -39,7 +40,6 @@ const TopToolBox = ({isLiked, mapId, userId, setMessage, toggleIsLiked}:TopToolB
     .then(res=>res.json())
     .then((result)=>{
       if(result.success){
-        // show successfull message
         isLiked?
         setMessage("success","Successfully unlike this map!")
         :setMessage("success","Successfully like this map!")
@@ -51,7 +51,6 @@ const TopToolBox = ({isLiked, mapId, userId, setMessage, toggleIsLiked}:TopToolB
     })
     .catch((e)=>{
       console.log(e)
-      //show error message
       setMessage("error","Failed, please try again!")
       setTimeout(()=>{
         setMessage("","")
@@ -73,11 +72,11 @@ const TopToolBox = ({isLiked, mapId, userId, setMessage, toggleIsLiked}:TopToolB
     renderSearchGeoFeature(geoData)
     const coor = fromLonLat(coordinate)   
     const boxHeight = bbox[1]-bbox[0]
-    // const zoomValue = Math.log2(4096/boxHeight)>18?18:Math.log2(4096/boxHeight)
     const zoomValue = Math.log2(2400/boxHeight)>18?18:Math.log2(2400/boxHeight)
     map.getView().setCenter(coor)
     map.getView().setZoom(zoomValue)
   }
+
   useEffect(()=>{
     let t:ReturnType<typeof setTimeout>
     t = setTimeout(()=>{
@@ -96,11 +95,11 @@ const TopToolBox = ({isLiked, mapId, userId, setMessage, toggleIsLiked}:TopToolB
         setSearchList(()=>[])
       }
     },500)
-    
     return ()=>{
       clearTimeout(t)
     }
   },[keyword])
+
   const likeImageUrl = isLiked?'/icons/star-50-fill.png':'/icons/star-50.png'
   
   return (

@@ -1,13 +1,13 @@
-import React, { ChangeEvent, createElement, useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import Cropper from 'react-easy-crop'
 import { getCroppedImage } from '@/utils/image'
-import AlertBox from '../message/AlertBox'
-import { ConfirmBox } from '../message/ConfirmBox'
 import { imageFilters, originFilter } from '@/data/image'
 import ProcessBox from '../message/ProcessBox'
 import SuccessBox from '../message/SuccessBox'
 import FailBox from '../message/FailBox'
+import AlertBox from '../message/AlertBox'
+import { ConfirmBox } from '../message/ConfirmBox'
 
 interface ImagePreviewProps {
     target:{
@@ -24,7 +24,6 @@ const ImagePreview = ({target, isShow, closeImagePreview, setImage}:ImagePreview
     const type = target.type
     const id = target.id
     const isNew = target.isNew
-    const [isHidden, setIsHidden] = useState(false)
     const imageInputRef = useRef<HTMLInputElement>(null)
     const [pageNum, setPageNum] = useState<number>(1)
     const filterPreviewRef = useRef<HTMLCanvasElement|null>(null)
@@ -41,9 +40,6 @@ const ImagePreview = ({target, isShow, closeImagePreview, setImage}:ImagePreview
         type:"",
         content:"",
     })
-    const setCurrentPage = (num:number) => {
-        setPageNum(num)
-    }
     const selectImage = () => {
         if(imageInputRef.current!= null){
             imageInputRef.current.click();
@@ -64,24 +60,19 @@ const ImagePreview = ({target, isShow, closeImagePreview, setImage}:ImagePreview
             const reader = new FileReader()
             reader.readAsDataURL(e.target.files[0])
             reader.addEventListener("load",()=>{
-                // setCurrentImage(reader.result)
                 generateProperImage(reader.result)
             })
         }
     }
     const backToSelectPage = () => {
-        //show warning
-        //discard image
         setMessage(()=>{
             return {
                 type:"confirm",
                 content:"Do you want to discard current image?"
             }
         })
-        
     }
     const forwardToModifyPage = () => {
-        // if current image not selected yet show alert
         if(!currentImage){
             setMessage(()=>{
                 return {
@@ -89,7 +80,6 @@ const ImagePreview = ({target, isShow, closeImagePreview, setImage}:ImagePreview
                     content:"Select image from your folder!"
                 }
             })
-               
         }else{
             setNewestImage(()=>currentImage)
             setPageNum(()=>2)
@@ -361,7 +351,6 @@ const ImagePreview = ({target, isShow, closeImagePreview, setImage}:ImagePreview
                     <div className='w-[400px] h-[320px] m-auto border-black border-2 relative overflow-hidden'>
                         {currentImage?
                             <Image
-                                // style={{objectFit:'contain'}}
                                 src={currentImage}
                                 width={400}
                                 height={320}
@@ -393,16 +382,6 @@ const ImagePreview = ({target, isShow, closeImagePreview, setImage}:ImagePreview
                 {!isInEditPage?
                     <>
                         <div className='w-[400px] h-[320px] m-auto border-black border-2 relative overflow-hidden'>
-                            {/* {newestImage?
-                                <Image
-                                    style={imageFilter}
-                                    src={newestImage}
-                                    width={400}
-                                    height={320}
-                                    alt='filter-image'
-                                />
-                                :null
-                            } */}
                             <canvas ref={filterPreviewRef} style={imageFilter} width={400} height={320}></canvas>
                         </div>
                         <div className='w-full px-5 flex gap-5 justify-center'>
@@ -466,16 +445,6 @@ const ImagePreview = ({target, isShow, closeImagePreview, setImage}:ImagePreview
             </button>
             <div className='w-full h-[500px] flex flex-col justify-end items-center absolute bottom-10'>
                 <div className='w-[400px] h-[320px] m-auto border-black border-2 relative overflow-hidden'>
-                    {/* {newestImage?
-                        <Image
-                            style={imageFilter}
-                            src={newestImage}
-                            width={400}
-                            height={320}
-                            alt='test'
-                        />
-                        :null
-                    } */}
                     <canvas ref={uploadPreviewRef} style={imageFilter} width={400} height={320}></canvas>
                 </div>
                 <div>
@@ -483,8 +452,6 @@ const ImagePreview = ({target, isShow, closeImagePreview, setImage}:ImagePreview
                 </div>
             </div>
         </div>}
-            
-            
         </div>
     </div>
     </>

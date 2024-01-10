@@ -1,6 +1,5 @@
 import MapContainer from "@/components/map/MapContainer";
 import { getMapGeoDataById } from "@/utils/models/mapModel";
-//dynamic rendering > render at each request time
 export default async function MapPage({ params }: { params: { mapId: string } }) {
 
   const mapGeoInfoResult = await getMapGeoDataById(params.mapId)

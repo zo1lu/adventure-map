@@ -1,23 +1,12 @@
-import GeoJSON, { GeoJSONFeature, GeoJSONGeometry } from 'ol/format/GeoJSON.js';
+import GeoJSON, { GeoJSONFeature } from 'ol/format/GeoJSON.js';
 import { markSource, vectorSource, routeSource, searchSource } from "./map/layer";
 import { createGeometryStyle, createRouteStyle, spotStyle } from "./map/feature";
 import { Circle } from 'ol/geom';
-import { geoDataCollectionName, geoDataCollectionType, geoDataType } from '@/data/infoType';
+import { geoDataCollectionType, geoDataType } from '@/data/infoType';
 import { fromLonLat, toLonLat } from 'ol/proj';
-//vectorlayer for geometry
-//markLyaer
-//routelayer
-//geojson data and iterate it!
-//if type spot? route? linstring? polygon? circle?
-//create feature
-//add to different source
-
 
 const renderGeoData = (geoData: geoDataType) => {
-    // markSource.refresh()
-    // routeSource.refresh()
-    // vectorSource.refresh()
-    
+   
     const format = new GeoJSON({featureProjection: 'EPSG:3857'});
     const markFeatures = JSON.parse(geoData.markFeatures)["features"]
     if(markFeatures.length>0){
@@ -114,24 +103,6 @@ const getMapGeoData = () => {
         "vectorFeatures":vectorJson
     }
     return featuresJson
-
-    // const format = new GeoJSON({featureProjection: 'EPSG:3857'});
-    // const markFeatures = markSource.getFeatures()
-    // const markJson = format.writeFeaturesObject(markFeatures)
-    // const routeFeatures = routeSource.getFeatures()
-    // const routeJson = format.writeFeaturesObject(routeFeatures)
-    // const vectorFeatures = vectorSource.getFeatures()
-    // const vectorJson = format.writeFeaturesObject(vectorFeatures)
-    // console.log(markJson)
-    // console.log(routeJson)
-    // console.log(vectorJson)
-    // const featuresJson = {
-    //     "markFeatures":markJson,
-    //     "routeFeatures":routeJson,
-    //     "vectorFeatures":vectorJson
-    // }
-    // console.log(featuresJson)
-    // return featuresJson
 }
 
 const getFeatureGeoData = (featureId:string, type:sourceType) => {
@@ -171,20 +142,3 @@ const getCenterOfGeoFeature = (geoData:GeoJSONFeature) => {
 
 export {getMapGeoData, renderGeoData, getFeatureGeoData, renderGeoDataCollections, renderSearchGeoFeature, getCenterOfGeoFeature}
 
-//markJson
-// {"type":"FeatureCollection",
-// "features":[
-//     {
-//         "type":"Feature",
-//         "geometry":{
-//             "type":"Point",
-//             "coordinates":
-//                 [120.42297363281251,23.451854411389277]
-//             },
-//             "properties":{
-//                 "name":"Spot",
-//                 "type":"spot",
-//                 "location":[13405424.104616499,2686755.0207003043]},"id":"4afe9c92-59dc-42f8-8e88-15ce43f491aa"
-//     }]}
-
-//vectorJson

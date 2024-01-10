@@ -1,9 +1,7 @@
-import React,{useEffect, useState} from 'react'
+import React,{ useState} from 'react'
 import Image from 'next/image';
 import { travelTypes, memberTypes } from '@/data/map';
 import { timeZoneArray } from '@/data/dateAndTime';
-
-//data for test
 
 interface MapInfoProps {
     mapData:mapDataType
@@ -36,12 +34,15 @@ const MapInfo = ({mapData}:MapInfoProps) => {
             <div className='w-full h-[360px] min-h-[360px] overflow-hidden relative'>
                 {mapData.mapImage&&mapData.mapImage.url?
                     <Image 
+                    priority={true}
+                    placeholder="blur"
+                    blurDataURL='/placeholder/placeHolder0.8.jpg'
                     src={mapData.mapImage.url}
                     width={500}
                     height={360}
                     quality={100}
                     alt="map_main_image"
-                    className='w-[500px] h-[360px] object-cover'
+                    className='w-[500px] h-auto object-cover'
                 />:<div className='w-[500px] h-[360px] bg-gray-300'></div>
                 }
             </div>

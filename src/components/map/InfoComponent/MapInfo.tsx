@@ -1,6 +1,6 @@
 const _ = require('lodash');
 import { usePathname } from 'next/navigation'
-import React,{useEffect, useRef, useState} from 'react'
+import React,{useEffect, useState} from 'react'
 import Image from 'next/image';
 import { travelTypes, memberTypes } from '@/data/map';
 import { timeZoneArray } from '@/data/dateAndTime';
@@ -13,7 +13,6 @@ interface MapInfoProps {
 }
 const MapInfo = ({openImagePreview, mapImage, setImage}:MapInfoProps) => {
     const mapId = usePathname().split("/")[2]
-    const [isLoading, setIsLoading] = useState(true)
     const [isChanged, setIsChanged] = useState(false)
     const [message, setMessage] = useState({type:"",content:""})
     const [originalInfo,setOriginalInfo] = useState({
@@ -40,10 +39,6 @@ const MapInfo = ({openImagePreview, mapImage, setImage}:MapInfoProps) => {
         end_date:"",
         end_time_zone:"",
     })
-    // const [mapImg, setMapImg] = useState({
-    //     id:"",
-    //     url:""
-    // })
     const [mapDuration, setMapDuration] = useState(0)
 
     const [textAreaStyle, setTextAreaStyle] = useState({
@@ -57,64 +52,55 @@ const MapInfo = ({openImagePreview, mapImage, setImage}:MapInfoProps) => {
                 setMapInfo((current)=>{
                     return {...current, title:newValue}
                 })
-                //mapTitleRef.current=newValue
                 return
             case "country":
                 setMapInfo((current)=>{
                     return {...current, country:newValue}
                 })
-                //mapCountryRef.current=newValue
                 return
             case "region":
                 setMapInfo((current)=>{
                     return {...current, region:newValue}
                 })
-                //mapRegionRef.current=newValue
                 return
             case "travelType":
                 setMapInfo((current)=>{
                     return {...current, travel_type:newValue}
                 })
-                //mapTravelTypeRef.current=newValue
                 return
             case "memberType":
                 setMapInfo((current)=>{
                     return {...current, member_type:newValue}
                 })
-                //mapMemberTypeRef.current=newValue
                 return
             case "description":
                 setMapInfo((current)=>{
                     return {...current, description:newValue}
                 })
-                //mapDescriptionRef.current=newValue
                 return
             case "startDate":
                 setMapInfo((current)=>{
                     return {...current, start_date:newValue}
                 })
-                //mapStartDateRef.current=newValue
                 return
             case "startTimeZone":
                 setMapInfo((current)=>{
                     return {...current, start_time_zone:newValue}
                 })
-                //mapStartTimeZoneRef.current=newValue
                 return
             case "endDate":
                 setMapInfo((current)=>{
                     return {...current, end_date:newValue}
                 })
-                //mapEndDateRef.current=newValue
                 return
             case "endTimeZone":
                 setMapInfo((current)=>{
                     return {...current, end_time_zone:newValue}
                 })
-                //mapEndTimeZoneRef.current=newValue
                 return
         }   
     }
+
     useEffect(()=>{
         const checkIsSame = _.isEqual(mapInfo, originalInfo)
         if(!checkIsSame){
@@ -123,6 +109,7 @@ const MapInfo = ({openImagePreview, mapImage, setImage}:MapInfoProps) => {
             setIsChanged(()=>false)
         }
     },[mapInfo])
+
     const updateDurationFromDateTimeChange = (e:React.ChangeEvent<HTMLInputElement>) => {
         const name = e.target.name
         const dateTimeValue = e.target.value
@@ -130,16 +117,12 @@ const MapInfo = ({openImagePreview, mapImage, setImage}:MapInfoProps) => {
           case "start_time":
             const durationFromStartTimeChange = getDurationInHour(dateTimeValue, mapInfo.end_date, mapInfo.start_time_zone, mapInfo.end_time_zone)
             setMapDuration(()=>durationFromStartTimeChange);
-            //mapDurationRef.current = durationFromStartTimeChange
             handleMapState("startDate", dateTimeValue)
-            //mapStartDateRef.current = dateTimeValue
             return 
           case "end_time":
             const durationFromEndTimeChange = getDurationInHour(mapInfo.start_date, dateTimeValue, mapInfo.start_time_zone, mapInfo.end_time_zone)
             setMapDuration(()=>durationFromEndTimeChange);
-            //mapDurationRef.current = durationFromEndTimeChange
             handleMapState("endDate", dateTimeValue)
-            //mapEndDateRef.current = dateTimeValue
             return 
         };
       };
@@ -150,16 +133,12 @@ const MapInfo = ({openImagePreview, mapImage, setImage}:MapInfoProps) => {
             case "start_time_zone":
                 const durationFromStartTimeZoneChange = getDurationInHour(mapInfo.start_date, mapInfo.end_date, timeZoneValue, mapInfo.end_time_zone)
                 setMapDuration(()=> durationFromStartTimeZoneChange);
-                //mapDurationRef.current = durationFromStartTimeZoneChange
                 handleMapState("startTimeZone", timeZoneValue)
-                //mapStartTimeZoneRef.current = timeZoneValue
                 return 
             case "end_time_zone":
                 const durationFromEndTimeZoneChange = getDurationInHour(mapInfo.start_date, mapInfo.end_date, mapInfo.start_time_zone, timeZoneValue)
                 setMapDuration(()=> durationFromEndTimeZoneChange);
-                //mapDurationRef.current = durationFromEndTimeZoneChange
                 handleMapState("endTimeZone", timeZoneValue)
-                //mapEndTimeZoneRef.current = timeZoneValue
                 return 
         }
     }
@@ -180,14 +159,12 @@ const MapInfo = ({openImagePreview, mapImage, setImage}:MapInfoProps) => {
         })
     }
     const deleteMapImage = async() => {
-        //remove from storage
         try{
-            //process message
             await deleteImage()
             setImage("map", {id:"",url:""})
             setIsDeleteBoxOpen(false)
         }catch(e){
-            //error message
+            console.log(e)
         }
         
     }
@@ -219,7 +196,6 @@ const MapInfo = ({openImagePreview, mapImage, setImage}:MapInfoProps) => {
         })
         .then(res=>res.json())
         .then(res=>{
-            console.log(res)
             setMessage(()=>{return {type:"success",content:"Successfully updated"}})
         })
         .catch((e)=>{
@@ -308,14 +284,6 @@ const MapInfo = ({openImagePreview, mapImage, setImage}:MapInfoProps) => {
 
                     {isChanged&&message.content==""?
                     <div className='flex gap-3'>
-                        {/* <button className='w-fit h-5 px-2 text-xs' onClick={()=>{}}>
-                        <Image 
-                            src={'/icons/return-30.png'}
-                            width={20}
-                            height={20}
-                            alt="return_button"
-                        />
-                        </button> */}
                         <button className='w-fit h-5 px-2 text-xs' onClick={()=>{saveMapInfo()}}>
                         <Image 
                             src={'/icons/save-30.png'}
@@ -366,7 +334,7 @@ const MapInfo = ({openImagePreview, mapImage, setImage}:MapInfoProps) => {
                         height={360}
                         quality={100}
                         alt="map_main_image"
-                        className='w-[500px] h-[360px] object-cover '
+                        className='w-[500px] h-auto object-cover '
                     />
                 </div>
                 :<div className='w-full h-[360px] min-h-[360px] overflow-hidden flex bg-gray-50'>
@@ -398,7 +366,6 @@ const MapInfo = ({openImagePreview, mapImage, setImage}:MapInfoProps) => {
                     className='h-full w-1/3 p-3 text-xs outline-1 outline-gray-100 flex-grow'
                     type="datetime-local"
                     name="start_time"
-                    // defaultValue={getLocalDateTime()}
                     min="2020-06-30T00:00"
                     max="2050-06-30T00:00"
                     onChange={(e)=>{updateDurationFromDateTimeChange(e)}}
@@ -418,7 +385,6 @@ const MapInfo = ({openImagePreview, mapImage, setImage}:MapInfoProps) => {
                     className='h-full w-1/3 p-3 text-xs outline-1 outline-gray-100 flex-grow'
                     type="datetime-local"
                     name="end_time"
-                    // defaultValue={getLocalDateTime()}
                     min="2020-06-30T00:00"
                     max="2050-06-30T00:00"
                     onChange={(e)=>{updateDurationFromDateTimeChange(e)}}
@@ -438,7 +404,6 @@ const MapInfo = ({openImagePreview, mapImage, setImage}:MapInfoProps) => {
             
             <textarea value={mapInfo.description} className='w-[calc(100%-40px)] mx-5 p-3 outline-1 outline-none text-sm ' style={textAreaStyle}  name='description' placeholder='About this travel...' onChange={(e)=>handleMapState("description",e.target.value)}></textarea>
             </div>
-           
         </div>
     </>
   )

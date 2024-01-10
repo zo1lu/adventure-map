@@ -22,10 +22,11 @@ interface BottomToolBoxProps{
   }
 }
 const BottomToolBox = ({currentSelectedFeature}:BottomToolBoxProps) => {
-  const apiKey = "yVmiWxcsXKCQXXHSi9xb";
-  const [isMapListOpen, setIsMapListOpen] = useState(false)
   const map = useContext(MapContext)
+  const [isMapListOpen, setIsMapListOpen] = useState(false)
   const mapStyleRef = useRef("openstreetmap")
+  const apiKey = "yVmiWxcsXKCQXXHSi9xb";
+
   const getCurrentSelectedCenter = () => {
     const currentId = currentSelectedFeature.id
     const currentType = currentSelectedFeature.type
@@ -78,7 +79,6 @@ const BottomToolBox = ({currentSelectedFeature}:BottomToolBoxProps) => {
       });
     }
   }
-
   const zoomIn = () => {
     const center = getCurrentSelectedCenter()
     center!=null?map.getView().setCenter(center):null
@@ -86,7 +86,6 @@ const BottomToolBox = ({currentSelectedFeature}:BottomToolBoxProps) => {
     const zoom = map.getView().getZoom()
     map.getView().setZoom(zoom+1)
   }
-
   const zoomOut = () => {
     const center = getCurrentSelectedCenter()
     center!=null?map.getView().setCenter(center):null
@@ -94,7 +93,6 @@ const BottomToolBox = ({currentSelectedFeature}:BottomToolBoxProps) => {
     const zoom = map.getView().getZoom()
     map.getView().setZoom(zoom-1)
   }
-  
   const setBaseMap = (style:string) => {
     mapStyleRef.current = style
     if(style=="openstreetmap"){
@@ -116,6 +114,7 @@ const BottomToolBox = ({currentSelectedFeature}:BottomToolBoxProps) => {
     }
     setIsMapListOpen(()=>false)
   }
+
   return (
     <div className='w-fit h-20 z-10 absolute bottom-3 right-8 flex gap-8 items-center'>
       <button onClick={()=>{locateUser()}}>

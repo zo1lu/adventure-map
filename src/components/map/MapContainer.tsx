@@ -1,6 +1,6 @@
 "use client"
 import { usePathname } from 'next/navigation'
-import React, { useRef, useState, useEffect, useMemo} from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import MapContext from '@/context/MapContext';
 //module
 import { v4 as uuid } from 'uuid';
@@ -15,20 +15,17 @@ import ToolBox from './toolComponent/ToolBox';
 import TopToolBox from './toolComponent/TopToolBox';
 import OptionToolBox from './toolComponent/optionToolBox';
 import ImagePreview from '../image/ImagePreview';
-////type
-import { Coordinate} from 'openlayers';
 ////ol
 import Map from 'ol/Map.js';
-import XYZ from "ol/source/XYZ";
-import { Zoom, ScaleLine }  from "ol/control";
-import { DragPan, MouseWheelZoom, defaults as defaultInteraction } from "ol/interaction";
-import { Select, Translate, Link } from 'ol/interaction.js';
-import { Style, Fill, Stroke, Icon } from "ol/style.js";
-import { Point, LineString, Polygon, Circle} from "ol/geom";
+import { ScaleLine }  from "ol/control";
+import { DragPan, MouseWheelZoom } from "ol/interaction";
+import { Select, Translate } from 'ol/interaction.js';
+import { Style, Icon } from "ol/style.js";
+import { LineString, Polygon, Circle} from "ol/geom";
 import { toLonLat, fromLonLat } from 'ol/proj';
 ////my module
 import view from '@/utils/map/view';
-import { tileLayer, vectorSource, vectorLayer, markLayer, markSource, routeLayer, routeSource, selectedLayer, selectedSource, userLayer, searchLayer, searchSource} from '@/utils/map/layer';
+import { tileLayer, vectorSource, vectorLayer, markLayer, markSource, routeLayer, routeSource, selectedLayer, selectedSource, userLayer, searchLayer } from '@/utils/map/layer';
 import { createGeometryStyle, createRouteStyle, addSpotFeature, spotStyle, addStyleToPreSelectedFeature } from '@/utils/map/feature';
 import { removeDrawAndSnapInteractions, addDrawAndSnapInteractions, setSelectedFeatureBoundary, addDrawRouteAndSnapInteractions } from '@/utils/map/Interaction';
 import { renderGeoDataCollections } from '@/utils/geoData';
@@ -37,8 +34,6 @@ import AlertBox_M from '../message/AlertBox_M';
 import SuccessBox from '../message/SuccessBox';
 import FailBox from '../message/FailBox';
 import ProcessBox from '../message/ProcessBox';
-
-////Not in use
 
 type mapGeoInfoOutputType = {
   center: number[],
@@ -81,8 +76,8 @@ const MapContainer = ({data}:MapProps) => {
   const changeColorRef = (newColor:string) =>{
     colorRef.current = newColor
     if(drawMode=="LineString" || drawMode=="Polygon"  || drawMode=="Circle" ){
-      removeDrawAndSnapInteractions(map);
-      addDrawAndSnapInteractions(map, drawMode, newColor, strokeRef.current)
+        removeDrawAndSnapInteractions(map)
+        addDrawAndSnapInteractions(map, drawMode, newColor, strokeRef.current)
     }else if(drawMode == "hand"){
       const geometryStyle = createGeometryStyle(newColor, strokeRef.current)
       const currentFeature = vectorSource.getFeatureById(currentId)
@@ -121,9 +116,6 @@ const MapContainer = ({data}:MapProps) => {
     currentSelectedFeatureRef.current= {type:type, id:id}
     setIsSelected(()=>true)
   }
-  // const setPreSelectedFeature = (type:selectedFeatureType, id:string) => {
-  //   preSelectedFeatureRef.current= {type:type, id:id}
-  // }
   const setCurrentMessage = (type:string, content:string) => {
     setMessage(()=>{
       return {
@@ -239,42 +231,19 @@ const MapContainer = ({data}:MapProps) => {
   }
 
   useEffect(() => {
-
-      console.log("Map loaded")
-      // fetch(`/api/map/${mapId}?type=geodatacollections`)
-      // .then((res)=>res.json())
-      // .then((data)=>{
-      //   const {center, zoom, isPublic, spots, routes, geometrys} = data
-      //   const geoDataCollections = {
-      //     geometrys:geometrys,
-      //     routes:routes,
-      //     spots:spots,
-      //   }
-      //   setMapStatus(()=>isPublic)
-      //   isRenderingDataFromDBRef.current = true
-      //   renderGeoDataCollections(geoDataCollections)
-      //   view.setCenter(fromLonLat(center))
-      //   view.setZoom(zoom)
-        
-      //   isRenderingDataFromDBRef.current = false
-      // })
-      // .catch((e)=>console.log(e))
-      // console.log(data)
-        const {center, zoom, isPublic, spots, routes, geometrys} = data
-        const geoDataCollections = {
-          geometrys:geometrys,
-          routes:routes,
-          spots:spots,
-        }
-        setMapStatus(()=>isPublic)
-        isRenderingDataFromDBRef.current = true
-        renderGeoDataCollections(geoDataCollections)
-        view.setCenter(fromLonLat(center))
-        view.setZoom(zoom)
-        
-        isRenderingDataFromDBRef.current = false
-
-      const scaleLine = new ScaleLine({
+    const {center, zoom, isPublic, spots, routes, geometrys} = data
+    const geoDataCollections = {
+      geometrys:geometrys,
+      routes:routes,
+      spots:spots,
+    }
+    setMapStatus(()=>isPublic)
+    isRenderingDataFromDBRef.current = true
+    renderGeoDataCollections(geoDataCollections)
+    view.setCenter(fromLonLat(center))
+    view.setZoom(zoom)
+    isRenderingDataFromDBRef.current = false
+    const scaleLine = new ScaleLine({
         bar:true,
         text:true,
         minWidth:200,
@@ -329,6 +298,7 @@ const MapContainer = ({data}:MapProps) => {
     //set feature style and id when add feature into source
     vectorSource.on("addfeature",(e)=>{
       if(!isRenderingDataFromDBRef.current){
+        
         const style = createGeometryStyle(colorRef.current, strokeRef.current)
         const color = colorRef.current
         const stroke = strokeRef.current
@@ -385,7 +355,8 @@ const MapContainer = ({data}:MapProps) => {
         setCurrentId(()=>id)
         setCurrentStatus(()=>"new")
         setRouteEdgeLocation(()=>{
-          return [departCoor, destinationCoor]})
+          return [departCoor, destinationCoor]
+        })
         removeDrawAndSnapInteractions(map)
         setDrawMode("hand")
       }
@@ -412,7 +383,6 @@ const MapContainer = ({data}:MapProps) => {
         currentSelectedFeatureRef.current={type:type, id:id}
         setIsSelected(()=>true)
         setCurrentId(()=>id)
-        console.log(currentSelectedFeatureRef.current)
         setCurrentStatus(()=>"old")
         setCurrentItemType(()=>type)
         //add squere to current shape
@@ -430,7 +400,6 @@ const MapContainer = ({data}:MapProps) => {
         currentSelectedFeatureRef.current={type:"none", id:""}
         setIsSelected(()=>false)
       }
-      console.log("SELECT")
     });
     translate.on("translating",(e)=>{
       const feature = e.features.item(0)
@@ -441,8 +410,6 @@ const MapContainer = ({data}:MapProps) => {
       }else{
         changeSpotLocation(toLonLat(feature.get("location")))
       }
-      
-
     });
     translate.on("translateend",(e)=>{
       const feature = e.features.item(0)
@@ -463,14 +430,12 @@ const MapContainer = ({data}:MapProps) => {
           return toLonLat(currentCoordinates)
         })
       }else{
-        //geometry
         setIsGeometryMoved(()=>true)
       }
     });
-
     return ()=>{
+      isRenderingDataFromDBRef.current = true
       map.setTarget("")
-      console.log("Map Unload")
     }
   },[mapId])
 
@@ -488,14 +453,11 @@ const MapContainer = ({data}:MapProps) => {
 
             <ImagePreview target={currentImageTargetRef.current} isShow={isimagePreviewOpen} closeImagePreview={closeImagePreview} setImage={setImage}/>
 
-            
-
             <div ref={mapBoxRef} className='h-screen w-full relative'></div>
             <MapHead openImagePreview={openImagePreview} mapImage={mapImage} setImage={setImage}/>
             <div className='w-[400px] h-[75px] absolute bottom-3 left-[calc(50%-250px)] flex items-center justify-end gap-3'>
               {currentSelectedFeatureRef.current.type!="none"?<OptionToolBox currentSelected={currentSelectedFeatureRef.current} resetCurrentSelectedFeature={resetCurrentSelectedFeature} changeCurrentItemType={changeCurrentItemType}/>:<></>}
-              <ToolBox drawMode={drawMode} changeDrawMode={changeDrawMode} changeCurrentItemType={changeCurrentItemType} changeCurrentStatus={changeCurrentStatus} changeCurrentId={changeCurrentId} color={colorRef.current} stroke={strokeRef.current} preSelectedFeature={preSelectedFeatureRef.current}
-              resetCurrentSelectedFeature={resetCurrentSelectedFeature}/>
+              <ToolBox drawMode={drawMode} changeDrawMode={changeDrawMode} changeCurrentItemType={changeCurrentItemType} changeCurrentStatus={changeCurrentStatus} changeCurrentId={changeCurrentId} color={colorRef.current} stroke={strokeRef.current} preSelectedFeature={preSelectedFeatureRef.current}/>
             </div>
             
             <TopToolBox mapStatus={mapStatus} mapId={mapId} setMessage={setCurrentMessage} toggleMapStatus={toggleMapStatus} saveView={saveMapData}/>

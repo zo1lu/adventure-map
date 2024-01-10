@@ -1,6 +1,7 @@
 import React from 'react'
 import Image from 'next/image'
 import { deleteSelectedFeature } from '@/utils/map/Interaction'
+
 interface OptionToolBoxProps {
     currentSelected:selectedFeature
     resetCurrentSelectedFeature:()=>void
@@ -10,18 +11,15 @@ const OptionToolBox = ({currentSelected, resetCurrentSelectedFeature, changeCurr
     const currentType = currentSelected.type
     const currentId = currentSelected.id
     let url: string
-    // let data: object
-    console.log(currentType)
+
     if(currentType=="spot"){
       url=`/api/spot?id=${currentId}`
-      // data = {spotId: currentId}
     }else if(currentType=="route"){
       url=`/api/route?id=${currentId}`
-      // data = {routeId: currentId}
     }else if(currentType=="linestring"||currentType=="polygon"||currentType=="circle"){
       url=`/api/geometry?id=${currentId}`
-      // data = {geometryId: currentId}
     }
+
     const deleteFeatureHandler = () => {
       fetch(url,{
         method:"DELETE",
@@ -30,14 +28,12 @@ const OptionToolBox = ({currentSelected, resetCurrentSelectedFeature, changeCurr
         },
       })
       .then(res=>res.json())
-      .then((data)=>{
-        console.log(data)
+      .then(()=>{
         deleteSelectedFeature(currentId, currentType)
         resetCurrentSelectedFeature()
       })
       .catch((e)=>{
-        console.log("error in deleting...",e)
-        // alert("deletion fail, please try again!")
+        console.log(e)
       })
       .finally(()=>{
         deleteSelectedFeature(currentId, currentType)
