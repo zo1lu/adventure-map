@@ -27,18 +27,39 @@ Let’s go check it out!
 - The other two features are exploring other’s public map and user can manage their own maps and liked maps in thier home page.
 
 ## Techniques
+**The word "feature" in this section means the mark on the map. Ex: spot feature, route feature, geometry feature.
 
 ### Architecture
+- Frontend: React, OpenLayers, TypeScript, Tailwind Css
+- Backend: Next.js API endpoint, Prisma, NextAuth.js
+- Serverless service: MongoDB Atlas, AWS S3
+- Fullstack Framework: Next.js(SSR, production files optimization)
+- Host: Vercel
+- Third-API: Nominatim(geocoding), mapTiler
+
 ![architecture of AM](./public/readme/technical/am-technique-architecture.jpg)
-### Map Component Structure
+### Map Component 
+Three type of components for display and modify feature informations.
+- Information Components: Show up when selecting feature or create feature. Related data can be set and modify in these components.
+- Image Preview Components: When uploading or updating image for feature, this component show up, after uploading or updating image, the update image will show up in the related information component.
+- Tool Components: Tool components are for manipulating features on the map. 
+  -  Ex1: Creating, selecting, and deleing features.
+  -  Ex2: Showing search result geometry.
+  -  Ex3: Changeing map tile.
+
 ![map component structure of AM](./public/readme/technical/am-technique-componentStructure.jpg)
 [Components position in view](./public/readme/technical/am-technique-componentInView.jpg)
 ### Map Layers
+Six layers for storing and display features.
+- Base layer: Show map tiles, default one is openstreetmap map tile, and it can be changed with tiles get from maptiler.
+- Spot layer: The created spot feature will store in this layer.
+- Route layer: The created route feature will store in this layer.
+- Geometry layer: The created geometry feature will store in this layer.
+- Selected layer: For displaying the current selected feature boundary.
+- Search layer: For displaying the search reasult geometry from geocoding. 
 ![map layers](./public/readme/technical/am-technique-mapLayers.jpg)
-### Related document( Updated soon! )
+### Related document
 - [Database ERD Link](./public/readme/technical/ERD.png)
-
-- API Document Link
 
 ## Features
 
@@ -54,6 +75,9 @@ Let’s go check it out!
 - I-3. Selected element can be edit.
     
     After creating the element on the map, when user select it, the selected element can be edit, and also be deleted from the map.
+
+    **To make selected feature can be edited, like change style, which can not be work in Openlayers. I store the changed style in the feature object, and apply the changed style on the feature after not selected.
+
 - I-4. Search location/ Save view/ Publish map
     - User can find location with name, like taipei101, Taiwan, etc. When click on the search result, the location geometry will be render on the map.
     - Save current view, map zoom and center for revisiting view.
@@ -70,6 +94,9 @@ Let’s go check it out!
     - Step1. Select image from local folder.
     - Step2. User can crop image and add filter
     - Step3. Upload it and it will immediately show on the map, spot or route page.
+    
+    ** To control the upload image size and make sure it's clear enough to view in the application. I redraw the image with canvas after user select it from local repository, make sure it is 400px * 500px and make the selected image center in the preview frame.
+
     ![map page](./public/readme/feature/adventureMap_readme-feature03-map-image-preview.jpg)
 ### II. Explore Public Maps
 ![explore page](./public/readme/feature/adventureMap_readme-feature04-explore.jpg)
